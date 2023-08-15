@@ -1,25 +1,28 @@
-import React from 'react'
-import './FriendList.scss'
-import { fetchMessages, retrieveConversationId } from '../../services/firebase'
+import React, { useContext } from 'react'
+import { MOBILE_MODE } from '../../constants/enum'
+import { MobileContext } from '../../contexts/MobileContext'
 
-function FriendList({ userId, select, friendList, setMessages }) {
-  const handleSelectFriend = async (userId, friendId) => {
-    select(friendId)
-    const conversationId = await retrieveConversationId(userId, friendId)
-    const messages = await fetchMessages(conversationId)
-    setMessages(messages)
+function FriendList({ select, friendList }) {
+  const { setMobileMode } = useContext(MobileContext)
+
+  const handleSelectFriend = (friend) => {
+    select(friend)
+    setMobileMode(MOBILE_MODE.CHAT_BOX)
   }
 
   return (
-    <div className="friend-list">
-      <ul>
-        {friendList.length !== 0 &&
-          friendList.map((user, i) => (
-            <div key={user.uid}>
-              <button onClick={() => handleSelectFriend(userId, user.uid)}>{user?.displayName}</button>
-            </div>
-          ))}
-      </ul>
+    <div className="flex flex-col gap-1 overflow-y-scroll">
+      {friendList.length !== 0 &&
+        friendList.map((friend, i) => (
+          <div
+            className="flex p-2 rounded-lg cursor-pointer items-center gap-5 border-none hover:bg-slate-200"
+            key={friend.uid}
+            onClick={() => handleSelectFriend(friend)}
+          >
+            <img className="rounded-full w-10" src={friend.photoUrl} alt="user avatar" />
+            {friend?.displayName}
+          </div>
+        ))}
     </div>
   )
 }

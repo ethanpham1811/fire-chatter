@@ -9,7 +9,7 @@ const useUserData = () => {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser(user.providerData[0])
+        setUser(user)
         const data = await fetchFriendList(user.uid)
         setFriendList(data)
       } else {

@@ -1,20 +1,17 @@
 import React from 'react'
 
-import './Message.scss'
-import { auth } from '../../services/firebase'
-
-function Message({ message }) {
-  const { content, uid, photoURL } = message
-
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'
+function Message({ userId, message }) {
+  const { content, sender, photoUrl } = message
+  const senderStyle = 'rounded-br-none justify-self-end bg-darkGray text-white'
+  const receiverStyle = 'rounded-bl-none bg-white'
+  const isMe = sender === userId
+  const style = isMe ? senderStyle : receiverStyle
 
   return (
-    <>
-      <div className={`message ${messageClass}`}>
-        <img alt="user avatar" src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
-        <p>{content}</p>
-      </div>
-    </>
+    <div className="grid">
+      {!isMe && <img alt="user avatar" src={photoUrl} className={`${style} w-8 rounded-full `} />}
+      <p className={`${style} max-w-[50%] p-3 shadow-card rounded-2xl`}>{content}</p>
+    </div>
   )
 }
 

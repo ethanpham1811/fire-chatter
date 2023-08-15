@@ -1,7 +1,9 @@
-import ChatBox from './ChatBox/ChatBox'
 import Message from './Message/Message'
 import SignIn from './SignIn/SignIn'
-import SignOut from './SignOut/SignOut'
-import Home from './Home/Home'
+import SearchBar from './SearchBar/SearchBar'
+import FriendList from './FriendList/FriendList'
+import UserNav from './UserNav/UserNav'
+import ChatForm from './ChatForm/ChatForm'
+import MessageList from './MessageList/MessageList'
 
-export { ChatBox, Message, SignIn, SignOut, Home }
+export { Message, SignIn, SearchBar, FriendList, UserNav, ChatForm, MessageList }

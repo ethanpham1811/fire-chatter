@@ -1,0 +1,4 @@
+export const MOBILE_MODE = {
+  FRIEND_LIST: 'FRIEND_LIST',
+  CHAT_BOX: 'CHAT_BOX'
+}
