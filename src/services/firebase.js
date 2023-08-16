@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { getFirestore, collection, getDocs, where, query, addDoc, serverTimestamp, onSnapshot, orderBy } from 'firebase/firestore'
+import { addDoc, collection, getDocs, getFirestore, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBtG3j9bUmn49hTnnfrZM0vzsVhCOq6tks',
@@ -18,7 +18,30 @@ const db = getFirestore(app)
 // authentication
 export const auth = getAuth(app)
 
-/* Friendlist */
+/* UserList: users */
+export const fetchUsers = async (userQuery) => {
+  const dbRef = collection(db, 'users')
+  const qName = query(dbRef, where('displayName', '>=', userQuery?.toLowerCase()), where('displayName', '<=', userQuery?.toLowerCase() + '\uf8ff'))
+  const qEmail = query(dbRef, where('email', '>=', userQuery?.toLowerCase()), where('email', '<=', userQuery?.toLowerCase() + '\uf8ff'))
+  const [snap1, snap2] = await Promise.all([getDocs(qName), getDocs(qEmail)])
+  const res1 = snap1.docs.map((doc) => doc.data())
+  const res2 = snap2.docs.map((doc) => doc.data())
+  return [...res1, ...res2]
+}
+
+export const addUser = async (age, displayName, email, gender, photoUrl, uid) => {
+  const data = {
+    age,
+    displayName,
+    email,
+    gender,
+    photoUrl,
+    uid
+  }
+  return await addDoc(collection(db, 'users'), data)
+}
+
+/* Friendlist: friends */
 export const fetchFriendList = async (userId) => {
   const dbRef = collection(db, 'users', userId, 'friends')
   const snap = await getDocs(dbRef)
@@ -27,7 +50,6 @@ export const fetchFriendList = async (userId) => {
 
 /* Conversation */
 export const getConversationId = async (userId, friendId) => {
-  console.log(friendId)
   const pairIds = [userId, friendId]
   const dbRef = collection(db, 'privateMessages')
   const q = query(dbRef, where('user1Id', 'in', pairIds), where('user2Id', 'in', pairIds))
@@ -44,7 +66,7 @@ export const createNewConversation = async (userId, friendId) => {
   return newConversationDocRef.id
 }
 
-/* Messages */
+/* Messages: privateMessages */
 export const subscribeToMessages = (conversationId, cb) => {
   const dbRef = collection(db, 'privateMessages', conversationId ?? '_', 'messages')
   const q = query(dbRef, orderBy('timestamp', 'asc'))
@@ -55,14 +77,15 @@ export const subscribeToMessages = (conversationId, cb) => {
   return unsubscribe
 }
 
-export const sendMessage = async (conversationId, sender, receiver, content, photoUrl) => {
+export const sendMessage = async (conversationId, sender, receiver, content, photoUrl, uploads) => {
+  console.log(uploads)
   const data = {
     sender,
     receiver,
     content,
     photoUrl: photoUrl ?? '',
-    timestamp: serverTimestamp()
+    timestamp: serverTimestamp(),
+    uploads
   }
-  const a = await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
-  return a
+  return await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
 }

@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
-import { MOBILE_MODE } from '../../constants/enum'
+import { MOBILE_STEP } from '../../constants/enum'
 import { MobileContext } from '../../contexts/MobileContext'
 
 function FriendList({ select, friendList }) {
-  const { setMobileMode } = useContext(MobileContext)
+  const { setMobileStep } = useContext(MobileContext)
 
   const handleSelectFriend = (friend) => {
     select(friend)
-    setMobileMode(MOBILE_MODE.CHAT_BOX)
+    setMobileStep(MOBILE_STEP.RIGHT_CARD)
   }
 
   return (

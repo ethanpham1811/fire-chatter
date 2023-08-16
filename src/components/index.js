@@ -1,9 +1,10 @@
-import Message from './Message/Message'
-import SignIn from './SignIn/SignIn'
-import SearchBar from './SearchBar/SearchBar'
-import FriendList from './FriendList/FriendList'
-import UserNav from './UserNav/UserNav'
 import ChatForm from './ChatForm/ChatForm'
+import FriendList from './FriendList/FriendList'
+import ImageUpload from './ImageUpload/ImageUpload'
+import Message from './Message/Message'
 import MessageList from './MessageList/MessageList'
+import SearchBar from './SearchBar/SearchBar'
+import SignIn from './SignIn/SignIn'
+import UserNav from './UserNav/UserNav'
 
-export { Message, SignIn, SearchBar, FriendList, UserNav, ChatForm, MessageList }
+export { ChatForm, FriendList, ImageUpload, Message, MessageList, SearchBar, SignIn, UserNav }

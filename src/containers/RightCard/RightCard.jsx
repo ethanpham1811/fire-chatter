@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { subscribeToMessages } from '../../services/firebase'
 import { ChatForm, MessageList, UserNav } from '../../components'
 import { useConversationId } from '../../hooks'
+import { subscribeToMessages } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function RightCard({ user, friend }) {
-  // if (!friend) return <div>loading..</div>
-
   const [messages, setMessages] = useState([])
   const [conversationId] = useConversationId(user.uid, friend.uid)
 
@@ -17,7 +15,7 @@ function RightCard({ user, friend }) {
   }, [conversationId])
 
   return (
-    <section className="flex flex-col gap-5 w-[30vw] h-[70vh]">
+    <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[30vw] md:max-h-[70vh]">
       <header className="flex items-center">
         <UserNav hasBack={true} user={friend} hasLogout={false} />
       </header>

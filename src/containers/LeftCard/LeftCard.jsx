@@ -1,27 +1,21 @@
 import React, { useEffect } from 'react'
-import { SearchBar, FriendList, UserNav } from '../../components'
-import { useMobileMode, useUserData } from '../../hooks'
+import { FriendList, SearchBar, UserNav } from '../../components'
+import { useUserData } from '../../hooks'
+import useSearchList from '../../hooks/useSearchList'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function LeftCard({ select, setConversationId }) {
   const [user, friendList] = useUserData()
+  const [searchList, searchTerm, setSearchTerm] = useSearchList()
 
-  const { mobileMode } = useMobileMode()
-
-  useEffect(() => {
-    console.log(mobileMode)
-  }, [mobileMode])
-
-  useEffect(() => {
-    select(friendList[0])
-  }, [friendList])
+  /* select first friend chat box on inital load */
+  useEffect(() => select(friendList[0]), [friendList])
 
   return (
-    <section className="w-[30vw] max-h-[70vh] flex flex-col gap-5 over">
+    <section className="flex flex-col gap-5 p-5 justify-start w-screen h-screen md:w-[30vw] md:h-auto md:max-h-[70vh]">
       <UserNav user={user} />
-      {mobileMode}
-      <SearchBar />
-      <FriendList userId={user?.uid} select={select} setConversationId={setConversationId} friendList={friendList} />
+      <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
+      <FriendList userId={user?.uid} select={select} setConversationId={setConversationId} friendList={searchList || friendList} />
     </section>
   )
 }

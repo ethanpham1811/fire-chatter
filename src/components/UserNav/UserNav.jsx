@@ -1,16 +1,14 @@
 import React, { useContext } from 'react'
 import { HiOutlineArrowSmLeft } from 'react-icons/hi'
-import { auth } from '../../services/firebase'
-import { MOBILE_MODE } from '../../constants/enum'
+import { MOBILE_STEP } from '../../constants/enum'
 import { MobileContext } from '../../contexts/MobileContext'
+import { auth } from '../../services/firebase'
 
 function UserNav({ hasBack = false, user, hasLogout = true }) {
-  const { setMobileMode } = useContext(MobileContext)
+  const { setMobileStep } = useContext(MobileContext)
   return (
     <section className="flex gap-4 items-center">
-      {hasBack && (
-        <HiOutlineArrowSmLeft onClick={() => setMobileMode(MOBILE_MODE.FRIEND_LIST)} className="cursor-pointer hidden md:block" size={30} />
-      )}
+      {hasBack && <HiOutlineArrowSmLeft onClick={() => setMobileStep(MOBILE_STEP.LEFT_CARD)} className="cursor-pointer block md:hidden" size={30} />}
       <div className="w-max">
         <img className="w-14 rounded-full border-x-lime-500 border-4" src={user?.photoURL || user?.photoUrl} alt="user avatar" />
       </div>

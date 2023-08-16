@@ -1,4 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin')
+
+const backfaceVisibility = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.backface-visible': {
+      'backface-visibility': 'visible'
+    },
+    '.backface-hidden': {
+      'backface-visibility': 'hidden'
+    }
+  })
+})
+
 export default {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
@@ -10,6 +24,7 @@ export default {
       margin: {
         320: '320px'
       },
+
       width: {
         190: '190px',
         275: '275px',
@@ -96,5 +111,5 @@ export default {
     // backgroundColor: ['active'],
     extend: {}
   },
-  plugins: []
+  plugins: [backfaceVisibility]
 }

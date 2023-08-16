@@ -1,7 +1,7 @@
+import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import React from 'react'
-import { GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth'
-import { FcGoogle } from 'react-icons/fc'
 import { AiFillGithub } from 'react-icons/ai'
+import { FcGoogle } from 'react-icons/fc'
 
 import { auth } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
@@ -18,9 +18,9 @@ function SignIn() {
   }
 
   return (
-    <section className="flex flex-col gap-10">
+    <section className="flex flex-col gap-10 p-5">
       <header className="flex justify-center text-4xl">Fire Chatter</header>
-      <main className="flex items-center justify-center w-[30vw] gap-3">
+      <main className="flex flex-col md:flex-row items-center justify-center gap-3">
         <button className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover" onClick={signInWithGoogle}>
           <FcGoogle size={30} />
           Sign in with Google
