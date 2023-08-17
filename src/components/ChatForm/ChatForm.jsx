@@ -3,7 +3,7 @@ import { BsFillSendFill } from 'react-icons/bs'
 import { sendMessage } from '../../services/firebase'
 import ImageUpload from '../ImageUpload/ImageUpload'
 
-function ChatForm({ user, friend, conversationId }) {
+function ChatForm({ user, friend, conversationId, msgListRef }) {
   const ref = useRef()
   const [message, setMessage] = useState([])
   const [uploads, setUploads] = useState([])
@@ -19,9 +19,10 @@ function ChatForm({ user, friend, conversationId }) {
     setUploads([])
     setMessage('')
   }
+
   return (
     <div className="flex relative">
-      <ImageUpload setUploads={setUploads} uploads={uploads} className="w-min" />
+      <ImageUpload setUploads={setUploads} uploads={uploads} className="w-min" msgListRef={msgListRef} />
       <form onSubmit={handleSend} className="relative flex flex-1">
         <input
           onChange={(e) => setMessage(e.target.value)}
@@ -29,10 +30,10 @@ function ChatForm({ user, friend, conversationId }) {
           ref={ref}
           type="text"
           placeholder="say something nice"
-          className="w-full p-2 pr-2 border-2 rounded-md"
+          className="w-full p-2 pr-2 border-2 rounded-md text-sm"
         />
-        <button className="cursor-pointer border-none w-max pr-0 w-min" type="submit" disabled={message === '' || !conversationId}>
-          <BsFillSendFill size={25} />
+        <button className="cursor-pointer border-none w-max p-2 ml-1 mr-[-10px]" type="submit" disabled={message === '' || !conversationId}>
+          <BsFillSendFill size={20} />
         </button>
       </form>
     </div>

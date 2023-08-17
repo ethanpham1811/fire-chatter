@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,9 +21,10 @@
   background-color: #c7c7c7;
 }
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 500;
+  font-size: 14px;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -56,6 +59,10 @@ h1 {
   line-height: 1.1;
 }
 
+h3 {
+  font-weight: 600;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -67,12 +74,15 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
+
+/* Focusing the button with a keyboard */
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 0.5px solid #000;
+}
+
+/* Focusing the button with a mouse, touch, or stylus */
+button:focus:not(:focus-visible) {
+  outline: none;
 }
 
 @media (prefers-color-scheme: light) {

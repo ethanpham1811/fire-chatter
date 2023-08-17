@@ -1,4 +1,5 @@
 import React from 'react'
+import { v4 as rid } from 'uuid'
 
 function Message({ userId, message }) {
   const { content, sender, photoUrl, uploads } = message
@@ -13,8 +14,8 @@ function Message({ userId, message }) {
   return (
     <div className={`grid ${!isMe && 'grid-cols-[max-content_70%] items-end'}`}>
       {!isMe && <img alt="user avatar" src={photoUrl} className={`w-8 rounded-full float-left mr-3`} />}
-      <p className={`${style} ${isMe && 'max-w-[70%]'} w-fit p-3 shadow-card rounded-2xl`}>{content}</p>
-      {uploads ? uploads.map((file) => <img key={file.url.substring(0, 5)} src={file.url} className={`${isMe && uploadSenderStyle} w-1/2`} />) : ''}
+      <p className={`${style} ${isMe && 'max-w-[70%]'} w-fit p-3 rounded-2xl shadow-message`}>{content}</p>
+      {uploads ? uploads.map((file) => <img key={rid()} src={file.url} className={`${isMe && uploadSenderStyle} w-1/2`} />) : ''}
     </div>
   )
 }

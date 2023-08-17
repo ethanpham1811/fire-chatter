@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { FriendList, SearchBar, UserNav } from '../../components'
-import { useUserData } from '../../hooks'
-import useSearchList from '../../hooks/useSearchList'
+import { useSearchList, useUserData } from '../../hooks'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function LeftCard({ select, setConversationId }) {
