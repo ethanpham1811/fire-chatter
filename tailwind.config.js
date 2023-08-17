@@ -18,8 +18,22 @@ export default {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        main: '#f5f5f5',
+        secondary: '#fff',
+        chatBox: '#f7f7f7',
+        hoverMain: '#e2e8f0',
+        btnHover: 'hsl(233, 100%, 93%)',
+        darkGray: '#343233',
+        blackOverlay: 'rgba(0, 0 ,0 ,0.7)',
+        feed: '#383838',
+        online: '#74be05',
+        danger: '#ff0000'
+      },
       boxShadow: {
-        card: '0 0 48px 15px hsl(30, 0%, 90%, 0.5)'
+        card: '0 0 128px 0 rgba(0,0,0,0.1), 0 32px 64px -48px rgba(0,0,0,0.5)',
+        innerChatBox: 'inset 0 32px 32px -32px rgb(0 0 0 / 8%), inset 0 -32px 32px -32px rgb(0 0 0 / 8%)',
+        message: '0 0 32px rgb(0 0 0 / 8%), 0rem 16px 16px -16px rgb(0 0 0 / 10%)'
       },
       margin: {
         320: '320px'
@@ -62,14 +76,6 @@ export default {
         primary: '#FAFAFA',
         secColor: '#efefef',
         navColor: '#BEBEBE'
-      },
-      backgroundColor: {
-        mainColor: '#FBF8F9',
-        secondaryColor: '#F0F0F0',
-        btnHover: 'hsl(233, 100%, 93%)',
-        darkGray: 'hsl(0, 0%, 29%);',
-        blackOverlay: 'rgba(0, 0 ,0 ,0.7)',
-        feed: '#383838'
       },
       keyframes: {
         'slide-in': {
