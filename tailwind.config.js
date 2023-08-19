@@ -2,13 +2,21 @@
 
 const plugin = require('tailwindcss/plugin')
 
-const backfaceVisibility = plugin(function ({ addUtilities }) {
+const utilityPlugin = plugin(function ({ addUtilities }) {
   addUtilities({
     '.backface-visible': {
       'backface-visibility': 'visible'
     },
     '.backface-hidden': {
       'backface-visibility': 'hidden'
+    },
+    '.pseudo-circle-bg': {
+      padding: '2rem',
+      'border-radius': '9999px',
+      'background-color': '#ccc',
+      'z-index': -1,
+      position: 'absolute',
+      'backdrop-filter ': 'blur(4px)'
     }
   })
 })
@@ -28,7 +36,13 @@ export default {
         blackOverlay: 'rgba(0, 0 ,0 ,0.7)',
         feed: '#383838',
         online: '#74be05',
-        danger: '#ff0000'
+        danger: '#ff0000',
+        icon: '#9500f8',
+        genderMale: '#003af8',
+        genderFemale: '#f800cf',
+        fb: '#1754c4',
+        twitter: '#1fb7dd',
+        insta: '#dd6b1f'
       },
       boxShadow: {
         card: '0 0 128px 0 rgba(0,0,0,0.1), 0 32px 64px -48px rgba(0,0,0,0.5)',
@@ -59,6 +73,9 @@ export default {
         685: '685px',
         800: '800px',
         '90vh': '90vh'
+      },
+      backgroundSize: {
+        50: '50%'
       },
       flex: {
         0.7: '0.7 1 0%'
@@ -104,6 +121,10 @@ export default {
         'slide-in': 'slide-in 0.5s ease-out',
         'slide-fwd': ' slide-fwd 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both'
       },
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)'
+      },
       transitionProperty: {
         height: 'height'
       }
@@ -117,5 +138,5 @@ export default {
     // backgroundColor: ['active'],
     extend: {}
   },
-  plugins: [backfaceVisibility]
+  plugins: [utilityPlugin]
 }

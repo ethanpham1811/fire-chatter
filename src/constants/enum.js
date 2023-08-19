@@ -24,3 +24,7 @@ export const MODAL_STYLES = {
     overflow: 'visible'
   }
 }
+export const PROFILE_TABS = {
+  PROF_INFO: 1,
+  CONTACT: 0
+}
