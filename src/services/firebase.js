@@ -1,6 +1,19 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { addDoc, collection, getDocs, getFirestore, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  where
+} from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBtG3j9bUmn49hTnnfrZM0vzsVhCOq6tks',
@@ -34,16 +47,23 @@ export const fetchUserDetail = async (userId) => {
   const snap = await getDocs(q)
   return snap.docs[0].data()
 }
-export const addUser = async (age, displayName, email, gender, photoUrl, uid) => {
+export const addUser = async ({ displayName, email, photoURL, uid }) => {
   const data = {
-    age,
     displayName,
     email,
-    gender,
-    photoUrl,
+    photoUrl: photoURL,
     uid
   }
-  return await addDoc(collection(db, 'users'), data)
+  return await setDoc(doc(db, 'users', uid), data)
+}
+export const editUser = async (props, userId) => {
+  const dbRef = doc(db, 'users', userId)
+  return await updateDoc(dbRef, props)
+}
+export const subscribeToUsers = (userId, cb) => {
+  const dbRef = doc(db, 'users', userId)
+  const unsubscribe = onSnapshot(dbRef, (snap) => cb(snap.data()))
+  return unsubscribe
 }
 
 /* Friendlist: friends */
@@ -75,15 +95,11 @@ export const createNewConversation = async (userId, friendId) => {
 export const subscribeToMessages = (conversationId, cb) => {
   const dbRef = collection(db, 'privateMessages', conversationId ?? '_', 'messages')
   const q = query(dbRef, orderBy('timestamp', 'asc'))
-  const unsubscribe = onSnapshot(q, (snap) => {
-    const messages = snap.docs.map((doc) => doc.data())
-    cb(messages)
-  })
+  const unsubscribe = onSnapshot(q, (snap) => cb(snap.docs.map((doc) => doc.data())))
   return unsubscribe
 }
 
 export const sendMessage = async (conversationId, sender, receiver, content, photoUrl, uploads) => {
-  console.log(uploads)
   const data = {
     sender,
     receiver,

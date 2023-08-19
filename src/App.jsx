@@ -1,4 +1,3 @@
-import { useWindowSize } from '@uidotdev/usehooks'
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -6,22 +5,22 @@ import { CARD_ANIM, MOBILE_STEP } from './constants/enum'
 import { ContactsWrapper, LoginWrapper } from './containers'
 import ProfileWrapper from './containers/ProfileWrapper/ProfileWrapper'
 import AppContext from './contexts/AppContext'
-import { auth } from './services/firebase'
+import { useIsMobile } from './hooks'
+import { auth, subscribeToUsers } from './services/firebase'
 
 function App() {
   const [user, loading] = useAuthState(auth)
+  const [curUser, setCurUser] = useState(null)
+  const [isMobile, mobileStep, setMobileStep] = useIsMobile()
   const [selectedFriend, setSelectedFriend] = useState(null)
   const [conversationId, setConversationId] = useState(null)
 
-  /* reorganize layout on resizing window & mobile mode */
-  const size = useWindowSize()
-  const [mobileStep, setMobileStep] = useState(MOBILE_STEP.LEFT_CARD)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  /* current user subscription */
   useEffect(() => {
-    if (!size.width) return
-    if (size.width < 1024) !isMobile && setIsMobile(true)
-    else isMobile && setIsMobile(false)
-  }, [size.width])
+    if (!user) return
+    const unsubscribe = subscribeToUsers(user.uid, (user) => setCurUser(user))
+    return () => unsubscribe()
+  }, [user])
 
   return (
     <AppContext.Provider value={{ mobileStep, setMobileStep }}>
@@ -29,8 +28,8 @@ function App() {
         <img src="" alt="logo" />
       </div>
       <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16">
-        {!user && !loading && <LoginWrapper isLoginWrapper={true} auth={auth} animation={CARD_ANIM.SLIDE_UP} />}
-        {user && (
+        {!curUser && !loading && <LoginWrapper isLoginWrapper={true} auth={auth} animation={CARD_ANIM.SLIDE_UP} />}
+        {curUser && (
           <ContactsWrapper
             mobileStep={mobileStep}
             isMobile={isMobile}
@@ -38,19 +37,20 @@ function App() {
             select={setSelectedFriend}
             setConversationId={setConversationId}
             animation={CARD_ANIM.SLIDE_LEFT}
+            user={curUser}
           />
         )}
-        {user && selectedFriend && (
+        {curUser && selectedFriend && (
           // <ChatBoxWrapper
           //   mobileStep={mobileStep}
           //   isMobile={isMobile}
           //   step={MOBILE_STEP.RIGHT_CARD}
-          //   user={user}
+          //   user={curUser}
           //   friend={selectedFriend}
           //   conversationId={conversationId}
           //   animation={CARD_ANIM.SCALE_IN}
           // />
-          <ProfileWrapper user={user} mobileStep={mobileStep} isMobile={isMobile} step={MOBILE_STEP.RIGHT_CARD} animation={CARD_ANIM.SCALE_IN} />
+          <ProfileWrapper user={curUser} mobileStep={mobileStep} isMobile={isMobile} step={MOBILE_STEP.RIGHT_CARD} animation={CARD_ANIM.SCALE_IN} />
         )}
       </div>
     </AppContext.Provider>

@@ -25,6 +25,10 @@ export const MODAL_STYLES = {
   }
 }
 export const PROFILE_TABS = {
-  PROF_INFO: 1,
+  STATISTIC: 1,
   CONTACT: 0
+}
+export const AUTHEN_PROVIDERS = {
+  GOOGLE: 'GOOGLE',
+  GITHUB: 'GITHUB'
 }

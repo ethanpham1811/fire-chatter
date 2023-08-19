@@ -10,6 +10,7 @@ function ChatBoxWrapper({ user, friend }) {
   const [conversationId] = useConversationId(user.uid, friend.uid)
   const msgListRef = useRef(null)
 
+  /* messages subscription */
   useEffect(() => {
     const unsubscribe = subscribeToMessages(conversationId, (updatedMsg) => setMessages(updatedMsg))
     return () => unsubscribe()
