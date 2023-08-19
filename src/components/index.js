@@ -6,7 +6,6 @@ import MessageList from './MessageList/MessageList'
 import LogoutModal from './Modal/LogoutModal'
 import Modal from './Modal/Modal'
 import SearchBar from './SearchBar/SearchBar'
-import SignIn from './SignIn/SignIn'
 import UserNav from './UserNav/UserNav'
 
-export { ChatForm, FriendList, ImageUpload, LogoutModal, Message, MessageList, Modal, SearchBar, SignIn, UserNav }
+export { ChatForm, FriendList, ImageUpload, LogoutModal, Message, MessageList, Modal, SearchBar, UserNav }

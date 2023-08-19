@@ -28,7 +28,12 @@ export const fetchUsers = async (userQuery) => {
   const res2 = snap2.docs.map((doc) => doc.data())
   return [...res1, ...res2]
 }
-
+export const fetchUserDetail = async (userId) => {
+  const dbRef = collection(db, 'users')
+  const q = query(dbRef, where('uid', '==', userId))
+  const snap = await getDocs(q)
+  return snap.docs[0].data()
+}
 export const addUser = async (age, displayName, email, gender, photoUrl, uid) => {
   const data = {
     age,

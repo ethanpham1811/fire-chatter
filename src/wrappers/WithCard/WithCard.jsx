@@ -4,9 +4,9 @@ import { NO_ANIM } from '../../constants/enum'
 
 function WithCard(Component) {
   return (props) => {
-    const { step, isMobile, mobileStep, isSignIn, animation } = props
-    const baseStyle = `transition-all ease-in duration-300 rounded-2xl shadow-card bg-white backface-hidden opacity-0 ${
-      isSignIn && 'w-4/5 md:w-2/3 xl:w-1/3'
+    const { step, isMobile, mobileStep, isLoginWrapper, animation } = props
+    const baseStyle = `transition-all ease-in duration-300 rounded-2xl shadow-card bg-secondary opacity-0 ${
+      isLoginWrapper && 'w-4/5 md:w-2/3 xl:w-1/3'
     }`
     return (
       <motion.div

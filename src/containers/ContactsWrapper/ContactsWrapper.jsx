@@ -3,7 +3,7 @@ import { FriendList, SearchBar, UserNav } from '../../components'
 import { useSearchList, useUserData } from '../../hooks'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function LeftCard({ select, setConversationId }) {
+function ContactsWrapper({ select, setConversationId }) {
   const [user, friendList] = useUserData()
   const [searchList, searchTerm, setSearchTerm] = useSearchList()
 
@@ -19,4 +19,4 @@ function LeftCard({ select, setConversationId }) {
   )
 }
 
-export default WithCard(LeftCard)
+export default WithCard(ContactsWrapper)
