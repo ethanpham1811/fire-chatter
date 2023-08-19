@@ -57,6 +57,7 @@ export const addUser = async ({ displayName, email, photoURL, uid }) => {
   return await setDoc(doc(db, 'users', uid), data)
 }
 export const editUser = async (props, userId) => {
+  console.log(props, userId)
   const dbRef = doc(db, 'users', userId)
   return await updateDoc(dbRef, props)
 }

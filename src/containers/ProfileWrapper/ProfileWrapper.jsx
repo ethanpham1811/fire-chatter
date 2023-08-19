@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
-import polygonBgUrl from '../../assets/profile_cover_bg.png'
+import defaultCoverUrl from '../../assets/cover_default.jpg'
+import polygonBgUrl from '../../assets/cover_polygon.png'
 import { CoverUploader, ProfileContact, ProfilePhotoUploader, ProfileStatistic } from '../../components'
 import { PROFILE_TABS } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
@@ -14,7 +15,7 @@ function ProfileWrapper({ user, isMobile, step, isMe = true }) {
   const [tabIndex, setTabIndex] = useState(PROFILE_TABS.CONTACT)
   const [uploadCover, setUploadCover] = useState(null)
   const [uploadPhoto, setUploadPhoto] = useState(null)
-  const [bgStyle, setBgStyle] = useState({ background: user.cover || 'url(src/assets/cover.png) no-repeat center / 180%' })
+  const [coverSize, setCoverSize] = useState('180%')
   const polygonStyle = { backgroundImage: `url(${polygonBgUrl})` }
 
   useEffect(() => {
@@ -26,13 +27,17 @@ function ProfileWrapper({ user, isMobile, step, isMe = true }) {
   }, [uploadCover])
 
   useEffect(() => {
-    setBgStyle({ background: `url(src/assets/cover.png) no-repeat center / ${tabIndex === PROFILE_TABS.CONTACT ? '180%' : '100%'}` })
-  }, [tabIndex])
+    console.log(user)
+    setCoverSize(tabIndex === PROFILE_TABS.CONTACT ? '180%' : '100%')
+  }, [tabIndex, user])
 
   return (
     <section className="flex flex-col p-2 w-screen h-screen md:w-[25vw] md:max-h-[70vh] relative">
       {/* grayscale cover with filter: grayscale(1) */}
-      <div style={bgStyle} className="absolute inset-0 ease-in-expo duration-500 w-screen h-screen md:w-[25vw] md:max-h-[70vh] grayscale bg-50" />
+      <div
+        style={{ backgroundSize: coverSize, backgroundImage: `url(${user.coverUrl || defaultCoverUrl}` }}
+        className="bg-no-repeat bg-center absolute inset-0 ease-in-expo duration-500 w-screen h-screen md:w-[25vw] md:max-h-[70vh] grayscale bg-50"
+      />
 
       {/* diagonal polygon shape bg  */}
       <div
@@ -47,7 +52,7 @@ function ProfileWrapper({ user, isMobile, step, isMe = true }) {
       {/* header with logo & name */}
       <header className="relative bg-secondary py-3 px-7">
         <div className=" absolute w-1/3 md:w-1/5 left-7 top-[-70%]">
-          <img src={user.photoUrl} alt="User profile photo" className="rounded-full flex-1" />
+          <img src={user.photoUrl} alt="User profile photo" className="rounded-full flex-1 aspect-square object-cover" />
           {isMe && <ProfilePhotoUploader setProfilePhoto={setUploadPhoto} />}
         </div>
         <h2 className="flex items-center mt-4">
