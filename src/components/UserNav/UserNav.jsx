@@ -1,16 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { HiOutlineArrowSmLeft } from 'react-icons/hi'
-import { CARD_ANIM, MOBILE_STEP } from '../../constants/enum'
+import { CARD_ANIM, MOBILE_STEP, RIGHT_CARD_MODE } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
 import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
 
-function UserNav({ hasBack = false, user, isMe = true }) {
+function UserNav({ setRightCardMode, selectUser, hasBack = false, user, isMe = false }) {
   const { setMobileStep } = useContext(AppContext)
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   function handleOpenUserDetail() {
-    !isMe && fetchUserDetail(user.uid)
+    selectUser(user)
+    setRightCardMode(RIGHT_CARD_MODE.PROFILE)
   }
 
   return (

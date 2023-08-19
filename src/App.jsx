@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { CARD_ANIM, MOBILE_STEP } from './constants/enum'
-import { ContactsWrapper, LoginWrapper } from './containers'
+import { CARD_ANIM, MOBILE_STEP, RIGHT_CARD_MODE } from './constants/enum'
+import { ChatBoxWrapper, ContactsWrapper, LoginWrapper } from './containers'
 import ProfileWrapper from './containers/ProfileWrapper/ProfileWrapper'
 import AppContext from './contexts/AppContext'
 import { useIsMobile } from './hooks'
@@ -12,8 +12,9 @@ function App() {
   const [user, loading] = useAuthState(auth)
   const [curUser, setCurUser] = useState(null)
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
-  const [selectedFriend, setSelectedFriend] = useState(null)
-  const [conversationId, setConversationId] = useState(null)
+  const [selectedUser, setSelectedUser] = useState(null)
+  // const [selectedProfileId, setSelectedProfileId] = useState(null)
+  const [rightCardMode, setRightCardMode] = useState(RIGHT_CARD_MODE.CHATBOX)
 
   /* current user subscription */
   useEffect(() => {
@@ -34,23 +35,32 @@ function App() {
             mobileStep={mobileStep}
             isMobile={isMobile}
             step={MOBILE_STEP.LEFT_CARD}
-            select={setSelectedFriend}
-            setConversationId={setConversationId}
             animation={CARD_ANIM.SLIDE_LEFT}
             user={curUser}
+            selectUser={setSelectedUser}
+            setRightCardMode={setRightCardMode}
           />
         )}
-        {curUser && selectedFriend && (
-          // <ChatBoxWrapper
-          //   mobileStep={mobileStep}
-          //   isMobile={isMobile}
-          //   step={MOBILE_STEP.RIGHT_CARD}
-          //   user={curUser}
-          //   friend={selectedFriend}
-          //   conversationId={conversationId}
-          //   animation={CARD_ANIM.SCALE_IN}
-          // />
-          <ProfileWrapper user={curUser} mobileStep={mobileStep} isMobile={isMobile} step={MOBILE_STEP.RIGHT_CARD} animation={CARD_ANIM.SCALE_IN} />
+        {curUser && selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+          <ChatBoxWrapper
+            mobileStep={mobileStep}
+            isMobile={isMobile}
+            step={MOBILE_STEP.RIGHT_CARD}
+            user={curUser}
+            friend={selectedUser}
+            animation={CARD_ANIM.SCALE_IN}
+            setRightCardMode={setRightCardMode}
+          />
+        )}
+        {selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
+          <ProfileWrapper
+            user={selectedUser}
+            mobileStep={mobileStep}
+            isMobile={isMobile}
+            step={MOBILE_STEP.RIGHT_CARD}
+            animation={CARD_ANIM.SCALE_IN}
+            isMe={selectedUser.uid === curUser.uid}
+          />
         )}
       </div>
     </AppContext.Provider>

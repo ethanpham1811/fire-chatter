@@ -10,7 +10,7 @@ import AppContext from '../../contexts/AppContext'
 import { editUser } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function ProfileWrapper({ user, isMobile, step, isMe = true }) {
+function ProfileWrapper({ user, isMobile, step, isMe = false }) {
   const { setMobileStep } = useContext(AppContext)
   const [tabIndex, setTabIndex] = useState(PROFILE_TABS.CONTACT)
   const [uploadCover, setUploadCover] = useState(null)
@@ -27,7 +27,6 @@ function ProfileWrapper({ user, isMobile, step, isMe = true }) {
   }, [uploadCover])
 
   useEffect(() => {
-    console.log(user)
     setCoverSize(tabIndex === PROFILE_TABS.CONTACT ? '180%' : '100%')
   }, [tabIndex, user])
 
@@ -40,14 +39,16 @@ function ProfileWrapper({ user, isMobile, step, isMe = true }) {
       />
 
       {/* diagonal polygon shape bg  */}
-      <div
-        style={polygonStyle}
-        className={`grow-[${
-          tabIndex === PROFILE_TABS.STATISTIC ? '1' : '1.5'
-        }] ease-in-expo duration-1000 h-1/3 relative bg-cover bg-no-repeat bg-left-bottom`}
-      >
-        <CoverUploader setCover={setUploadCover} />
-      </div>
+      {isMe && (
+        <div
+          style={polygonStyle}
+          className={`grow-[${
+            tabIndex === PROFILE_TABS.STATISTIC ? '1' : '1.5'
+          }] ease-in-expo duration-1000 h-1/3 relative bg-no-repeat bg-left-bottom`}
+        >
+          <CoverUploader setCover={setUploadCover} />
+        </div>
+      )}
 
       {/* header with logo & name */}
       <header className="relative bg-secondary py-3 px-7">
@@ -74,12 +75,18 @@ function ProfileWrapper({ user, isMobile, step, isMe = true }) {
           </Tab>
           <Tab
             tabIndex="-1"
-            className={`flex flex-1 p-1 justify-center cursor-pointer outline-none ${tabIndex === PROFILE_TABS.STATISTIC && 'bg-danger'}`}
+            className={`flex flex-1 p-1 justify-center cursor-pointer outline-none ${tabIndex === PROFILE_TABS.STATISTIC && !isMe && 'bg-danger'}`}
             selectedClassName="text-white"
           >
-            <a className="p-2 flex-1 text-center" href="" onClick={(e) => e.preventDefault()}>
-              {tabIndex === PROFILE_TABS.CONTACT ? 'Interest?' : 'Add Me'}
-            </a>
+            {isMe ? (
+              <a className="p-2 flex-1 text-center" href="" onClick={(e) => e.preventDefault()}>
+                My Info
+              </a>
+            ) : (
+              <a className="p-2 flex-1 text-center" href="" onClick={(e) => e.preventDefault()}>
+                {tabIndex === PROFILE_TABS.CONTACT ? 'Interest?' : 'Add Me'}
+              </a>
+            )}
           </Tab>
         </TabList>
 

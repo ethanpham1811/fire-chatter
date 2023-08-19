@@ -24,6 +24,10 @@ export const MODAL_STYLES = {
     overflow: 'visible'
   }
 }
+export const RIGHT_CARD_MODE = {
+  PROFILE: 'PROFILE',
+  CHATBOX: 'CHATBOX'
+}
 export const PROFILE_TABS = {
   STATISTIC: 1,
   CONTACT: 0
