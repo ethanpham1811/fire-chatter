@@ -5,7 +5,7 @@ import { useConversationId } from '../../hooks'
 import { subscribeToMessages } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function ChatBoxWrapper({ user, friend, setRightCardMode }) {
+function ChatBoxWrapper({ user, friend, setRightCardMode, selectUser }) {
   const [messages, setMessages] = useState([])
   const [conversationId] = useConversationId(user.uid, friend.uid)
   const msgListRef = useRef(null)
@@ -19,7 +19,7 @@ function ChatBoxWrapper({ user, friend, setRightCardMode }) {
   return (
     <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[25vw] md:max-h-[70vh]">
       <header className="flex items-center">
-        <UserNav setRightCardMode={setRightCardMode} hasBack={true} user={friend} isMe={false} />
+        <UserNav setRightCardMode={setRightCardMode} selectUser={selectUser} hasBack={true} user={friend} isMe={false} />
       </header>
       <MessageList ref={(ref) => (msgListRef.current = ref)} messages={messages} userId={user.uid} />
       <ChatForm user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />

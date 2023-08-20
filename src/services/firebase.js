@@ -32,14 +32,15 @@ const db = getFirestore(app)
 export const auth = getAuth(app)
 
 /* UserList: users */
-export const fetchUsers = async (userQuery) => {
+export const fetchUsers = async (userQuery, userId) => {
   const dbRef = collection(db, 'users')
-  const qName = query(dbRef, where('displayName', '>=', userQuery?.toLowerCase()), where('displayName', '<=', userQuery?.toLowerCase() + '\uf8ff'))
-  const qEmail = query(dbRef, where('email', '>=', userQuery?.toLowerCase()), where('email', '<=', userQuery?.toLowerCase() + '\uf8ff'))
+  const qName = query(dbRef, where('displayName', '>=', userQuery), where('displayName', '<=', userQuery + '\uf8ff'))
+  const qEmail = query(dbRef, where('email', '>=', userQuery), where('email', '<=', userQuery + '\uf8ff'))
   const [snap1, snap2] = await Promise.all([getDocs(qName), getDocs(qEmail)])
   const res1 = snap1.docs.map((doc) => doc.data())
   const res2 = snap2.docs.map((doc) => doc.data())
-  return [...res1, ...res2]
+  console.log(res1, res2, userQuery)
+  return [...res1, ...res2].filter((user) => user.uid !== userId)
 }
 export const fetchUserDetail = async (userId) => {
   const dbRef = collection(db, 'users')
@@ -57,7 +58,6 @@ export const addUser = async ({ displayName, email, photoURL, uid }) => {
   return await setDoc(doc(db, 'users', uid), data)
 }
 export const editUser = async (props, userId) => {
-  console.log(props, userId)
   const dbRef = doc(db, 'users', userId)
   return await updateDoc(dbRef, props)
 }

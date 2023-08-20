@@ -9,8 +9,8 @@ import { useIsMobile } from './hooks'
 import { auth, subscribeToUsers } from './services/firebase'
 
 function App() {
-  const [user, loading] = useAuthState(auth)
-  const [curUser, setCurUser] = useState(null)
+  const [authUser, loading] = useAuthState(auth)
+  const [user, setUser] = useState(null)
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
   const [selectedUser, setSelectedUser] = useState(null)
   // const [selectedProfileId, setSelectedProfileId] = useState(null)
@@ -18,10 +18,10 @@ function App() {
 
   /* current user subscription */
   useEffect(() => {
-    if (!user) return
-    const unsubscribe = subscribeToUsers(user.uid, (user) => setCurUser(user))
+    if (!authUser) return
+    const unsubscribe = subscribeToUsers(authUser.uid, (user) => setUser(user))
     return () => unsubscribe()
-  }, [user])
+  }, [authUser])
 
   return (
     <AppContext.Provider value={{ mobileStep, setMobileStep }}>
@@ -29,37 +29,38 @@ function App() {
         <img src="" alt="logo" />
       </div>
       <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16">
-        {!curUser && !loading && <LoginWrapper isLoginWrapper={true} auth={auth} animation={CARD_ANIM.SLIDE_UP} />}
-        {curUser && (
+        {!user && !loading && <LoginWrapper isLoginWrapper={true} auth={auth} animation={CARD_ANIM.SLIDE_UP} />}
+        {user && (
           <ContactsWrapper
             mobileStep={mobileStep}
             isMobile={isMobile}
             step={MOBILE_STEP.LEFT_CARD}
             animation={CARD_ANIM.SLIDE_LEFT}
-            user={curUser}
+            user={user}
             selectUser={setSelectedUser}
             setRightCardMode={setRightCardMode}
           />
         )}
-        {curUser && selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+        {user && selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
           <ChatBoxWrapper
             mobileStep={mobileStep}
             isMobile={isMobile}
             step={MOBILE_STEP.RIGHT_CARD}
-            user={curUser}
+            user={user}
             friend={selectedUser}
             animation={CARD_ANIM.SCALE_IN}
+            selectUser={setSelectedUser}
             setRightCardMode={setRightCardMode}
           />
         )}
         {selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
           <ProfileWrapper
-            user={selectedUser}
+            user={selectedUser.uid === user.uid ? user : selectedUser}
             mobileStep={mobileStep}
             isMobile={isMobile}
             step={MOBILE_STEP.RIGHT_CARD}
             animation={CARD_ANIM.SCALE_IN}
-            isMe={selectedUser.uid === curUser.uid}
+            isMe={selectedUser.uid === user.uid}
           />
         )}
       </div>

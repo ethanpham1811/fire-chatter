@@ -5,7 +5,7 @@ import WithCard from '../../wrappers/WithCard/WithCard'
 
 function ContactsWrapper({ user, selectUser, setRightCardMode }) {
   const friendList = useContactList(user.uid)
-  const [searchList, searchTerm, setSearchTerm] = useSearchList()
+  const [searchList, searchTerm, setSearchTerm] = useSearchList(user.uid)
 
   /* select first friend chat box on inital load */
   useEffect(() => {
