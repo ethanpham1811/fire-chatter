@@ -1,21 +1,39 @@
 import { motion } from 'framer-motion'
 import React from 'react'
-import { NO_ANIM } from '../../constants/enum'
 
 function WithCard(Component) {
-  return (props) => {
-    const { step, isMobile, mobileStep, isLoginWrapper, animation } = props
-    const baseStyle = `transition-all ease-in duration-300 rounded-2xl shadow-card bg-secondary opacity-0 ${
-      isLoginWrapper && 'w-4/5 md:w-2/3 xl:w-1/3'
-    }`
+  return function Card(props) {
+    const { step, isMobile, mobileStep, isLoginWrapper, initVariants, mainVariants, motionKey, isMounted } = props
+    const baseStyle = `rounded-2xl shadow-card bg-secondary ${isLoginWrapper && 'w-4/5 md:w-2/3 xl:w-1/3'}`
+
     return (
-      <motion.div
-        whileInView={isMobile ? NO_ANIM : animation}
-        transition={animation.transition}
-        className={isMobile && mobileStep !== step ? 'hidden' : baseStyle}
-      >
-        <Component {...props} />
-      </motion.div>
+      <>
+        {!isMounted ? (
+          <motion.div
+            layout
+            variants={initVariants}
+            key={motionKey}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className={isMobile && mobileStep !== step ? 'hidden' : baseStyle}
+          >
+            <Component {...props} />
+          </motion.div>
+        ) : (
+          <motion.div
+            layout
+            variants={mainVariants}
+            key={motionKey}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className={isMobile && mobileStep !== step ? 'hidden' : baseStyle}
+          >
+            <Component {...props} />
+          </motion.div>
+        )}
+      </>
     )
   }
 }
