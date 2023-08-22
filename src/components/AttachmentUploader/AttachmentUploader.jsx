@@ -5,7 +5,7 @@ import ImageUploading from 'react-images-uploading'
 import { v4 as rid } from 'uuid'
 import { MAX_UPLOADS } from '../../constants/enum'
 
-function ImageUpload({ setUploads, uploads, msgListRef }) {
+function AttachmentUploader({ setUploads, uploads, msgListRef }) {
   const [images, setImages] = useState(uploads)
 
   const handleUploadImg = (imageList) => {
@@ -72,4 +72,4 @@ function ImageUpload({ setUploads, uploads, msgListRef }) {
   )
 }
 
-export default ImageUpload
+export default AttachmentUploader
