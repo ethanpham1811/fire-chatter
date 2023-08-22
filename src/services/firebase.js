@@ -73,6 +73,23 @@ export const fetchFriendList = async (userId) => {
   const snap = await getDocs(dbRef)
   return snap.docs.map((doc) => doc.data())
 }
+export const addFriend = async (
+  { uid, coverUrl = '', photoUrl = '', displayName = '', about = '', email = '', location = '', phone = '' },
+  userId
+) => {
+  const data = {
+    uid,
+    coverUrl,
+    photoUrl,
+    displayName,
+    about,
+    email,
+    location,
+    phone,
+    status: 'pending'
+  }
+  return await setDoc(doc(db, 'users', userId, 'friends', uid), data)
+}
 
 /* Conversation */
 export const getConversationId = async (userId, friendId) => {

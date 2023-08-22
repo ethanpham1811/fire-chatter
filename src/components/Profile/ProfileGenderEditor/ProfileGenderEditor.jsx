@@ -14,7 +14,7 @@ function ProfileGenderEditor({ user, isMe }) {
       data-tooltip-place="right"
       data-tooltip-id="gender-edit"
       data-tooltip-content="click to swap"
-      className={`${isMe && 'cursor-pointer'} text-sm`}
+      className={`${isMe && 'cursor-pointer'} text-sm ml-2`}
     >
       {user.gender ? <TbGenderMale size={20} className="text-genderMale" /> : <TbGenderFemale size={20} className="text-genderFemale" />}
       {isMe && <Tooltip style={{ backgroundColor: '#9500f8', padding: '0.5rem' }} id="gender-edit" />}

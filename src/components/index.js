@@ -5,23 +5,24 @@ import Message from './Message/Message'
 import MessageList from './MessageList/MessageList'
 import LogoutModal from './Modal/LogoutModal'
 import Modal from './Modal/Modal'
+import CoverFilter from './Profile/CoverFilter/CoverFilter'
 import CoverUploader from './Profile/CoverUploader/CoverUploader'
-import DiagonalPolygonDummy from './Profile/DiagonalPolygonDummy/DiagonalPolygonDummy'
 import ProfileBackground from './Profile/ProfileBackground/ProfileBackground'
 import ProfileContact from './Profile/ProfileContact/ProfileContact'
 import ProfileGenderEditor from './Profile/ProfileGenderEditor/ProfileGenderEditor'
 import ProfileHeader from './Profile/ProfileHeader/ProfileHeader'
 import ProfilePhotoUploader from './Profile/ProfilePhotoUploader/ProfilePhotoUploader'
+import ProfilePolygonDummy from './Profile/ProfilePolygonDummy/ProfilePolygonDummy'
 import ProfileStatistic from './Profile/ProfileStatistic/ProfileStatistic'
-import TabNav from './Profile/TabNav/TabNav'
+import ProfileTabNav from './Profile/ProfileTabNav/ProfileTabNav'
 import SearchBar from './SearchBar/SearchBar'
 import UserNav from './UserNav/UserNav'
 
 export {
   AttachmentUploader,
   ChatForm,
+  CoverFilter,
   CoverUploader,
-  DiagonalPolygonDummy,
   FriendList,
   LogoutModal,
   Message,
@@ -32,8 +33,9 @@ export {
   ProfileGenderEditor,
   ProfileHeader,
   ProfilePhotoUploader,
+  ProfilePolygonDummy,
   ProfileStatistic,
+  ProfileTabNav,
   SearchBar,
-  TabNav,
   UserNav
 }
