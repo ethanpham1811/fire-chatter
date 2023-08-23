@@ -31,7 +31,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(selectedUser)
+    // console.log(selectedUser)
   }, [selectedUser])
 
   return (

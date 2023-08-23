@@ -1,21 +1,31 @@
 import React from 'react'
 import { v4 as rid } from 'uuid'
 
-function Message({ userId, message }) {
-  const { content, sender, photoUrl, uploads } = message
+function Message({ userId, message, friendPhoto }) {
+  const { content, sender, uploads } = message
   const isMe = sender === userId
-  /* text & user icon styles */
-  const senderStyle = 'rounded-br-none justify-self-end bg-darkGray text-white'
-  const receiverStyle = 'rounded-bl-none bg-white'
-  const style = isMe ? senderStyle : receiverStyle
+  /* message styles */
+  const senderMsgStyle = 'rounded-br-none bg-darkGray text-white ml-auto'
+  const receiverMsgStyle = 'rounded-bl-none bg-white mr-auto'
+  const msgStyle = isMe ? senderMsgStyle : receiverMsgStyle
   /* uploads styles */
-  const uploadSenderStyle = 'justify-self-end'
+  const senderUploadStyle = 'ml-auto'
+  const receiverUploadStyle = 'mr-auto ml-11'
+  const uploadStyle = isMe ? senderUploadStyle : receiverUploadStyle
 
   return (
-    <div className={`grid ${!isMe && 'grid-cols-[max-content_70%] items-end'}`}>
-      {!isMe && <img alt="user avatar" src={photoUrl} className={`w-8 rounded-full float-left mr-3`} />}
-      <p className={`${style} ${isMe && 'max-w-[70%]'} w-fit p-3 rounded-2xl shadow-message`}>{content}</p>
-      {uploads ? uploads.map((file) => <img key={rid()} src={file.url} className={`${isMe && uploadSenderStyle} w-1/2`} />) : ''}
+    <div className="flex flex-col first:mt-auto gap-2">
+      {isMe ? (
+        <>{content && content !== '' && <p className={`${msgStyle} max-w-[70%] w-fit p-3 rounded-2xl shadow-message`}>{content}</p>}</>
+      ) : (
+        <>
+          <div className="flex">
+            <img alt="user avatar" src={friendPhoto} className="w-8 h-8 rounded-full mr-3" />
+            {content && content !== '' && <p className={`${msgStyle} max-w-[70%] w-fit p-3 rounded-2xl shadow-message`}>{content}</p>}
+          </div>
+        </>
+      )}
+      {uploads ? uploads.map((file) => <img key={rid()} src={file.url} className={`${uploadStyle} w-1/2 `} />) : ''}
     </div>
   )
 }

@@ -51,7 +51,7 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
           <header className="flex items-center">
             <UserNav setRightCardMode={setRightCardMode} selectUser={selectUser} hasBack={true} user={friend} isMe={false} />
           </header>
-          <MessageList ref={(ref) => (msgListRef.current = ref)} messages={messages} userId={user.uid} />
+          <MessageList ref={(ref) => (msgListRef.current = ref)} messages={messages} userId={user.uid} friendPhoto={friend.photoUrl} />
           <ChatForm user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />
         </>
       )}

@@ -28,7 +28,7 @@ function FriendList({ setRightCardMode, selectUser, friendList, setSearchTerm })
             <a
               href=""
               tabIndex="0"
-              className="flex flex-col justify-center overflow-hidden"
+              className="flex flex-col justify-center overflow-hidden my-[-0.75rem] py-3"
               onClick={(e) => handleSelectFriend(e, friend, !friend.status ? RIGHT_CARD_MODE.PROFILE : RIGHT_CARD_MODE.CHATBOX)}
             >
               <h3>{friend?.displayName}</h3>

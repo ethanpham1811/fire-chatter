@@ -134,12 +134,11 @@ export const subscribeToMessages = (conversationId, cb) => {
   return unsubscribe
 }
 
-export const sendMessage = async (conversationId, sender, receiver, content, photoUrl, uploads) => {
+export const sendMessage = async (conversationId, sender, receiver, content, uploads) => {
   const data = {
     sender,
     receiver,
     content,
-    photoUrl: photoUrl ?? '',
     timestamp: serverTimestamp(),
     uploads
   }
