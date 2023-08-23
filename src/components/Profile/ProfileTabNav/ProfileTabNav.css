@@ -1,0 +1,35 @@
+.profile-nav-tab__contact-btn--active a {
+  background: var(--darkGray-color);
+  color: #fff;
+}
+.profile-nav-tab__statistic-btn--active a.my-info-label {
+  background: var(--darkGray-color);
+  color: #fff;
+}
+.profile-nav-tab__statistic-btn--active a.interest-label {
+}
+.profile-nav-tab__statistic-btn--active a.add-me-label {
+  background: var(--icon-color);
+  color: #fff;
+}
+.profile-nav-tab__statistic-btn--active a.cancel-label {
+  background: var(--darkGray-color);
+  color: #fff;
+}
+.profile-nav-tab__statistic-btn--active a.accept-label {
+  background: var(--success-color);
+  color: #fff;
+}
+.profile-nav-tab__statistic-btn--active a.reject-label {
+  background: var(--danger-color);
+  color: #fff;
+}
+
+.profile-nav-tab__statistic-btn--active a.friend-label {
+  background: var(--success-color);
+  color: #fff;
+}
+.profile-nav-tab__statistic-btn--active a.unfriend-label {
+  background: var(--darkGray-color);
+  color: #fff;
+}

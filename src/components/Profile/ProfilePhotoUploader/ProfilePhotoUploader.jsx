@@ -1,10 +1,19 @@
+import Compress from 'compress.js'
 import React from 'react'
 import { AiOutlineCamera } from 'react-icons/ai'
 import ImageUploading from 'react-images-uploading'
+import { UPLOAD_COMPRESS } from '../../../constants/enum'
+
+const compress = new Compress()
 
 function ProfilePhotoUploader({ setProfilePhoto }) {
+  const handleUploadPhoto = (img) => {
+    const data = img[0].file
+    compress.compress([data], UPLOAD_COMPRESS).then((data) => setProfilePhoto(data[0].prefix + data[0].data))
+  }
+
   return (
-    <ImageUploading onChange={(img) => setProfilePhoto(img[0].data_url)} dataURLKey="data_url">
+    <ImageUploading onChange={handleUploadPhoto} dataURLKey="data_url">
       {({ onImageUpload }) => {
         return (
           <button

@@ -5,7 +5,9 @@ const MessageList = forwardRef(({ messages, userId }, ref) => {
   const dummyRef = useRef()
 
   useEffect(() => {
-    messages.length !== 0 && dummyRef?.current?.scrollIntoView({ behavior: 'smooth' })
+    setTimeout(() => {
+      messages.length !== 0 && dummyRef?.current?.scrollIntoView({ behavior: 'smooth' })
+    }, 10)
   }, [messages])
 
   return (

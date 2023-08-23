@@ -3,7 +3,9 @@ import { getAuth } from 'firebase/auth'
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   onSnapshot,
@@ -39,7 +41,6 @@ export const fetchUsers = async (userQuery, userId) => {
   const [snap1, snap2] = await Promise.all([getDocs(qName), getDocs(qEmail)])
   const res1 = snap1.docs.map((doc) => doc.data())
   const res2 = snap2.docs.map((doc) => doc.data())
-  console.log(res1, res2, userQuery)
   return [...res1, ...res2].filter((user) => user.uid !== userId)
 }
 export const fetchUserDetail = async (userId) => {
@@ -73,9 +74,15 @@ export const fetchFriendList = async (userId) => {
   const snap = await getDocs(dbRef)
   return snap.docs.map((doc) => doc.data())
 }
-export const addFriend = async (
+export const fetchFriendshipDetail = async (myId, userId) => {
+  const dbRef = doc(db, 'users', myId, 'friends', userId)
+  const snap = await getDoc(dbRef)
+  return snap.data()
+}
+export const setFriendship = async (
   { uid, coverUrl = '', photoUrl = '', displayName = '', about = '', email = '', location = '', phone = '' },
-  userId
+  userId,
+  status
 ) => {
   const data = {
     uid,
@@ -86,9 +93,19 @@ export const addFriend = async (
     email,
     location,
     phone,
-    status: 'pending'
+    status
   }
   return await setDoc(doc(db, 'users', userId, 'friends', uid), data)
+}
+export const removeFriend = async (myId, userId) => {
+  const dbRef = doc(db, 'users', myId, 'friends', userId)
+  return await deleteDoc(dbRef)
+}
+export const subscribeToFriendList = (userId, cb) => {
+  const dbRef = collection(db, 'users', userId, 'friends')
+  // const q = query(dbRef, orderBy('timestamp', 'asc'))
+  const unsubscribe = onSnapshot(dbRef, (snap) => cb(snap.docs.map((doc) => doc.data())))
+  return unsubscribe
 }
 
 /* Conversation */

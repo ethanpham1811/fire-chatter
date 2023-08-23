@@ -41,6 +41,25 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --main-color: #f5f5f5;
+  --secondary-color: #fff;
+  --chatBox-color: #f7f7f7;
+  --hoverMain-color: #e2e8f0;
+  --btnHover-color: hsl(233, 100%, 93%);
+  --darkGray-color: #343233;
+  --blackOverlay-color: rgba(0, 0, 0, 0.7);
+  --feed-color: #383838;
+  --online-color: #74be05;
+  --danger-color: #ff0000;
+  --success-color: #058800;
+  --warning-color: #f7b017;
+  --icon-color: #9500f8;
+  --genderMale-color: #003af8;
+  --genderFemale-color: #f800cf;
+  --fb-color: #1754c4;
+  --twitter-color: #1fb7dd;
+  --insta-color: #dd6b1f;
 }
 
 a {
