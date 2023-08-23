@@ -30,6 +30,10 @@ function App() {
     setTimeout(() => setIsMounted(true), 1000)
   }, [])
 
+  useEffect(() => {
+    // console.log(selectedUser)
+  }, [selectedUser])
+
   return (
     <AppContext.Provider value={{ mobileStep, setMobileStep }}>
       <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16">
@@ -49,10 +53,11 @@ function App() {
         )}
 
         <AnimatePresence exitBeforeEnter initial mode="popLayout" onExitComplete={() => null}>
-          {user && selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+          {user && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
             <ChatBoxWrapper
               user={user}
-              friend={selectedUser}
+              friendId={selectedUser?.uid}
+              friendStatus={selectedUser?.status}
               selectUser={setSelectedUser}
               mobileStep={mobileStep}
               isMobile={isMobile}
@@ -68,7 +73,8 @@ function App() {
             <ProfileWrapper
               user={selectedUser.uid === user.uid ? user : selectedUser}
               isMe={selectedUser.uid === user.uid}
-              myId={user.uid}
+              friendStatus={selectedUser?.status}
+              me={user}
               mobileStep={mobileStep}
               isMobile={isMobile}
               step={MOBILE_STEP.RIGHT_CARD}

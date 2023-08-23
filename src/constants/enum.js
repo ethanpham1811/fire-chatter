@@ -30,6 +30,19 @@ export const AUTHEN_PROVIDERS = {
   GOOGLE: 'GOOGLE',
   GITHUB: 'GITHUB'
 }
+export const FRIEND_STATUSES = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  ACCEPTED: 'ACCEPTED'
+}
+export const UPLOAD_COMPRESS = {
+  size: 4,
+  quality: 0.75,
+  maxWidth: 1920,
+  maxHeight: 1920,
+  resize: true,
+  rotate: false
+}
 
 /* framer motion */
 export const CARD_ANIM = {

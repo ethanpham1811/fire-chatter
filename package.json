@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@uidotdev/usehooks": "^2.1.0",
+    "compress.js": "^1.2.2",
     "firebase": "^10.1.0",
     "framer-motion": "^6.2.3",
     "react": "^18.2.0",

@@ -5,15 +5,15 @@ import AttachmentUploader from '../AttachmentUploader/AttachmentUploader'
 
 function ChatForm({ user, friend, conversationId, msgListRef }) {
   const ref = useRef()
-  const [message, setMessage] = useState([])
+  const [message, setMessage] = useState('')
   const [uploads, setUploads] = useState([])
 
   const handleSend = async (e) => {
     e.preventDefault()
-    if (!user.uid || !friend.uid || message === '') return
+    if (!user.uid || !friend.uid || (message === '' && uploads.length === 0)) return
 
     /* request send message */
-    await sendMessage(conversationId, user.uid, friend.uid, message, user.photoURL, uploads)
+    await sendMessage(conversationId, user.uid, friend.uid, message, uploads)
 
     /* reset form & scroll window down */
     setUploads([])
@@ -32,7 +32,11 @@ function ChatForm({ user, friend, conversationId, msgListRef }) {
           placeholder="say something nice"
           className="w-full p-2 pr-2 border-2 rounded-md text-sm"
         />
-        <button className="cursor-pointer border-none w-max p-2 ml-1 mr-[-10px]" type="submit" disabled={message === '' || !conversationId}>
+        <button
+          className="cursor-pointer border-none w-max p-2 ml-1 mr-[-10px]"
+          type="submit"
+          disabled={(message === '' && uploads.length === 0) || !conversationId}
+        >
           <BsFillSendFill size={20} />
         </button>
       </form>

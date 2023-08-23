@@ -9,7 +9,7 @@ function ProfileHeader({ user, setUploadPhoto, isMe }) {
         <img src={user.photoUrl} alt="User profile photo" className="rounded-full flex-1 aspect-square object-cover" />
         {isMe && <ProfilePhotoUploader setProfilePhoto={setUploadPhoto} />}
       </div>
-      <h2 className="flex items-center mt-4">
+      <h2 className="flex items-center mt-6">
         {user.displayName}
         <ProfileGenderEditor user={user} isMe={isMe} />
       </h2>

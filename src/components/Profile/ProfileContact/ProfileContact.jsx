@@ -23,7 +23,7 @@ function ProfileContact({ user }) {
         </li>
       </ul>
       {/* social medias */}
-      <ul className="flex justify-around py-5 w-3/5 m-auto">
+      <ul className="flex justify-around py-5 w-3/5 mt-auto ml-auto mr-auto">
         <li>
           <BsFacebook className="cursor-pointer ease-in duration-100 hover:text-fb" size={20} color="fb" />
         </li>

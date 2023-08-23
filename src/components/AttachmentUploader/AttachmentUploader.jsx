@@ -1,9 +1,13 @@
+import Compress from 'compress.js'
+
 import React, { useEffect, useState } from 'react'
 import { BsCardImage } from 'react-icons/bs'
 import { CiSquareRemove } from 'react-icons/ci'
 import ImageUploading from 'react-images-uploading'
 import { v4 as rid } from 'uuid'
-import { MAX_UPLOADS } from '../../constants/enum'
+import { MAX_UPLOADS, UPLOAD_COMPRESS } from '../../constants/enum'
+
+const compress = new Compress()
 
 function AttachmentUploader({ setUploads, uploads, msgListRef }) {
   const [images, setImages] = useState(uploads)
@@ -11,14 +15,18 @@ function AttachmentUploader({ setUploads, uploads, msgListRef }) {
   const handleUploadImg = (imageList) => {
     setImages(imageList)
 
-    setUploads(
-      imageList.map((el) => {
-        return {
-          type: 'image',
-          url: el.data_url
-        }
+    compress
+      .compress(
+        imageList.map((img) => img.file),
+        UPLOAD_COMPRESS
+      )
+      .then((data) => {
+        setUploads(
+          data.map((img) => {
+            return { type: 'image', url: img.prefix + img.data }
+          })
+        )
       })
-    )
   }
 
   /* reset images to [] on sending message */
@@ -50,10 +58,14 @@ function AttachmentUploader({ setUploads, uploads, msgListRef }) {
               {isDragging ? 'Drop here please' : 'Upload space'}
             </div> */}
 
-            <div className="absolute flex bottom-[75px] right-0 bg-none gap-1">
+            <div
+              className={`${
+                imageList.length !== 0 ? 'flex' : 'hidden'
+              } absolute bottom-[60px] w-full justify-end p-2 backdrop-blur-md right-0 bg-none gap-2`}
+            >
               {imageList.map((image, i) => (
-                <div key={rid()} className="relative bg-slate-200">
-                  <img src={image['data_url']} alt={`upload image ${i}`} width="50" />
+                <div key={rid()} className="relative flex items-end border-dotted border-[1px]">
+                  <img src={image['data_url']} alt={`upload image ${i}`} width="50" className="object-contain" />
                   <div className="absolute flex top-0 right-0 ">
                     <button
                       className="w-4 h-4 p-0 leading-none border-none flex items-center justify-center rounded-none"
