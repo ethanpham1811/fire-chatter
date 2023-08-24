@@ -1,17 +1,18 @@
 import React, { forwardRef, useEffect, useRef } from 'react'
 import Message from '../Message/Message'
+import Spinner from '../Spinner/Spinner'
 
-const MessageList = forwardRef(({ messages, userId, friendPhoto }, ref) => {
+const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, ref) => {
   const dummyRef = useRef()
 
   useEffect(() => {
     setTimeout(() => {
-      messages.length !== 0 && dummyRef?.current?.scrollIntoView({ behavior: 'smooth' })
+      messages?.length !== 0 && dummyRef?.current?.scrollIntoView({ behavior: 'smooth' })
     }, 10)
   }, [messages])
 
-  return (
-    <main ref={ref} className="flex flex-1 flex-col gap-2 overflow-y-scroll bg-chatBox mx-[-1.25rem] p-5 shadow-innerChatBox">
+  const messagesJsx = (
+    <>
       {messages?.length !== 0 ? (
         messages.map((msg, i) => <Message userId={userId} friendPhoto={friendPhoto} key={msg.uid ?? `msg${i}`} message={msg} />)
       ) : (
@@ -19,6 +20,11 @@ const MessageList = forwardRef(({ messages, userId, friendPhoto }, ref) => {
           Let's start the conversation!
         </div>
       )}
+    </>
+  )
+  return (
+    <main ref={ref} className="flex flex-1 flex-col gap-2 overflow-y-scroll bg-chatBox mx-[-1.25rem] p-5 shadow-innerChatBox">
+      {isLoading ? <Spinner message="Loading messages.." /> : messagesJsx}
       {/* for scroll into view on form submit */}
       <span ref={dummyRef}></span>
     </main>

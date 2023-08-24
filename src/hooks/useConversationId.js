@@ -5,6 +5,7 @@ const useConversationId = (userId, friendId) => {
   const [conversationId, setConversationId] = useState(null)
 
   useEffect(() => {
+    if (!userId || !friendId) return
     async function getId() {
       const id = await getConversationId(userId, friendId)
       setConversationId(id)

@@ -16,6 +16,7 @@ import ProfilePolygonDummy from './Profile/ProfilePolygonDummy/ProfilePolygonDum
 import ProfileStatistic from './Profile/ProfileStatistic/ProfileStatistic'
 import ProfileTabNav from './Profile/ProfileTabNav/ProfileTabNav'
 import SearchBar from './SearchBar/SearchBar'
+import Spinner from './Spinner/Spinner'
 import UserNav from './UserNav/UserNav'
 
 export {
@@ -37,5 +38,6 @@ export {
   ProfileStatistic,
   ProfileTabNav,
   SearchBar,
+  Spinner,
   UserNav
 }

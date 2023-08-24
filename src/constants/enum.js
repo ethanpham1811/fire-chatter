@@ -52,12 +52,12 @@ export const CARD_ANIM = {
   SLIDE_LEFT: {
     hidden: { opacity: 0, x: 150 },
     visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.7 } },
-    exit: { opacity: 0, x: -150 }
+    exit: { opacity: 0 }
   },
   SLIDE_UP: {
     hidden: { opacity: 0, y: 200 },
-    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.5 } },
-    exit: { opacity: 0, x: -150 }
+    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.5, delay: 0.7 } },
+    exit: { opacity: 0, y: 200 }
   },
   SCALE_IN: {
     hidden: { opacity: 0, scale: 0.5 },
