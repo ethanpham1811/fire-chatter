@@ -33,7 +33,7 @@ function ContactsWrapper({ user, selectUser, setRightCardMode }) {
   }, [user])
 
   return (
-    <section className="flex flex-col gap-5 p-5 justify-start w-screen h-screen md:w-[30vw] md:h-auto md:max-h-[70vh]">
+    <section className="flex flex-col gap-5 p-5 justify-start w-screen h-screen md:w-[70vw] lg:w-[30vw] xl:w-[35vw] 2xl:w-[25vw] md:h-auto md:max-h-[70vh]">
       <UserNav isLoading={isLoading} user={user} setRightCardMode={setRightCardMode} selectUser={selectUser} isMe />
       <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
       <FriendList

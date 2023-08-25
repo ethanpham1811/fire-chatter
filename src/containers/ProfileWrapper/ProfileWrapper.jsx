@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ProfileBackground, ProfileHeader, ProfilePolygonDummy, ProfileTabNav, Spinner } from '../../components'
-import AppContext from '../../contexts/AppContext'
 import { useTabAndCoverState, useUploadProfile } from '../../hooks'
 import { fetchUserDetail } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function ProfileWrapper({ user, isMobile, step, me, isMe = false, friendStatus }) {
-  const { setMobileStep } = useContext(AppContext)
   const [isLoading, setIsLoading] = useState(true)
   const [profile, setProfile] = useState(null)
   const [setUploadCover, setUploadPhoto] = useUploadProfile(user)
@@ -28,7 +26,11 @@ function ProfileWrapper({ user, isMobile, step, me, isMe = false, friendStatus }
   }, [user, friendStatus])
 
   return (
-    <section className={`flex flex-col p-2 w-screen h-screen md:w-[25vw] md:max-h-[70vh] relative bg-[${isLoading ? 'white' : '#d3d3d3'}]`}>
+    <section
+      className={`flex flex-col p-2 overflow-hidden w-screen h-screen md:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] md:max-h-[70vh] lg:min-h-[550px] relative bg-[${
+        isLoading ? 'white' : '#d3d3d3'
+      }]`}
+    >
       {isLoading ? (
         <Spinner message="Please wait.." />
       ) : (
@@ -36,9 +38,9 @@ function ProfileWrapper({ user, isMobile, step, me, isMe = false, friendStatus }
           {/* grayscale cover with filter: grayscale(1) */}
           <ProfileBackground user={profile} coverSize={coverSize} tabIndex={tabIndex} />
           {/* diagonal polygon shape bg  */}
-          <ProfilePolygonDummy setUploadCover={setUploadCover} tabIndex={tabIndex} isMe={isMe} />
+          <ProfilePolygonDummy user={profile} setUploadPhoto={setUploadPhoto} setUploadCover={setUploadCover} tabIndex={tabIndex} isMe={isMe} />
           {/* header with logo & name */}
-          <ProfileHeader isMe={isMe} user={profile} setUploadPhoto={setUploadPhoto} />
+          <ProfileHeader isMe={isMe} user={profile} tabIndex={tabIndex} />
           {/* switch section nav */}
           <ProfileTabNav user={profile} me={me} isMe={isMe} setTabIndex={setTabIndex} tabIndex={tabIndex} />
         </>

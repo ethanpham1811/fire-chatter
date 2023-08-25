@@ -30,14 +30,12 @@ function App() {
     setTimeout(() => setIsMounted(true), 1000)
   }, [])
 
-  useEffect(() => {
-    // console.log(selectedUser)
-  }, [selectedUser])
-
   return (
-    <AppContext.Provider value={{ mobileStep, setMobileStep }}>
-      <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16">
-        {!authUser && <LoginWrapper isLoginWrapper={true} auth={auth} initVariants={CARD_ANIM.SLIDE_UP} motionKey="login" key="login" />}
+    <AppContext.Provider value={{ isMobile, mobileStep, setMobileStep }}>
+      <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16 max-w-full">
+        {!authUser && (
+          <LoginWrapper isMobile={isMobile} isLoginWrapper={true} auth={auth} initVariants={CARD_ANIM.SLIDE_UP} motionKey="login" key="login" />
+        )}
 
         {authUser && (
           <ContactsWrapper

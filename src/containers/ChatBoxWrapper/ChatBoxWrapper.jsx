@@ -54,7 +54,7 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
   }
 
   return (
-    <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[25vw] md:max-h-[70vh]">
+    <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] md:max-h-[70vh] lg:min-h-[550px]">
       {friend && friend.status === FRIEND_STATUSES.ACCEPTED && (
         <>
           <header className="flex items-center">

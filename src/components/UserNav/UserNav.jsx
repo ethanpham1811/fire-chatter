@@ -15,11 +15,19 @@ function UserNav({ isLoading, setRightCardMode, selectUser, hasBack = false, use
     if (isLoading) return
     selectUser(user)
     setRightCardMode(RIGHT_CARD_MODE.PROFILE)
+    setMobileStep(MOBILE_STEP.RIGHT_CARD)
   }
 
   return (
     <section className="flex gap-4 items-center">
-      {hasBack && <HiOutlineArrowSmLeft onClick={() => setMobileStep(MOBILE_STEP.LEFT_CARD)} className="cursor-pointer block md:hidden" size={30} />}
+      {hasBack && (
+        <HiOutlineArrowSmLeft
+          tabIndex="0"
+          onClick={() => setMobileStep(MOBILE_STEP.LEFT_CARD)}
+          className="cursor-pointer block lg:hidden"
+          size={30}
+        />
+      )}
       <button onClick={handleOpenUserDetail} disabled={isLoading} className="flex flex-1 items-center bg-transparent p-0 gap-4">
         <div className="w-max">
           {isLoading ? (
