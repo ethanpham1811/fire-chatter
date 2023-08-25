@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { HiOutlineArrowSmLeft } from 'react-icons/hi'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
+import { HiOutlineArrowSmLeft } from '../../utils/icons'
 import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
 

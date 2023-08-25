@@ -1,6 +1,9 @@
 import AttachmentUploader from './AttachmentUploader/AttachmentUploader'
 import ChatForm from './ChatForm/ChatForm'
 import FriendList from './FriendList/FriendList'
+import IneditDropdown from './IneditDropdown/IneditDropdown'
+import IneditInput from './IneditInput/IneditInput'
+import IneditToggle from './IneditToggle/IneditToggle'
 import Message from './Message/Message'
 import MessageList from './MessageList/MessageList'
 import LogoutModal from './Modal/LogoutModal'
@@ -25,6 +28,9 @@ export {
   CoverFilter,
   CoverUploader,
   FriendList,
+  IneditDropdown,
+  IneditInput,
+  IneditToggle,
   LogoutModal,
   Message,
   MessageList,

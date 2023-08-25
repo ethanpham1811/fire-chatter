@@ -1,21 +1,27 @@
 import { motion } from 'framer-motion'
-import React, { useState } from 'react'
-
-import { AiOutlineCheck, AiOutlineUserAdd } from 'react-icons/ai'
-import { FaUserCheck } from 'react-icons/fa6'
-import { FcCancel } from 'react-icons/fc'
-import { RxCross1 } from 'react-icons/rx'
+import React, { useContext, useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import { ProfileContact, ProfileStatistic } from '../../'
 import { FRIEND_STATUSES, FRIENSHIP_ACTION, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
+import AppContext from '../../../contexts/AppContext'
 import { handleFrienship } from '../../../utils'
-import ProfileContact from '../ProfileContact/ProfileContact'
-import ProfileStatistic from '../ProfileStatistic/ProfileStatistic'
+import { AiOutlineCheck, AiOutlineUserAdd, FaUserCheck, FcCancel, RxCross1 } from '../../../utils/icons'
 import './ProfileTabNav.css'
 
-function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
+function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) {
+  const { me } = useContext(AppContext)
   const [friendshipStatus, setFriendshipStatus] = useState(user.status)
   const [isUnfriendBtn, setIsUnfriendBtn] = useState(false)
 
+  const handleSwitchTab = (i) => {
+    setTabIndex(i)
+    setChangingCover(true)
+  }
+  const toggleUnfriendBtn = () => {
+    setIsUnfriendBtn(!isUnfriendBtn)
+  }
+
+  /* friendship handlers */
   const handleAddFriend = (e) => {
     e.preventDefault()
     handleFrienship(me, user, FRIENSHIP_ACTION.REQUEST)
@@ -31,16 +37,10 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
     handleFrienship(me, user, FRIENSHIP_ACTION.REMOVE)
     setFriendshipStatus(null)
   }
-  const toggleUnfriendBtn = () => {
-    setIsUnfriendBtn(!isUnfriendBtn)
-  }
+
   return (
-    <Tabs
-      className="flex flex-1 flex-col transition-all bg-main shadow-innerChatBox relative"
-      selectedIndex={tabIndex}
-      onSelect={(i) => setTabIndex(i)}
-    >
-      <TabList className="flex items-center">
+    <Tabs className="flex flex-1 flex-col transition-all bg-main shadow-innerChatBox relative" selectedIndex={tabIndex} onSelect={handleSwitchTab}>
+      <TabList className="flex items-center z-10">
         <Tab
           tabIndex="-1"
           className="flex flex-1 justify-center cursor-pointer outline-none"
@@ -118,7 +118,7 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
           exit="exit"
           className="flex flex-col flex-1"
         >
-          {tabIndex === PROFILE_TABS.CONTACT && <ProfileContact user={user} />}
+          {tabIndex === PROFILE_TABS.CONTACT && <ProfileContact isMe={isMe} user={user} />}
         </motion.div>
       </TabPanel>
 
@@ -133,7 +133,7 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
           exit="exit"
           className="flex flex-col flex-1"
         >
-          {tabIndex === PROFILE_TABS.STATISTIC && <ProfileStatistic user={user} />}
+          {tabIndex === PROFILE_TABS.STATISTIC && <ProfileStatistic isMe={isMe} user={user} />}
         </motion.div>
       </TabPanel>
     </Tabs>

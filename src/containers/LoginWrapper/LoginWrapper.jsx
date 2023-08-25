@@ -1,7 +1,6 @@
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import React from 'react'
-import { AiFillGithub } from 'react-icons/ai'
-import { FcGoogle } from 'react-icons/fc'
+import { AiFillGithub, FcGoogle } from '../../utils/icons'
 
 import { AUTHEN_PROVIDERS } from '../../constants/enum'
 import { addUser, auth } from '../../services/firebase'

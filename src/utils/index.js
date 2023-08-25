@@ -21,3 +21,5 @@ export function handleFrienship(me, friend, action) {
 export function timeout(duration) {
   return new Promise((res) => setTimeout(res, duration))
 }
+
+export const handleEnter = (e, cb) => e.key === 'Enter' && cb()

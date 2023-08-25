@@ -103,6 +103,17 @@ button {
   transition: border-color 0.25s;
 }
 
+/* Remove the spin arrows for number input */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
 /* Focusing the button with a keyboard */
 button:focus-visible {
   outline: 0.5px solid #000;

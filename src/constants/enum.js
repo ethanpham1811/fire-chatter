@@ -48,13 +48,21 @@ export const COMPONENT_KEYS = {
   CONTACTS: 'CONTACTS',
   CHATBOX: 'CHATBOX',
   PROFILE: 'PROFILE',
-  MODAL: 'MODAL'
+  MODAL: 'MODAL',
+  TOGGLE: 'TOGGLE'
 }
 export const FRIENSHIP_ACTION = {
   REQUEST: 'REQUEST',
   ACCEPT: 'ACCEPT',
   REMOVE: 'REMOVE'
 }
+
+export const regexp = {
+  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/,
+  positiveNum: /^(?:[1-9]|[1-9][0-9]|[1-9][0-9][0-9])$/,
+  phone: /^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/
+}
+export const positionTitle = ['Sr.', 'Jr.']
 
 /* framer motion */
 export const CARD_ANIM = {
@@ -103,7 +111,19 @@ export const NO_ANIM = { initial: { opacity: 1, scale: 1, x: 0, y: 0 }, animate:
 export const cardAnimation = {
   login: { init: CARD_ANIM.SLIDE_UP, main: CARD_ANIM.SLIDE_UP, key: COMPONENT_KEYS.LOGIN },
   contacts: { init: CARD_ANIM.SLIDE_LEFT, main: CARD_ANIM.SLIDE_LEFT, key: COMPONENT_KEYS.CONTACTS },
-  chatbox: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.SWAP, key: COMPONENT_KEYS.CHATBOX },
-  profile: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.SWAP, key: COMPONENT_KEYS.PROFILE },
+  chatbox: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.NO_ANIM, key: COMPONENT_KEYS.CHATBOX },
+  profile: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.NO_ANIM, key: COMPONENT_KEYS.PROFILE },
   modal: { init: CARD_ANIM.SLIDE_LEFT_SHORT, main: CARD_ANIM.SLIDE_LEFT_SHORT, key: COMPONENT_KEYS.MODAL }
+}
+
+/* Components animation */
+export const COMPONENT_ANIM = {
+  SLIDE_UP: {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.2 } },
+    exit: { opacity: 0, y: 20 }
+  }
+}
+export const toggleAnimation = {
+  position: { animation: COMPONENT_ANIM.SLIDE_UP, key: COMPONENT_KEYS.TOGGLE }
 }

@@ -1,16 +1,17 @@
 import React from 'react'
-import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { Tooltip } from 'react-tooltip'
 import { editUser } from '../../../services/firebase'
+import { handleEnter } from '../../../utils'
+import { TbGenderFemale, TbGenderMale } from '../../../utils/icons'
 
 function ProfileGenderEditor({ user, isMe }) {
-  const handleEditAge = () => {
-    isMe && editUser({ gender: !user.gender }, user.uid)
-  }
+  const handleEditAge = () => isMe && editUser({ gender: !user.gender }, user.uid)
 
   return (
     <span
+      tabIndex={0}
       onClick={handleEditAge}
+      onKeyDown={(e) => handleEnter(e, handleEditAge)}
       data-tooltip-place="right"
       data-tooltip-id="gender-edit"
       data-tooltip-content="click to swap"

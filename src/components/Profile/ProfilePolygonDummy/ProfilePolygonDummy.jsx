@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { HiOutlineArrowSmLeft } from 'react-icons/hi'
 import polygonBgUrl from '../../../assets/cover_polygon.png'
 import { MOBILE_STEP, PROFILE_TABS } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
+import { HiOutlineArrowSmLeft } from '../../../utils/icons'
 import CoverUploader from '../CoverUploader/CoverUploader'
 import ProfilePhotoUploader from '../ProfilePhotoUploader/ProfilePhotoUploader'
 

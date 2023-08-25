@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { BsFillSendFill } from 'react-icons/bs'
 import { sendMessage } from '../../services/firebase'
+import { BsFillSendFill } from '../../utils/icons'
 import AttachmentUploader from '../AttachmentUploader/AttachmentUploader'
 
 function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {

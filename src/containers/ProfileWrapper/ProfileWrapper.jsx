@@ -7,9 +7,10 @@ import { fetchUserDetail } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function ProfileWrapper({ user, isMe = false, friendStatus }) {
+  const { me } = useContext(AppContext)
   const [isLoading, setIsLoading] = useState(true)
   const [profile, setProfile] = useState(null)
-  const { me } = useContext(AppContext)
+  const [changingCover, setChangingCover] = useState(false)
   const [setUploadCover, setUploadPhoto] = useUploadProfile(user)
   const [coverSize, tabIndex, setTabIndex] = useTabAndCoverState(user.uid, user.coverUrl)
 
@@ -38,13 +39,19 @@ function ProfileWrapper({ user, isMe = false, friendStatus }) {
       ) : (
         <>
           {/* grayscale cover with filter: grayscale(1) */}
-          <ProfileBackground user={profile} coverSize={coverSize} tabIndex={tabIndex} />
+          <ProfileBackground
+            changingCover={changingCover}
+            setChangingCover={setChangingCover}
+            user={profile}
+            coverSize={coverSize}
+            tabIndex={tabIndex}
+          />
           {/* diagonal polygon shape bg  */}
           <ProfilePolygonDummy user={profile} setUploadPhoto={setUploadPhoto} setUploadCover={setUploadCover} tabIndex={tabIndex} isMe={isMe} />
           {/* header with logo & name */}
           <ProfileHeader isMe={isMe} user={profile} tabIndex={tabIndex} />
           {/* switch section nav */}
-          <ProfileTabNav user={profile} me={me} isMe={isMe} setTabIndex={setTabIndex} tabIndex={tabIndex} />
+          <ProfileTabNav isMe={isMe} setChangingCover={setChangingCover} user={profile} setTabIndex={setTabIndex} tabIndex={tabIndex} />
         </>
       )}
     </section>
