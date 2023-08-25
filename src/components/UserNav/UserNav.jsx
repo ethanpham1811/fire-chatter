@@ -2,18 +2,18 @@ import React, { useContext, useState } from 'react'
 import { HiOutlineArrowSmLeft } from 'react-icons/hi'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { CARD_ANIM, MOBILE_STEP, RIGHT_CARD_MODE } from '../../constants/enum'
+import { MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
 import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
 
-function UserNav({ isLoading, setRightCardMode, selectUser, hasBack = false, user, isMe = false }) {
-  const { setMobileStep } = useContext(AppContext)
+function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
+  const { setMobileStep, setSelectedUser, setRightCardMode } = useContext(AppContext)
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   function handleOpenUserDetail() {
     if (isLoading) return
-    selectUser(user)
+    setSelectedUser(user)
     setRightCardMode(RIGHT_CARD_MODE.PROFILE)
     setMobileStep(MOBILE_STEP.RIGHT_CARD)
   }
@@ -33,7 +33,7 @@ function UserNav({ isLoading, setRightCardMode, selectUser, hasBack = false, use
           {isLoading ? (
             <Skeleton circle className="w-[calc(3.5rem_-_3px)] rounded-full aspect-square" />
           ) : (
-            <img className="w-14 rounded-full border-x-online border-4 object-cover aspect-square" src={user.photoUrl} alt="user photo" />
+            <img className="w-14 rounded-full border-x-online border-4 object-cover aspect-square" src={user?.photoUrl} alt="user photo" />
           )}
         </div>
         <div className="flex flex-col flex-1 items-start">
@@ -57,7 +57,7 @@ function UserNav({ isLoading, setRightCardMode, selectUser, hasBack = false, use
           </button>
           {/* Are you sure to logout modal */}
           <Modal isOpen={isOpenModal} setIsOpenModal={setIsOpenModal}>
-            <LogoutModal setIsOpenModal={setIsOpenModal} animation={CARD_ANIM.SLIDE_UP} />
+            <LogoutModal setIsOpenModal={setIsOpenModal} anim={cardAnimation.modal} />
           </Modal>
         </>
       )}

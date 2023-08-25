@@ -122,3 +122,8 @@ button:focus:not(:focus-visible) {
     background-color: #f9f9f9;
   }
 }
+
+/* modal overriding */
+.ReactModalPortal {
+  z-index: 100;
+}

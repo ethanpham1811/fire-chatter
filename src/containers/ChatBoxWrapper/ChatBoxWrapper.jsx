@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { ChatForm, MessageList, UserNav } from '../../components'
-import { FRIEND_STATUSES, RIGHT_CARD_MODE } from '../../constants/enum'
+import { FRIEND_STATUSES, FRIENSHIP_ACTION, RIGHT_CARD_MODE } from '../../constants/enum'
+import AppContext from '../../contexts/AppContext'
 import { useConversationId } from '../../hooks'
-import { fetchUserDetail, removeFriend, setFriendship, subscribeToMessages } from '../../services/firebase'
+import { fetchUserDetail, subscribeToMessages } from '../../services/firebase'
+import { handleFrienship } from '../../utils'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, selectUser }) {
+function ChatBoxWrapper({ user, friendId, friendStatus }) {
+  const { setSelectedUser, setRightCardMode } = useContext(AppContext)
   const [messages, setMessages] = useState([])
   const [msgIsLoading, setMsgIsLoading] = useState(true)
   const [userIsLoading, setUserIsLoading] = useState(true)
@@ -39,18 +42,16 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
 
   /* handle open user detail */
   function handleOpenUserDetail() {
-    selectUser(friend)
+    setSelectedUser(friend)
     setRightCardMode(RIGHT_CARD_MODE.PROFILE)
   }
 
   /* handle friend requests */
   function handleAcceptFriend() {
-    setFriendship(friend, user.uid, FRIEND_STATUSES.ACCEPTED)
-    setFriendship(user, friend.uid, FRIEND_STATUSES.ACCEPTED)
+    handleFrienship(user, friend, FRIENSHIP_ACTION.ACCEPT)
   }
   function handleRejectFriend() {
-    removeFriend(friend.uid, user.uid)
-    removeFriend(user.uid, friend.uid)
+    handleFrienship(user, friend, FRIENSHIP_ACTION.REMOVE)
   }
 
   return (
@@ -58,14 +59,7 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
       {friend && friend.status === FRIEND_STATUSES.ACCEPTED && (
         <>
           <header className="flex items-center">
-            <UserNav
-              isLoading={userIsLoading}
-              setRightCardMode={setRightCardMode}
-              selectUser={selectUser}
-              hasBack={true}
-              user={friend}
-              isMe={false}
-            />
+            <UserNav isLoading={userIsLoading} hasBack={true} user={friend} isMe={false} />
           </header>
           <MessageList
             isLoading={msgIsLoading}

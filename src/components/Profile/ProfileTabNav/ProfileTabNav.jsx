@@ -6,8 +6,8 @@ import { FaUserCheck } from 'react-icons/fa6'
 import { FcCancel } from 'react-icons/fc'
 import { RxCross1 } from 'react-icons/rx'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
-import { FRIEND_STATUSES, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
-import { removeFriend, setFriendship } from '../../../services/firebase'
+import { FRIEND_STATUSES, FRIENSHIP_ACTION, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
+import { handleFrienship } from '../../../utils'
 import ProfileContact from '../ProfileContact/ProfileContact'
 import ProfileStatistic from '../ProfileStatistic/ProfileStatistic'
 import './ProfileTabNav.css'
@@ -18,20 +18,17 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
 
   const handleAddFriend = (e) => {
     e.preventDefault()
-    setFriendship(user, me.uid, FRIEND_STATUSES.SENT)
-    setFriendship(me, user.uid, FRIEND_STATUSES.PENDING)
+    handleFrienship(me, user, FRIENSHIP_ACTION.REQUEST)
     setFriendshipStatus(FRIEND_STATUSES.SENT)
   }
   const handleAcceptFriend = (e) => {
     e.preventDefault()
-    setFriendship(user, me.uid, FRIEND_STATUSES.ACCEPTED)
-    setFriendship(me, user.uid, FRIEND_STATUSES.ACCEPTED)
+    handleFrienship(me, user, FRIENSHIP_ACTION.ACCEPT)
     setFriendshipStatus(FRIEND_STATUSES.ACCEPTED)
   }
   const handleRemoveFriendship = (e) => {
     e.preventDefault()
-    removeFriend(user.uid, me.uid)
-    removeFriend(me.uid, user.uid)
+    handleFrienship(me, user, FRIENSHIP_ACTION.REMOVE)
     setFriendshipStatus(null)
   }
   const toggleUnfriendBtn = () => {
