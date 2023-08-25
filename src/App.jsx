@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { AnimatePresence } from 'framer-motion'
-import { CARD_ANIM, MOBILE_STEP, RIGHT_CARD_MODE } from './constants/enum'
+import { COMPONENT_KEYS, MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from './constants/enum'
 import { ChatBoxWrapper, ContactsWrapper, LoginWrapper } from './containers'
 import ProfileWrapper from './containers/ProfileWrapper/ProfileWrapper'
 import AppContext from './contexts/AppContext'
@@ -11,7 +11,7 @@ import { auth, subscribeToUsers } from './services/firebase'
 
 function App() {
   const [authUser] = useAuthState(auth)
-  const [user, setUser] = useState(null)
+  const [me, setMe] = useState(null)
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
   const [selectedUser, setSelectedUser] = useState(null)
   const [rightCardMode, setRightCardMode] = useState(RIGHT_CARD_MODE.CHATBOX)
@@ -21,7 +21,7 @@ function App() {
   /* current user subscription */
   useEffect(() => {
     if (!authUser) return
-    const unsubscribe = subscribeToUsers(authUser.uid, (user) => setUser(user))
+    const unsubscribe = subscribeToUsers(authUser.uid, (user) => setMe(user))
     return () => unsubscribe()
   }, [authUser])
 
@@ -30,58 +30,41 @@ function App() {
     setTimeout(() => setIsMounted(true), 1000)
   }, [])
 
-  return (
-    <AppContext.Provider value={{ isMobile, mobileStep, setMobileStep }}>
-      <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16 max-w-full">
-        {!authUser && (
-          <LoginWrapper isMobile={isMobile} isLoginWrapper={true} auth={auth} initVariants={CARD_ANIM.SLIDE_UP} motionKey="login" key="login" />
-        )}
+  const contexts = useMemo(() => {
+    return { isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedUser, setRightCardMode }
+  }, [isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedUser, setRightCardMode])
 
-        {authUser && (
-          <ContactsWrapper
-            user={user}
-            selectUser={setSelectedUser}
-            mobileStep={mobileStep}
-            isMobile={isMobile}
-            step={MOBILE_STEP.LEFT_CARD}
-            setRightCardMode={setRightCardMode}
-            initVariants={CARD_ANIM.SLIDE_LEFT}
-            motionKey="contacts"
-            key="contacts"
-          />
-        )}
-        <AnimatePresence exitBeforeEnter initial mode="popLayout" onExitComplete={() => null}>
-          {authUser && user && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+  return (
+    <AppContext.Provider value={contexts}>
+      <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16 max-w-full">
+        {/* login wrapper */}
+        {!authUser && <LoginWrapper isLoginWrapper={true} auth={auth} anim={cardAnimation.login} key={COMPONENT_KEYS.LOGIN} />}
+
+        {/* contacts wrapper: LEFT PANEL */}
+        {authUser && <ContactsWrapper step={MOBILE_STEP.LEFT_CARD} anim={cardAnimation.contacts} key={COMPONENT_KEYS.CONTACTS} />}
+
+        <AnimatePresence exitBeforeEnter initial mode="wait" onExitComplete={() => null}>
+          {/* chatbox wrapper: RIGHT PANEL */}
+          {authUser && me && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
             <ChatBoxWrapper
-              user={user}
+              user={me}
               friendId={selectedUser?.uid}
               friendStatus={selectedUser?.status}
-              selectUser={setSelectedUser}
-              mobileStep={mobileStep}
-              isMobile={isMobile}
               step={MOBILE_STEP.RIGHT_CARD}
-              setRightCardMode={setRightCardMode}
-              initVariants={CARD_ANIM.SCALE_IN}
-              mainVariants={CARD_ANIM.SWAP}
-              motionKey="chatbox"
-              key="chatbox"
-              isMounted={isMounted}
+              anim={cardAnimation.chatbox}
+              key={COMPONENT_KEYS.CHATBOX}
             />
           )}
+
+          {/* profile wrapper: RIGHT PANEL */}
           {authUser && selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
             <ProfileWrapper
-              user={selectedUser.uid === user.uid ? user : selectedUser}
-              isMe={selectedUser.uid === user.uid}
+              user={selectedUser.uid === me.uid ? me : selectedUser}
+              isMe={selectedUser.uid === me.uid}
               friendStatus={selectedUser?.status}
-              me={user}
-              mobileStep={mobileStep}
-              isMobile={isMobile}
               step={MOBILE_STEP.RIGHT_CARD}
-              initVariants={CARD_ANIM.SCALE_IN}
-              mainVariants={CARD_ANIM.SWAP}
-              motionKey="profile"
-              key="profile"
-              isMounted={isMounted}
+              anim={cardAnimation.profile}
+              key={COMPONENT_KEYS.PROFILE}
             />
           )}
         </AnimatePresence>

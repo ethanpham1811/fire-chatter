@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchUsers } from '../services/firebase'
+import { timeout } from '../utils'
 
 const useSearchList = (userId, setIsLoading) => {
   const [searchList, setSearchList] = useState(null)
@@ -11,6 +12,7 @@ const useSearchList = (userId, setIsLoading) => {
     setIsLoading(true)
 
     const fetchSearchList = async () => {
+      await timeout(700)
       const data = await fetchUsers(searchTerm, userId)
       setSearchList(data)
       setIsLoading(false)

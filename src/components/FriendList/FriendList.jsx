@@ -1,14 +1,15 @@
 import React, { useContext } from 'react'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { FRIEND_STATUSES, MOBILE_STEP, RIGHT_CARD_MODE } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
-import Spinner from '../Spinner/Spinner'
 
-function FriendList({ isLoading, setRightCardMode, selectUser, friendList, setSearchTerm }) {
-  const { setMobileStep } = useContext(AppContext)
+function FriendList({ isLoading, friendList, setSearchTerm }) {
+  const { setMobileStep, setSelectedUser, setRightCardMode } = useContext(AppContext)
 
   const handleSelectFriend = (e, user, mode) => {
     e.preventDefault()
-    selectUser(user)
+    setSelectedUser(user)
     setRightCardMode(mode)
     setMobileStep(MOBILE_STEP.RIGHT_CARD)
     setSearchTerm('')
@@ -54,7 +55,17 @@ function FriendList({ isLoading, setRightCardMode, selectUser, friendList, setSe
 
   return (
     <div className="flex flex-col overflow-y-scroll">
-      {isLoading ? <Spinner message="Loading friend list.." size={20} textSize="xs" /> : friendListJsx}
+      {isLoading
+        ? friendList.map((_, i) => (
+            <div className="px-2 py-2.5 flex gap-5" key={`ske${i}`}>
+              <Skeleton circle width="2.5rem" className="aspect-square" />
+              <div className="flex flex-col flex-1">
+                <Skeleton width="100%" />
+                <Skeleton width="100%" />
+              </div>
+            </div>
+          ))
+        : friendListJsx}
     </div>
   )
 }

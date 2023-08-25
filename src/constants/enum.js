@@ -43,16 +43,30 @@ export const UPLOAD_COMPRESS = {
   resize: true,
   rotate: false
 }
+export const COMPONENT_KEYS = {
+  LOGIN: 'LOGIN',
+  CONTACTS: 'CONTACTS',
+  CHATBOX: 'CHATBOX',
+  PROFILE: 'PROFILE',
+  MODAL: 'MODAL'
+}
+export const FRIENSHIP_ACTION = {
+  REQUEST: 'REQUEST',
+  ACCEPT: 'ACCEPT',
+  REMOVE: 'REMOVE'
+}
 
 /* framer motion */
 export const CARD_ANIM = {
-  // SLIDE_LEFT: { initial: { opacity: 0, x: 150 }, animate: { opacity: 1, x: 0 }, transition: { ease: 'backIn', duration: 0.7 } },
-  // SLIDE_UP: { initial: { opacity: 0, y: 200 }, animate: { opacity: 1, y: 0 }, transition: { ease: 'backOut', duration: 0.5 } },
-  // SCALE_IN: { initial: { opacity: 0, scale: 0.5 }, animate: { opacity: 1, scale: 1 }, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } }
   SLIDE_LEFT: {
     hidden: { opacity: 0, x: 150 },
     visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.7 } },
     exit: { opacity: 0 }
+  },
+  SLIDE_LEFT_SHORT: {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } },
+    exit: { opacity: 0, x: 50 }
   },
   SLIDE_UP: {
     hidden: { opacity: 0, y: 200 },
@@ -85,3 +99,11 @@ export const COVER_FILTER_ANIM = {
   hide: { opacity: 1, filter: 'url(#coverDistortFilter) grayscale(100%)', transition: { duration: 0.2 } }
 }
 export const NO_ANIM = { initial: { opacity: 1, scale: 1, x: 0, y: 0 }, animate: { opacity: 1, scale: 1, x: 0, y: 0 } }
+
+export const cardAnimation = {
+  login: { init: CARD_ANIM.SLIDE_UP, main: CARD_ANIM.SLIDE_UP, key: COMPONENT_KEYS.LOGIN },
+  contacts: { init: CARD_ANIM.SLIDE_LEFT, main: CARD_ANIM.SLIDE_LEFT, key: COMPONENT_KEYS.CONTACTS },
+  chatbox: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.SWAP, key: COMPONENT_KEYS.CHATBOX },
+  profile: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.SWAP, key: COMPONENT_KEYS.PROFILE },
+  modal: { init: CARD_ANIM.SLIDE_LEFT_SHORT, main: CARD_ANIM.SLIDE_LEFT_SHORT, key: COMPONENT_KEYS.MODAL }
+}

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import { ProfileBackground, ProfileHeader, ProfilePolygonDummy, ProfileTabNav, Spinner } from '../../components'
+import AppContext from '../../contexts/AppContext'
 import { useTabAndCoverState, useUploadProfile } from '../../hooks'
 import { fetchUserDetail } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function ProfileWrapper({ user, isMobile, step, me, isMe = false, friendStatus }) {
+function ProfileWrapper({ user, isMe = false, friendStatus }) {
   const [isLoading, setIsLoading] = useState(true)
   const [profile, setProfile] = useState(null)
+  const { me } = useContext(AppContext)
   const [setUploadCover, setUploadPhoto] = useUploadProfile(user)
   const [coverSize, tabIndex, setTabIndex] = useTabAndCoverState(user.uid, user.coverUrl)
 
