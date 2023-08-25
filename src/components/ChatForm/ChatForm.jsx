@@ -3,7 +3,7 @@ import { BsFillSendFill } from 'react-icons/bs'
 import { sendMessage } from '../../services/firebase'
 import AttachmentUploader from '../AttachmentUploader/AttachmentUploader'
 
-function ChatForm({ user, friend, conversationId, msgListRef }) {
+function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
   const ref = useRef()
   const [message, setMessage] = useState('')
   const [uploads, setUploads] = useState([])
@@ -31,6 +31,7 @@ function ChatForm({ user, friend, conversationId, msgListRef }) {
           type="text"
           placeholder="say something nice"
           className="w-full p-2 pr-2 border-2 rounded-md text-sm"
+          disabled={isLoading}
         />
         <button
           className="cursor-pointer border-none w-max p-2 ml-1 mr-[-10px]"

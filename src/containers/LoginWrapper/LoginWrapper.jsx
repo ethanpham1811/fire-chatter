@@ -16,7 +16,7 @@ function LoginWrapper() {
   }
 
   return (
-    <section className="flex flex-col gap-10 p-5">
+    <section className="flex flex-col gap-10 p-10">
       <header className="flex justify-center text-4xl">Fire Chatter</header>
       <main className="flex flex-col md:flex-row items-center justify-center gap-3">
         <button
@@ -34,7 +34,7 @@ function LoginWrapper() {
           Sign in with GitHub
         </button>
       </main>
-      <footer className="text-black italic opacity-50">Do not violate the community guidelines or you will be banned for life!</footer>
+      <footer className="text-black italic opacity-50 text-center">Do not violate the community guidelines or you will be banned for life!</footer>
     </section>
   )
 }

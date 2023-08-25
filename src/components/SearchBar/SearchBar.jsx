@@ -11,9 +11,11 @@ function SearchBar({ searchTerm, setSearchTerm }) {
     <form className="relative" onSubmit={handleSearch}>
       <input type="text" value={searchTerm} onChange={handleSearch} className="text-sm w-full p-2 border-2 rounded-md" placeholder="Search..." />
       <button
-        type="submit"
-        onClick={() => setSearchTerm('')}
-        className="absolute right-3 top-1/2 translate-y-[-50%] cursor-pointer opacity-50 hover:opacity-100 p-0"
+        onClick={(e) => {
+          e.preventDefault()
+          setSearchTerm('')
+        }}
+        className="bg-transparent absolute right-3 top-1/2 translate-y-[-50%] cursor-pointer opacity-50 hover:opacity-100 p-0"
       >
         <FaDeleteLeft size={35} />
       </button>

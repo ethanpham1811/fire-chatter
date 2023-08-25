@@ -6,8 +6,8 @@ import WithCard from '../../wrappers/WithCard/WithCard'
 
 function ContactsWrapper({ user, selectUser, setRightCardMode }) {
   const [friendList, setFriendList] = useState([])
-  const [firstLoad, setFirstLoad] = useState(true)
-  const [searchList, searchTerm, setSearchTerm] = useSearchList(user.uid)
+  const [isLoading, setIsLoading] = useState(true)
+  const [searchList, searchTerm, setSearchTerm] = useSearchList(user?.uid, setIsLoading)
   const [mergeList, setMergeList] = useState(null)
 
   /* Merge search-list with friend-list to inject "friend status data" from friend-list onto search-list */
@@ -24,19 +24,25 @@ function ContactsWrapper({ user, selectUser, setRightCardMode }) {
 
   /* friend list subscription */
   useEffect(() => {
+    if (!user) return
     const unsubscribe = subscribeToFriendList(user.uid, (data) => {
       setFriendList(data)
-      // firstLoad && selectUser(data[0])
-      setFirstLoad(false)
+      setIsLoading(false)
     })
     return () => unsubscribe()
-  }, [])
+  }, [user])
 
   return (
-    <section className="flex flex-col gap-5 p-5 justify-start w-screen h-screen md:w-[30vw] md:h-auto md:max-h-[70vh]">
-      <UserNav user={user} setRightCardMode={setRightCardMode} selectUser={selectUser} isMe />
+    <section className="flex flex-col gap-5 p-5 justify-start w-screen h-screen md:w-[70vw] lg:w-[30vw] xl:w-[35vw] 2xl:w-[25vw] md:h-auto md:max-h-[70vh]">
+      <UserNav isLoading={isLoading} user={user} setRightCardMode={setRightCardMode} selectUser={selectUser} isMe />
       <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-      <FriendList setRightCardMode={setRightCardMode} selectUser={selectUser} friendList={mergeList || friendList} setSearchTerm={setSearchTerm} />
+      <FriendList
+        isLoading={isLoading}
+        setRightCardMode={setRightCardMode}
+        selectUser={selectUser}
+        friendList={mergeList || friendList}
+        setSearchTerm={setSearchTerm}
+      />
     </section>
   )
 }

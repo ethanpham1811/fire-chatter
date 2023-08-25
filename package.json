@@ -21,6 +21,7 @@
     "react-icons": "^4.10.1",
     "react-images-uploading": "^3.1.7",
     "react-loader-spinner": "^5.3.4",
+    "react-loading-skeleton": "^3.3.1",
     "react-modal": "^3.16.1",
     "react-tabs": "^6.0.2",
     "react-tooltip": "^5.21.1",

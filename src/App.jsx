@@ -10,7 +10,7 @@ import { useIsMobile } from './hooks'
 import { auth, subscribeToUsers } from './services/firebase'
 
 function App() {
-  const [authUser, loading] = useAuthState(auth)
+  const [authUser] = useAuthState(auth)
   const [user, setUser] = useState(null)
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
   const [selectedUser, setSelectedUser] = useState(null)
@@ -30,16 +30,14 @@ function App() {
     setTimeout(() => setIsMounted(true), 1000)
   }, [])
 
-  useEffect(() => {
-    // console.log(selectedUser)
-  }, [selectedUser])
-
   return (
-    <AppContext.Provider value={{ mobileStep, setMobileStep }}>
-      <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16">
-        {!authUser && !loading && <LoginWrapper isLoginWrapper={true} auth={auth} initVariants={CARD_ANIM.SLIDE_UP} />}
+    <AppContext.Provider value={{ isMobile, mobileStep, setMobileStep }}>
+      <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16 max-w-full">
+        {!authUser && (
+          <LoginWrapper isMobile={isMobile} isLoginWrapper={true} auth={auth} initVariants={CARD_ANIM.SLIDE_UP} motionKey="login" key="login" />
+        )}
 
-        {user && (
+        {authUser && (
           <ContactsWrapper
             user={user}
             selectUser={setSelectedUser}
@@ -49,11 +47,11 @@ function App() {
             setRightCardMode={setRightCardMode}
             initVariants={CARD_ANIM.SLIDE_LEFT}
             motionKey="contacts"
+            key="contacts"
           />
         )}
-
         <AnimatePresence exitBeforeEnter initial mode="popLayout" onExitComplete={() => null}>
-          {user && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+          {authUser && user && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
             <ChatBoxWrapper
               user={user}
               friendId={selectedUser?.uid}
@@ -66,10 +64,11 @@ function App() {
               initVariants={CARD_ANIM.SCALE_IN}
               mainVariants={CARD_ANIM.SWAP}
               motionKey="chatbox"
+              key="chatbox"
               isMounted={isMounted}
             />
           )}
-          {selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
+          {authUser && selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
             <ProfileWrapper
               user={selectedUser.uid === user.uid ? user : selectedUser}
               isMe={selectedUser.uid === user.uid}
@@ -81,6 +80,7 @@ function App() {
               initVariants={CARD_ANIM.SCALE_IN}
               mainVariants={CARD_ANIM.SWAP}
               motionKey="profile"
+              key="profile"
               isMounted={isMounted}
             />
           )}

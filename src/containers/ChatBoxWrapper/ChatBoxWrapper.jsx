@@ -8,6 +8,8 @@ import WithCard from '../../wrappers/WithCard/WithCard'
 
 function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, selectUser }) {
   const [messages, setMessages] = useState([])
+  const [msgIsLoading, setMsgIsLoading] = useState(true)
+  const [userIsLoading, setUserIsLoading] = useState(true)
   const [friend, setFriend] = useState(null)
   const [conversationId] = useConversationId(user.uid, friendId)
   const msgListRef = useRef(null)
@@ -17,13 +19,21 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
     const fetchUser = async () => {
       const data = await fetchUserDetail(friendId)
       setFriend({ ...data, status: friendStatus })
+      setUserIsLoading(false)
     }
-    friendId && fetchUser()
+    if (friendId) {
+      setMsgIsLoading(true)
+      setUserIsLoading(true)
+      fetchUser()
+    }
   }, [friendId])
 
   /* messages subscription */
   useEffect(() => {
-    const unsubscribe = subscribeToMessages(conversationId, (updatedMsg) => setMessages(updatedMsg))
+    const unsubscribe = subscribeToMessages(conversationId, (updatedMsg) => {
+      setMessages(updatedMsg)
+      setMsgIsLoading(false)
+    })
     return () => unsubscribe()
   }, [conversationId])
 
@@ -35,7 +45,6 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
 
   /* handle friend requests */
   function handleAcceptFriend() {
-    console.log('here')
     setFriendship(friend, user.uid, FRIEND_STATUSES.ACCEPTED)
     setFriendship(user, friend.uid, FRIEND_STATUSES.ACCEPTED)
   }
@@ -45,14 +54,27 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
   }
 
   return (
-    <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[25vw] md:max-h-[70vh]">
+    <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] md:max-h-[70vh] lg:min-h-[550px]">
       {friend && friend.status === FRIEND_STATUSES.ACCEPTED && (
         <>
           <header className="flex items-center">
-            <UserNav setRightCardMode={setRightCardMode} selectUser={selectUser} hasBack={true} user={friend} isMe={false} />
+            <UserNav
+              isLoading={userIsLoading}
+              setRightCardMode={setRightCardMode}
+              selectUser={selectUser}
+              hasBack={true}
+              user={friend}
+              isMe={false}
+            />
           </header>
-          <MessageList ref={(ref) => (msgListRef.current = ref)} messages={messages} userId={user.uid} friendPhoto={friend.photoUrl} />
-          <ChatForm user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />
+          <MessageList
+            isLoading={msgIsLoading}
+            ref={(ref) => (msgListRef.current = ref)}
+            messages={messages}
+            userId={user.uid}
+            friendPhoto={friend.photoUrl}
+          />
+          <ChatForm isLoading={msgIsLoading} user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />
         </>
       )}
       {friend && friend.status !== FRIEND_STATUSES.ACCEPTED && (
@@ -76,9 +98,9 @@ function ChatBoxWrapper({ user, friendId, friendStatus, setRightCardMode, select
           </p>
         </div>
       )}
-      {!friend && (
+      {!friendId && (
         <div className="flex flex-col gap-3 m-auto justify-center items-center">
-          <span>Search for people</span> <span>add new friends</span> <span>then start a chat!</span>
+          <span>connect talents</span> <span>share oppotunities</span> <span>carry out our dreams</span>
           <span>.</span>
           <span>.</span>
         </div>

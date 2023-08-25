@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { FRIEND_STATUSES, MOBILE_STEP, RIGHT_CARD_MODE } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
+import Spinner from '../Spinner/Spinner'
 
-function FriendList({ setRightCardMode, selectUser, friendList, setSearchTerm }) {
+function FriendList({ isLoading, setRightCardMode, selectUser, friendList, setSearchTerm }) {
   const { setMobileStep } = useContext(AppContext)
 
   const handleSelectFriend = (e, user, mode) => {
@@ -12,8 +13,9 @@ function FriendList({ setRightCardMode, selectUser, friendList, setSearchTerm })
     setMobileStep(MOBILE_STEP.RIGHT_CARD)
     setSearchTerm('')
   }
-  return (
-    <div className="flex flex-col overflow-y-scroll">
+
+  const friendListJsx = (
+    <>
       {friendList.length !== 0 ? (
         friendList.map((friend, i) => (
           <div
@@ -47,6 +49,12 @@ function FriendList({ setRightCardMode, selectUser, friendList, setSearchTerm })
       ) : (
         <div className="px-2 py-3">You have no added contact</div>
       )}
+    </>
+  )
+
+  return (
+    <div className="flex flex-col overflow-y-scroll">
+      {isLoading ? <Spinner message="Loading friend list.." size={20} textSize="xs" /> : friendListJsx}
     </div>
   )
 }
