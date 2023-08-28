@@ -23,3 +23,4 @@ export function timeout(duration) {
 }
 
 export const handleEnter = (e, cb) => e.key === 'Enter' && cb()
+export const getFirstWord = (str) => str.trimLeft().split(' ')[0]

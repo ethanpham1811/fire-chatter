@@ -1,3 +1,5 @@
+export const adminId = 'Arg6v914x9ZS2KjhRjX1TgUpv7D2'
+
 export const MOBILE_STEP = {
   LEFT_CARD: 'LEFT_CARD',
   RIGHT_CARD: 'RIGHT_CARD'

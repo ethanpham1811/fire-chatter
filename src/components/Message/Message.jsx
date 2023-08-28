@@ -1,8 +1,8 @@
 import React from 'react'
 import { v4 as rid } from 'uuid'
 
-function Message({ userId, message, friendPhoto }) {
-  const { content, sender, uploads } = message
+function Message({ userId, message, friendPhoto, myLastMsg }) {
+  const { content, sender, uploads, timestamp } = message
   const isMe = sender === userId
   /* message styles */
   const senderMsgStyle = 'rounded-br-none bg-darkGray text-white ml-auto'
@@ -13,15 +13,36 @@ function Message({ userId, message, friendPhoto }) {
   const receiverUploadStyle = 'mr-auto ml-11'
   const uploadStyle = isMe ? senderUploadStyle : receiverUploadStyle
 
+  const dateTimeJxs = (
+    <div className="pl-2 text-xs flex">
+      {message.sender !== userId && message.senderName && message.senderName + ', '}
+      {new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      }).format(timestamp)}
+    </div>
+  )
+
   return (
     <div className="flex flex-col first:mt-auto gap-2">
       {isMe ? (
-        <>{content && content !== '' && <p className={`${msgStyle} max-w-[70%] w-fit p-3 rounded-2xl shadow-message`}>{content}</p>}</>
+        <>
+          {content && content !== '' && (
+            <div className="flex flex-col max-w-[70%] w-fit gap-1 ml-auto">
+              {dateTimeJxs}
+              <p className={`${msgStyle} p-3 rounded-2xl shadow-message`}>{content}</p>
+            </div>
+          )}
+        </>
       ) : (
         <>
-          <div className="flex">
-            <img alt="user avatar" src={friendPhoto} className="w-8 h-8 rounded-full mr-3" />
-            {content && content !== '' && <p className={`${msgStyle} max-w-[70%] w-fit p-3 rounded-2xl shadow-message`}>{content}</p>}
+          <div className="flex items-end">
+            {myLastMsg ? <img alt="user avatar" src={friendPhoto} className="w-8 h-8 rounded-full mr-3" /> : <div className="w-8 h-8 mr-3"></div>}
+            <div className="flex flex-col max-w-[70%] w-fit gap-1">
+              {dateTimeJxs}
+              {content && content !== '' && <p className={`${msgStyle} p-3 rounded-2xl shadow-message`}>{content}</p>}
+            </div>
           </div>
         </>
       )}

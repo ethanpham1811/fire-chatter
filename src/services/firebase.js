@@ -49,8 +49,9 @@ export const fetchUserDetail = async (userId) => {
   const snap = await getDocs(q)
   return snap.docs[0].data()
 }
-export const addUser = async ({ displayName, email, photoURL, uid }) => {
+export const addUser = async ({ displayName, photoURL, uid }) => {
   const data = {
+    status: 'active',
     displayName,
     photoUrl: photoURL,
     uid,
@@ -86,11 +87,12 @@ export const fetchFriendshipDetail = async (myId, userId) => {
   const snap = await getDoc(dbRef)
   return snap.data()
 }
-export const setFriendship = async ({ uid, photoUrl = '', displayName = '' }, userId) => {
+export const setFriendship = async ({ uid, photoUrl = '', displayName = '' }, userId, status) => {
   const data = {
     uid,
     photoUrl,
-    displayName
+    displayName,
+    friendStatus: status
   }
   return await setDoc(doc(db, 'users', userId, 'friends', uid), data)
 }
@@ -131,13 +133,14 @@ export const subscribeToMessages = (conversationId, cb) => {
   return unsubscribe
 }
 
-export const sendMessage = async (conversationId, sender, receiver, content, uploads) => {
+export const sendMessage = async (conversationId, sender, receiver, content, uploads, senderName) => {
   const data = {
     sender,
     receiver,
     content,
     timestamp: serverTimestamp(),
-    uploads
+    uploads,
+    senderName
   }
   return await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
 }

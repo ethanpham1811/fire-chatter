@@ -45,8 +45,8 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
             ) : (
               <img
                 style={{
-                  borderLeftColor: `var(--${user?.status.toLowerCase()}-color)`,
-                  borderRightColor: `var(--${user?.status.toLowerCase()}-color)`
+                  borderLeftColor: `var(--${user?.status?.toLowerCase()}-color)`,
+                  borderRightColor: `var(--${user?.status?.toLowerCase()}-color)`
                 }}
                 className="w-14 rounded-full border-solid border-4 object-cover aspect-square"
                 src={user?.photoUrl}
@@ -65,7 +65,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
                 <h3 onClick={handleOpenUserDetail} disabled={isLoading} className="cursor-pointer">
                   {user?.displayName}
                 </h3>
-                <span className="text-sm flex items-center gap-2" onClick={handleChangeStatus}>
+                <span className={`${isMe ? 'cursor-pointer' : 'cursor-[default]'} text-sm flex items-center gap-2`} onClick={handleChangeStatus}>
                   {user?.status}
                   {isMe && <PiCaretRightLight size={12} className={`${statusIsOpened && 'rotate-90'} transition-all duration-150 ease-in-expo`} />}
                 </span>
@@ -87,7 +87,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
       </div>
       <UserStatusPicker
         isOpened={statusIsOpened}
-        activeStatus={user?.status.toLowerCase()}
+        activeStatus={user?.status?.toLowerCase()}
         updateRequest={(val) => editUser({ status: val }, user?.uid)}
       />
     </section>

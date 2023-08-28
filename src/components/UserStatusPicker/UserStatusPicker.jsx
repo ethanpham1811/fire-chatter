@@ -15,7 +15,7 @@ function UserStatusPicker({ activeStatus, isOpened, updateRequest }) {
             key={`userStatus_${rid()}`}
             className={`${activeStatus === status.value ? status.bgColor : 'bg-[#ccc] opacity-30'} ${
               status.hoverBgColor
-            } text-sm px-3 py-1 cursor-pointer rounded-full text-white h-max`}
+            } text-sm px-3 pt-[0.25rem] pb-[0.3rem] cursor-pointer rounded-full text-white h-max flex `}
           >
             {status.text}
           </div>

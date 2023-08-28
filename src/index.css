@@ -12,20 +12,28 @@
 
 /* For WebKit browsers */
 /* Customize the scrollbar track */
-body ::-webkit-scrollbar {
-  width: 7px;
+::-webkit-scrollbar {
+  width: 7px !important;
 }
 
 /* Customize the scrollbar thumb (scrolling handle) */
-body ::-webkit-scrollbar-thumb {
-  background-color: #e2e2e2;
-  border-radius: 2px;
+::-webkit-scrollbar-thumb {
+  background-color: #c7c7c7 !important;
+  border-radius: 2px !important;
 }
 
 /* Customize the scrollbar track when hovered */
-body ::-webkit-scrollbar-thumb:hover {
-  background-color: #c7c7c7;
+::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa8a8 !important;
 }
+
+.rounded-2xl:not(:hover) ::-webkit-scrollbar-track {
+  background-color: transparent !important;
+}
+.rounded-2xl:not(:hover) ::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+}
+
 :root {
   font-family: 'Poppins', sans-serif;
   line-height: 1.5;

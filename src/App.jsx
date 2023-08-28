@@ -29,6 +29,7 @@ function App() {
     setTimeout(() => setIsMounted(true), 1000)
   }, [])
 
+  /* useMemo for Context object */
   const contexts = useMemo(() => {
     return { isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedUser, setRightCardMode }
   }, [isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedUser, setRightCardMode])
