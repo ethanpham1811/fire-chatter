@@ -12,7 +12,7 @@ function ContactsWrapper() {
   const [searchList, searchTerm, setSearchTerm] = useSearchList(me?.uid, setIsLoading)
   const [mergeList, setMergeList] = useState(null)
 
-  /* Merge search-list with friend-list to inject "friend status data" from friend-list onto search-list */
+  /* Merge search-list with friend-list to inject "friendStatus data" from friend-list onto search-list */
   useEffect(() => {
     searchList
       ? setMergeList(

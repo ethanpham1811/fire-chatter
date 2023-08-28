@@ -10,7 +10,7 @@ import './ProfileTabNav.css'
 
 function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) {
   const { me } = useContext(AppContext)
-  const [friendshipStatus, setFriendshipStatus] = useState(user.status)
+  const [friendshipStatus, setFriendshipStatus] = useState(user.friendStatus)
   const [isUnfriendBtn, setIsUnfriendBtn] = useState(false)
 
   const handleSwitchTab = (i) => {
@@ -46,7 +46,11 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
           className="flex flex-1 justify-center cursor-pointer outline-none"
           selectedClassName="profile-nav-tab__contact-btn--active"
         >
-          <a className="p-2 flex-1 flex justify-center" href="" onClick={(e) => e.preventDefault()}>
+          <a
+            className={`p-2 flex-1 flex justify-center hover:${tabIndex === PROFILE_TABS.CONTACT ? 'text-white' : 'text-darkGray'}`}
+            href=""
+            onClick={(e) => e.preventDefault()}
+          >
             Contact
           </a>
         </Tab>
@@ -56,12 +60,22 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
           selectedClassName="profile-nav-tab__statistic-btn--active"
         >
           {isMe && (
-            <a className="my-info-label p-2 flex-1 flex justify-center" href="" onClick={(e) => e.preventDefault()}>
+            <a
+              className={`my-info-label p-2 flex-1 flex justify-center hover:${tabIndex === PROFILE_TABS.STATISTIC ? 'text-white' : 'text-darkGray'}`}
+              href=""
+              onClick={(e) => e.preventDefault()}
+            >
               My Info
             </a>
           )}
           {!isMe && tabIndex === PROFILE_TABS.CONTACT && (
-            <a className="interest-label p-2 flex-1 flex justify-center gap-3" href="" onClick={(e) => e.preventDefault()}>
+            <a
+              className={`interest-label p-2 flex-1 flex justify-center gap-3 hover:${
+                tabIndex === PROFILE_TABS.STATISTIC ? 'text-white' : 'text-darkGray'
+              }`}
+              href=""
+              onClick={(e) => e.preventDefault()}
+            >
               {tabIndex === PROFILE_TABS.CONTACT && 'Interest?'}
             </a>
           )}
@@ -109,15 +123,7 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
 
       {/* contacts panel */}
       <TabPanel className={`bg-secondary py-5 px-7 flex-1 flex-col ${tabIndex === PROFILE_TABS.CONTACT ? 'flex' : 'hidden'}`}>
-        <motion.div
-          layout
-          variants={PROFILE_TAB_ANIM}
-          key="profile-tab-contact"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          className="flex flex-col flex-1"
-        >
+        <motion.div layout variants={PROFILE_TAB_ANIM} key="profile-tab-contact" initial="hidden" animate="visible" className="flex flex-col flex-1">
           {tabIndex === PROFILE_TABS.CONTACT && <ProfileContact isMe={isMe} user={user} />}
         </motion.div>
       </TabPanel>
@@ -130,7 +136,6 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
           key="profile-tab-statistic"
           initial="hidden"
           animate="visible"
-          exit="exit"
           className="flex flex-col flex-1"
         >
           {tabIndex === PROFILE_TABS.STATISTIC && <ProfileStatistic isMe={isMe} user={user} />}

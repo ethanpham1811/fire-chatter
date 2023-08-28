@@ -5,8 +5,10 @@ import { FaDeleteLeft, FaLocationDot, FaUserCheck } from 'react-icons/fa6'
 import { FcCancel, FcGoogle } from 'react-icons/fc'
 import { HiOutlineArrowSmLeft } from 'react-icons/hi'
 import { MdEmail } from 'react-icons/md'
+import { PiCaretRightLight } from 'react-icons/pi'
 import { RiInstagramFill } from 'react-icons/ri'
 import { RxCross1 } from 'react-icons/rx'
+
 import { TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 
 export {
@@ -28,6 +30,7 @@ export {
   FcGoogle,
   HiOutlineArrowSmLeft,
   MdEmail,
+  PiCaretRightLight,
   RiInstagramFill,
   RxCross1,
   TbGenderFemale,

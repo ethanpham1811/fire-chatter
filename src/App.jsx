@@ -9,7 +9,7 @@ import { useIsMobile } from './hooks'
 import { auth, subscribeToUsers } from './services/firebase'
 
 function App() {
-  const [authUser] = useAuthState(auth)
+  const [authUser, isLoading] = useAuthState(auth)
   const [me, setMe] = useState(null)
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
   const [selectedUser, setSelectedUser] = useState(null)
@@ -37,18 +37,18 @@ function App() {
     <AppContext.Provider value={contexts}>
       <div className="flex flex-row items-center justify-center h-screen w-screen bg-mainColor gap-16 max-w-full">
         {/* login wrapper */}
-        {!authUser && <LoginWrapper isLoginWrapper={true} auth={auth} anim={cardAnimation.login} key={COMPONENT_KEYS.LOGIN} />}
+        {!authUser && !isLoading && <LoginWrapper isLoginWrapper={true} auth={auth} anim={cardAnimation.login} key={COMPONENT_KEYS.LOGIN} />}
 
         {/* contacts wrapper: LEFT PANEL */}
         {authUser && <ContactsWrapper step={MOBILE_STEP.LEFT_CARD} anim={cardAnimation.contacts} key={COMPONENT_KEYS.CONTACTS} />}
 
-        <AnimatePresence exitBeforeEnter initial mode="wait" onExitComplete={() => null}>
+        <AnimatePresence exitBeforeEnter initial mode="sync" onExitComplete={() => null}>
           {/* chatbox wrapper: RIGHT PANEL */}
           {authUser && me && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
             <ChatBoxWrapper
               user={me}
               friendId={selectedUser?.uid}
-              friendStatus={selectedUser?.status}
+              friendStatus={selectedUser?.friendStatus}
               step={MOBILE_STEP.RIGHT_CARD}
               anim={cardAnimation.chatbox}
               key={COMPONENT_KEYS.CHATBOX}
@@ -60,7 +60,7 @@ function App() {
             <ProfileWrapper
               user={selectedUser.uid === me.uid ? me : selectedUser}
               isMe={selectedUser.uid === me.uid}
-              friendStatus={selectedUser?.status}
+              friendStatus={selectedUser?.friendStatus}
               step={MOBILE_STEP.RIGHT_CARD}
               anim={cardAnimation.profile}
               key={COMPONENT_KEYS.PROFILE}

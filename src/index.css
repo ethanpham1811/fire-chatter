@@ -1,5 +1,5 @@
+@import url('semantic-ui-css/semantic.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,18 +12,18 @@
 
 /* For WebKit browsers */
 /* Customize the scrollbar track */
-::-webkit-scrollbar {
+body ::-webkit-scrollbar {
   width: 7px;
 }
 
 /* Customize the scrollbar thumb (scrolling handle) */
-::-webkit-scrollbar-thumb {
+body ::-webkit-scrollbar-thumb {
   background-color: #e2e2e2;
   border-radius: 2px;
 }
 
 /* Customize the scrollbar track when hovered */
-::-webkit-scrollbar-thumb:hover {
+body ::-webkit-scrollbar-thumb:hover {
   background-color: #c7c7c7;
 }
 :root {
@@ -50,7 +50,10 @@
   --darkGray-color: #343233;
   --blackOverlay-color: rgba(0, 0, 0, 0.7);
   --feed-color: #383838;
-  --online-color: #74be05;
+  --active-color: #74be05;
+  --offline-color: #919191;
+  --away-color: #ff9900;
+  --busy-color: #df0000;
   --danger-color: #ff0000;
   --success-color: #058800;
   --warning-color: #f7b017;
@@ -116,7 +119,7 @@ input[type='number'] {
 
 /* Focusing the button with a keyboard */
 button:focus-visible {
-  outline: 0.5px solid #000;
+  outline: 0.5px solid #653232;
 }
 
 /* Focusing the button with a mouse, touch, or stylus */

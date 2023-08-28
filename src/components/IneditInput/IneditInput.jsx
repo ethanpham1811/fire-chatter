@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { handleEnter } from '../../utils'
 
-function IneditInput({ value, updateRequest, options }) {
+function IneditInput({ value, updateRequest, options = {} }) {
   const [val, setVal] = useState(value)
   const [width, setWidth] = useState(0)
   const [isValid, setIsValid] = useState(true)
   const [editMode, setEditMode] = useState(false)
   const spanRef = useRef()
   const inputRef = useRef()
-  const { isRequired, type = 'text', regexp = null, rightPad = 7 } = options
+  const { isRequired = false, type = 'text', regexp = null, rightPad = 7 } = options
 
   useEffect(() => setWidth(spanRef.current.offsetWidth + rightPad), [val])
 

@@ -6,7 +6,7 @@ import ProfileGenderEditor from '../ProfileGenderEditor/ProfileGenderEditor'
 
 function ProfileHeader({ user, tabIndex, isMe }) {
   return (
-    <header className="relative bg-secondary py-3 px-7">
+    <header className="relative bg-secondary py-3 px-7 pt-7">
       <h2 className="flex items-center mt-3">
         {isMe ? (
           <IneditInput options={{ isRequired: true }} value={user.displayName} updateRequest={(val) => editUser({ displayName: val }, user.uid)} />
@@ -15,7 +15,11 @@ function ProfileHeader({ user, tabIndex, isMe }) {
         )}
         <ProfileGenderEditor user={user} isMe={isMe} />
       </h2>
-      {tabIndex === PROFILE_TABS.CONTACT && <p className="mt-3 text-xs">@n AI creator, designer, developer.</p>}
+      {tabIndex === PROFILE_TABS.CONTACT && (
+        <div className="mt-3 text-xs">
+          {isMe ? <IneditInput value={user.about} updateRequest={(val) => editUser({ about: val }, user.uid)} /> : user.about}
+        </div>
+      )}
     </header>
   )
 }

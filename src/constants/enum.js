@@ -49,7 +49,9 @@ export const COMPONENT_KEYS = {
   CHATBOX: 'CHATBOX',
   PROFILE: 'PROFILE',
   MODAL: 'MODAL',
-  TOGGLE: 'TOGGLE'
+  TOGGLE: 'TOGGLE',
+  DROPDOWN: 'DROPDOWN',
+  STATUS_SELECTOR: 'STATUS_SELECTOR'
 }
 export const FRIENSHIP_ACTION = {
   REQUEST: 'REQUEST',
@@ -63,28 +65,58 @@ export const regexp = {
   phone: /^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/
 }
 export const positionTitle = ['Sr.', 'Jr.']
+export const userStatuses = [
+  {
+    key: 'Active',
+    text: 'Active',
+    value: 'active',
+    bgColor: 'bg-active',
+    hoverBgColor: 'hover:bg-active hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  },
+  {
+    key: 'Offline',
+    text: 'Offline',
+    value: 'offline',
+    bgColor: 'bg-offline',
+    hoverBgColor: 'hover:bg-offline hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  },
+  {
+    key: 'Away',
+    text: 'Away',
+    value: 'away',
+    bgColor: 'bg-away',
+    hoverBgColor: 'hover:bg-away hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  },
+  {
+    key: 'Busy',
+    text: 'Busy',
+    value: 'busy',
+    bgColor: 'bg-busy',
+    hoverBgColor: 'hover:bg-busy hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  }
+]
 
 /* framer motion */
 export const CARD_ANIM = {
   SLIDE_LEFT: {
     hidden: { opacity: 0, x: 150 },
-    visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.7 } },
-    exit: { opacity: 0 }
+    visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.7 } }
   },
   SLIDE_LEFT_SHORT: {
     hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } },
-    exit: { opacity: 0, x: 50 }
+    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } }
   },
   SLIDE_UP: {
     hidden: { opacity: 0, y: 200 },
-    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.5, delay: 0.7 } },
-    exit: { opacity: 0, y: 200 }
+    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.5, delay: 0.7 } }
   },
   SCALE_IN: {
     hidden: { opacity: 0, scale: 0.5 },
-    visible: { opacity: 1, scale: 1, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } },
-    exit: { opacity: 0, scale: 0.5 }
+    visible: { opacity: 1, scale: 1, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } }
   },
   SWAP: {
     hidden: { opacity: 0, scale: 1, y: -200 },
@@ -122,8 +154,19 @@ export const COMPONENT_ANIM = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.2 } },
     exit: { opacity: 0, y: 20 }
+  },
+  SCALE_IN: {
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: { opacity: 1, scale: 1, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } }
+  },
+  SLIDE_RIGHT: {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } },
+    exit: { opacity: 0, x: -50, transition: { ease: 'backOut', duration: 0.3 } }
   }
 }
-export const toggleAnimation = {
-  position: { animation: COMPONENT_ANIM.SLIDE_UP, key: COMPONENT_KEYS.TOGGLE }
+export const toggleAnimation = { animation: COMPONENT_ANIM.SLIDE_UP, key: COMPONENT_KEYS.TOGGLE }
+
+export const statusSelectorAnimation = {
+  animation: COMPONENT_ANIM.SLIDE_RIGHT
 }

@@ -52,9 +52,16 @@ export const fetchUserDetail = async (userId) => {
 export const addUser = async ({ displayName, email, photoURL, uid }) => {
   const data = {
     displayName,
-    email,
     photoUrl: photoURL,
-    uid
+    uid,
+    position: 'Jr.',
+    about: 'not set',
+    email: 'not set',
+    location: 'not set',
+    phone: 'not set',
+    connections: 0,
+    views: 0,
+    recs: 0
   }
   return await setDoc(doc(db, 'users', uid), data)
 }
@@ -79,21 +86,11 @@ export const fetchFriendshipDetail = async (myId, userId) => {
   const snap = await getDoc(dbRef)
   return snap.data()
 }
-export const setFriendship = async (
-  { uid, coverUrl = '', photoUrl = '', displayName = '', about = '', email = '', location = '', phone = '' },
-  userId,
-  status
-) => {
+export const setFriendship = async ({ uid, photoUrl = '', displayName = '' }, userId) => {
   const data = {
     uid,
-    coverUrl,
     photoUrl,
-    displayName,
-    about,
-    email,
-    location,
-    phone,
-    status
+    displayName
   }
   return await setDoc(doc(db, 'users', userId, 'friends', uid), data)
 }

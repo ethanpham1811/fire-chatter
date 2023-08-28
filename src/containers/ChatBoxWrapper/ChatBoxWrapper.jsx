@@ -21,7 +21,7 @@ function ChatBoxWrapper({ user, friendId, friendStatus }) {
   useEffect(() => {
     const fetchUser = async () => {
       const data = await fetchUserDetail(friendId)
-      setFriend({ ...data, status: friendStatus })
+      setFriend({ ...data, friendStatus })
       setUserIsLoading(false)
     }
     if (friendId) {
@@ -56,7 +56,7 @@ function ChatBoxWrapper({ user, friendId, friendStatus }) {
 
   return (
     <section className="flex flex-col gap-5 p-5 w-screen h-screen md:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] md:max-h-[70vh] lg:min-h-[550px]">
-      {friend && friend.status === FRIEND_STATUSES.ACCEPTED && (
+      {friend && friend?.friendStatus === FRIEND_STATUSES.ACCEPTED && (
         <>
           <header className="flex items-center">
             <UserNav isLoading={userIsLoading} hasBack={true} user={friend} isMe={false} />
@@ -71,15 +71,15 @@ function ChatBoxWrapper({ user, friendId, friendStatus }) {
           <ChatForm isLoading={msgIsLoading} user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />
         </>
       )}
-      {friend && friend.status !== FRIEND_STATUSES.ACCEPTED && (
+      {friend && friend?.friendStatus !== FRIEND_STATUSES.ACCEPTED && (
         <div className="flex flex-col gap-3 m-auto justify-center items-center" onClick={handleOpenUserDetail}>
           <button className=" bg-transparent">
             <img className="w-36 rounded-full border-main border-4 object-cover aspect-square" src={friend?.photoUrl} alt="user photo" />
           </button>
           <h2 className="font-semibold">{friend?.displayName}</h2>
           <p className="text-sm flex gap-3">
-            {friend?.status === FRIEND_STATUSES.SENT && 'Please kindly wait for their response.'}
-            {friend?.status === FRIEND_STATUSES.PENDING && (
+            {friend?.friendStatus === FRIEND_STATUSES.SENT && 'Please kindly wait for their response.'}
+            {friend?.friendStatus === FRIEND_STATUSES.PENDING && (
               <>
                 <button className="bg-darkGray text-white w-28" onClick={handleAcceptFriend}>
                   Accept

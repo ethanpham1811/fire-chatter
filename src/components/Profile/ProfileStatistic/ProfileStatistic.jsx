@@ -41,7 +41,7 @@ function ProfileStatistic({ user, isMe }) {
           <span className="text-3xl">
             {isMe ? (
               <IneditToggle
-                options={{ data: positionTitle, anim: toggleAnimation.position }}
+                options={{ data: positionTitle, anim: toggleAnimation }}
                 value={user.position}
                 updateRequest={(val) => editUser({ position: val }, user.uid)}
               />

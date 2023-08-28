@@ -1,5 +1,6 @@
 import AttachmentUploader from './AttachmentUploader/AttachmentUploader'
 import ChatForm from './ChatForm/ChatForm'
+import DropDownlist from './DropDownlist/DropDownlist'
 import FriendList from './FriendList/FriendList'
 import IneditDropdown from './IneditDropdown/IneditDropdown'
 import IneditInput from './IneditInput/IneditInput'
@@ -21,12 +22,14 @@ import ProfileTabNav from './Profile/ProfileTabNav/ProfileTabNav'
 import SearchBar from './SearchBar/SearchBar'
 import Spinner from './Spinner/Spinner'
 import UserNav from './UserNav/UserNav'
+import UserStatusPicker from './UserStatusPicker/UserStatusPicker'
 
 export {
   AttachmentUploader,
   ChatForm,
   CoverFilter,
   CoverUploader,
+  DropDownlist,
   FriendList,
   IneditDropdown,
   IneditInput,
@@ -45,5 +48,6 @@ export {
   ProfileTabNav,
   SearchBar,
   Spinner,
-  UserNav
+  UserNav,
+  UserStatusPicker
 }
