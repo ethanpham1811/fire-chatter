@@ -1,3 +1,5 @@
+export const adminId = 'Arg6v914x9ZS2KjhRjX1TgUpv7D2'
+
 export const MOBILE_STEP = {
   LEFT_CARD: 'LEFT_CARD',
   RIGHT_CARD: 'RIGHT_CARD'
@@ -48,7 +50,10 @@ export const COMPONENT_KEYS = {
   CONTACTS: 'CONTACTS',
   CHATBOX: 'CHATBOX',
   PROFILE: 'PROFILE',
-  MODAL: 'MODAL'
+  MODAL: 'MODAL',
+  TOGGLE: 'TOGGLE',
+  DROPDOWN: 'DROPDOWN',
+  STATUS_SELECTOR: 'STATUS_SELECTOR'
 }
 export const FRIENSHIP_ACTION = {
   REQUEST: 'REQUEST',
@@ -56,27 +61,64 @@ export const FRIENSHIP_ACTION = {
   REMOVE: 'REMOVE'
 }
 
+export const regexp = {
+  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/,
+  positiveNum: /^(?:[1-9]|[1-9][0-9]|[1-9][0-9][0-9])$/,
+  phone: /^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}$/
+}
+export const positionTitle = ['Sr.', 'Jr.']
+export const userStatuses = [
+  {
+    key: 'Active',
+    text: 'Active',
+    value: 'active',
+    bgColor: 'bg-active',
+    hoverBgColor: 'hover:bg-active hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  },
+  {
+    key: 'Offline',
+    text: 'Offline',
+    value: 'offline',
+    bgColor: 'bg-offline',
+    hoverBgColor: 'hover:bg-offline hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  },
+  {
+    key: 'Away',
+    text: 'Away',
+    value: 'away',
+    bgColor: 'bg-away',
+    hoverBgColor: 'hover:bg-away hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  },
+  {
+    key: 'Busy',
+    text: 'Busy',
+    value: 'busy',
+    bgColor: 'bg-busy',
+    hoverBgColor: 'hover:bg-busy hover:opacity-100'
+    // image: { avatar: true, src: '/src/assets/cover_default.jpg' }
+  }
+]
+
 /* framer motion */
 export const CARD_ANIM = {
   SLIDE_LEFT: {
     hidden: { opacity: 0, x: 150 },
-    visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.7 } },
-    exit: { opacity: 0 }
+    visible: { opacity: 1, x: 0, transition: { ease: 'backIn', duration: 0.7 } }
   },
   SLIDE_LEFT_SHORT: {
     hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } },
-    exit: { opacity: 0, x: 50 }
+    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } }
   },
   SLIDE_UP: {
     hidden: { opacity: 0, y: 200 },
-    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.5, delay: 0.7 } },
-    exit: { opacity: 0, y: 200 }
+    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.5, delay: 0.7 } }
   },
   SCALE_IN: {
     hidden: { opacity: 0, scale: 0.5 },
-    visible: { opacity: 1, scale: 1, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } },
-    exit: { opacity: 0, scale: 0.5 }
+    visible: { opacity: 1, scale: 1, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } }
   },
   SWAP: {
     hidden: { opacity: 0, scale: 1, y: -200 },
@@ -103,7 +145,30 @@ export const NO_ANIM = { initial: { opacity: 1, scale: 1, x: 0, y: 0 }, animate:
 export const cardAnimation = {
   login: { init: CARD_ANIM.SLIDE_UP, main: CARD_ANIM.SLIDE_UP, key: COMPONENT_KEYS.LOGIN },
   contacts: { init: CARD_ANIM.SLIDE_LEFT, main: CARD_ANIM.SLIDE_LEFT, key: COMPONENT_KEYS.CONTACTS },
-  chatbox: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.SWAP, key: COMPONENT_KEYS.CHATBOX },
-  profile: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.SWAP, key: COMPONENT_KEYS.PROFILE },
+  chatbox: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.NO_ANIM, key: COMPONENT_KEYS.CHATBOX },
+  profile: { init: CARD_ANIM.SCALE_IN, main: CARD_ANIM.NO_ANIM, key: COMPONENT_KEYS.PROFILE },
   modal: { init: CARD_ANIM.SLIDE_LEFT_SHORT, main: CARD_ANIM.SLIDE_LEFT_SHORT, key: COMPONENT_KEYS.MODAL }
+}
+
+/* Components animation */
+export const COMPONENT_ANIM = {
+  SLIDE_UP: {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.2 } },
+    exit: { opacity: 0, y: 20 }
+  },
+  SCALE_IN: {
+    hidden: { opacity: 0, scale: 0.5 },
+    visible: { opacity: 1, scale: 1, transition: { ease: 'backOut', duration: 0.6, delay: 0.7 } }
+  },
+  SLIDE_RIGHT: {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { ease: 'backOut', duration: 0.3 } },
+    exit: { opacity: 0, x: -50, transition: { ease: 'backOut', duration: 0.3 } }
+  }
+}
+export const toggleAnimation = { animation: COMPONENT_ANIM.SLIDE_UP, key: COMPONENT_KEYS.TOGGLE }
+
+export const statusSelectorAnimation = {
+  animation: COMPONENT_ANIM.SLIDE_RIGHT
 }

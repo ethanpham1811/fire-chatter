@@ -1,21 +1,27 @@
 import { motion } from 'framer-motion'
-import React, { useState } from 'react'
-
-import { AiOutlineCheck, AiOutlineUserAdd } from 'react-icons/ai'
-import { FaUserCheck } from 'react-icons/fa6'
-import { FcCancel } from 'react-icons/fc'
-import { RxCross1 } from 'react-icons/rx'
+import React, { useContext, useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import { ProfileContact, ProfileStatistic } from '../../'
 import { FRIEND_STATUSES, FRIENSHIP_ACTION, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
+import AppContext from '../../../contexts/AppContext'
 import { handleFrienship } from '../../../utils'
-import ProfileContact from '../ProfileContact/ProfileContact'
-import ProfileStatistic from '../ProfileStatistic/ProfileStatistic'
+import { AiOutlineCheck, AiOutlineUserAdd, FaUserCheck, FcCancel, RxCross1 } from '../../../utils/icons'
 import './ProfileTabNav.css'
 
-function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
-  const [friendshipStatus, setFriendshipStatus] = useState(user.status)
+function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) {
+  const { me } = useContext(AppContext)
+  const [friendshipStatus, setFriendshipStatus] = useState(user.friendStatus)
   const [isUnfriendBtn, setIsUnfriendBtn] = useState(false)
 
+  const handleSwitchTab = (i) => {
+    setTabIndex(i)
+    setChangingCover(true)
+  }
+  const toggleUnfriendBtn = () => {
+    setIsUnfriendBtn(!isUnfriendBtn)
+  }
+
+  /* friendship handlers */
   const handleAddFriend = (e) => {
     e.preventDefault()
     handleFrienship(me, user, FRIENSHIP_ACTION.REQUEST)
@@ -31,22 +37,20 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
     handleFrienship(me, user, FRIENSHIP_ACTION.REMOVE)
     setFriendshipStatus(null)
   }
-  const toggleUnfriendBtn = () => {
-    setIsUnfriendBtn(!isUnfriendBtn)
-  }
+
   return (
-    <Tabs
-      className="flex flex-1 flex-col transition-all bg-main shadow-innerChatBox relative"
-      selectedIndex={tabIndex}
-      onSelect={(i) => setTabIndex(i)}
-    >
-      <TabList className="flex items-center">
+    <Tabs className="flex flex-1 flex-col transition-all bg-main shadow-innerChatBox relative" selectedIndex={tabIndex} onSelect={handleSwitchTab}>
+      <TabList className="flex items-center z-10">
         <Tab
           tabIndex="-1"
           className="flex flex-1 justify-center cursor-pointer outline-none"
           selectedClassName="profile-nav-tab__contact-btn--active"
         >
-          <a className="p-2 flex-1 flex justify-center" href="" onClick={(e) => e.preventDefault()}>
+          <a
+            className={`p-2 flex-1 flex justify-center hover:${tabIndex === PROFILE_TABS.CONTACT ? 'text-white' : 'text-darkGray'}`}
+            href=""
+            onClick={(e) => e.preventDefault()}
+          >
             Contact
           </a>
         </Tab>
@@ -56,12 +60,22 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
           selectedClassName="profile-nav-tab__statistic-btn--active"
         >
           {isMe && (
-            <a className="my-info-label p-2 flex-1 flex justify-center" href="" onClick={(e) => e.preventDefault()}>
+            <a
+              className={`my-info-label p-2 flex-1 flex justify-center hover:${tabIndex === PROFILE_TABS.STATISTIC ? 'text-white' : 'text-darkGray'}`}
+              href=""
+              onClick={(e) => e.preventDefault()}
+            >
               My Info
             </a>
           )}
           {!isMe && tabIndex === PROFILE_TABS.CONTACT && (
-            <a className="interest-label p-2 flex-1 flex justify-center gap-3" href="" onClick={(e) => e.preventDefault()}>
+            <a
+              className={`interest-label p-2 flex-1 flex justify-center gap-3 hover:${
+                tabIndex === PROFILE_TABS.STATISTIC ? 'text-white' : 'text-darkGray'
+              }`}
+              href=""
+              onClick={(e) => e.preventDefault()}
+            >
               {tabIndex === PROFILE_TABS.CONTACT && 'Interest?'}
             </a>
           )}
@@ -109,16 +123,8 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
 
       {/* contacts panel */}
       <TabPanel className={`bg-secondary py-5 px-7 flex-1 flex-col ${tabIndex === PROFILE_TABS.CONTACT ? 'flex' : 'hidden'}`}>
-        <motion.div
-          layout
-          variants={PROFILE_TAB_ANIM}
-          key="profile-tab-contact"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          className="flex flex-col flex-1"
-        >
-          {tabIndex === PROFILE_TABS.CONTACT && <ProfileContact user={user} />}
+        <motion.div layout variants={PROFILE_TAB_ANIM} key="profile-tab-contact" initial="hidden" animate="visible" className="flex flex-col flex-1">
+          {tabIndex === PROFILE_TABS.CONTACT && <ProfileContact isMe={isMe} user={user} />}
         </motion.div>
       </TabPanel>
 
@@ -130,10 +136,9 @@ function ProfileTabNav({ user, isMe, me, setTabIndex, tabIndex }) {
           key="profile-tab-statistic"
           initial="hidden"
           animate="visible"
-          exit="exit"
           className="flex flex-col flex-1"
         >
-          {tabIndex === PROFILE_TABS.STATISTIC && <ProfileStatistic user={user} />}
+          {tabIndex === PROFILE_TABS.STATISTIC && <ProfileStatistic isMe={isMe} user={user} />}
         </motion.div>
       </TabPanel>
     </Tabs>

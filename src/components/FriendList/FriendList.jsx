@@ -20,8 +20,10 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
       {friendList.length !== 0 ? (
         friendList.map((friend, i) => (
           <div
-            className={`grid grid-cols-[max-content_1fr_max-content] px-2 py-3 rounded-lg cursor-pointer items-center gap-5 hover:bg-hoverMain border-b-2 border-solid border-main last:border-none after:w-3 after:h-3 after:rounded-full after:bg-online after:ml-auto after:mr-3 ${
-              friend.status !== FRIEND_STATUSES.ACCEPTED && 'after:hidden'
+            className={`${
+              'after:bg-' + friend.status
+            } grid grid-cols-[max-content_1fr_max-content] px-2 py-3 rounded-lg cursor-pointer items-center gap-5 hover:bg-hoverMain border-b-2 border-solid border-main last:border-none after:w-3 after:h-3 after:rounded-full after:ml-auto after:mr-3 ${
+              friend.friendStatus !== FRIEND_STATUSES.ACCEPTED && 'after:hidden'
             }`}
             key={friend.uid}
           >
@@ -32,18 +34,18 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
               href=""
               tabIndex="0"
               className="flex flex-col justify-center overflow-hidden my-[-0.75rem] py-3"
-              onClick={(e) => handleSelectFriend(e, friend, !friend.status ? RIGHT_CARD_MODE.PROFILE : RIGHT_CARD_MODE.CHATBOX)}
+              onClick={(e) => handleSelectFriend(e, friend, !friend.friendStatus ? RIGHT_CARD_MODE.PROFILE : RIGHT_CARD_MODE.CHATBOX)}
             >
               <h3>{friend?.displayName}</h3>
-              {friend.status === FRIEND_STATUSES.ACCEPTED && (
+              {friend.friendStatus === FRIEND_STATUSES.ACCEPTED && (
                 <span className="text-sm text-darkGray truncate">
                   {"Hey have you heard about the gun shot inccident in Kansas, it's terrible, I'm shocked!"}
                 </span>
               )}
-              {(friend.status === FRIEND_STATUSES.PENDING || friend.status === FRIEND_STATUSES.SENT) && (
+              {(friend.friendStatus === FRIEND_STATUSES.PENDING || friend.friendStatus === FRIEND_STATUSES.SENT) && (
                 <span className="text-sm text-danger">Waiting for friend request response</span>
               )}
-              {!friend.status && <span className="text-sm">{friend.location || 'Ho chi minh'}</span>}
+              {!friend.friendStatus && <span className="text-sm">{friend.location || 'Ho chi minh'}</span>}
             </a>
           </div>
         ))
@@ -54,7 +56,7 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
   )
 
   return (
-    <div className="flex flex-col overflow-y-scroll">
+    <div className="flex flex-col overflow-y-auto">
       {isLoading
         ? friendList.map((_, i) => (
             <div className="px-2 py-2.5 flex gap-5" key={`ske${i}`}>

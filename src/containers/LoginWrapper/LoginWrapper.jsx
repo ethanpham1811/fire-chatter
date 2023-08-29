@@ -1,18 +1,24 @@
 import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import React from 'react'
-import { AiFillGithub } from 'react-icons/ai'
-import { FcGoogle } from 'react-icons/fc'
+import { AiFillGithub, FcGoogle } from '../../utils/icons'
 
-import { AUTHEN_PROVIDERS } from '../../constants/enum'
-import { addUser, auth } from '../../services/firebase'
+import { AUTHEN_PROVIDERS, FRIEND_STATUSES, adminId } from '../../constants/enum'
+import { addUser, auth, fetchUserDetail, setFriendship } from '../../services/firebase'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function LoginWrapper() {
   const loginWithProvider = async (prov) => {
     const provider = prov === AUTHEN_PROVIDERS.GOOGLE ? new GoogleAuthProvider() : new GithubAuthProvider()
     const result = await signInWithPopup(auth, provider)
+    const user = result.user
     /* create new user */
-    addUser(result.user)
+    addUser(user)
+
+    /* enforce new user to add Ethan (admin) as friend */
+    const admin = await fetchUserDetail(adminId)
+    const userObj = { uid: user.uid, photoUrl: user.photoURL, displayName: user.displayName }
+    setFriendship(userObj, admin.uid, FRIEND_STATUSES.ACCEPTED)
+    setFriendship(admin, userObj.uid, FRIEND_STATUSES.ACCEPTED)
   }
 
   return (

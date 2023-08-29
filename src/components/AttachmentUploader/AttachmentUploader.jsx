@@ -1,11 +1,9 @@
 import Compress from 'compress.js'
-
 import React, { useEffect, useState } from 'react'
-import { BsCardImage } from 'react-icons/bs'
-import { CiSquareRemove } from 'react-icons/ci'
 import ImageUploading from 'react-images-uploading'
 import { v4 as rid } from 'uuid'
 import { MAX_UPLOADS, UPLOAD_COMPRESS } from '../../constants/enum'
+import { BsCardImage, CiSquareRemove } from '../../utils/icons'
 
 const compress = new Compress()
 

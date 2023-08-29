@@ -7,7 +7,6 @@ function WithCard(Component) {
     const { step, isLoginWrapper, anim } = props
     const baseStyle = `rounded-2xl shadow-card bg-secondary ${isLoginWrapper && 'w-4/5 md:w-2/3 xl:w-1/3'}`
     const { isMobile, mobileStep, isMounted } = useContext(AppContext)
-    console.log(anim)
 
     return (
       <>

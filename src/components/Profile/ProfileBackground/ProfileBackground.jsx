@@ -5,7 +5,7 @@ import defaultCoverUrl from '../../../assets/cover_default.jpg'
 import { COVER_FILTER_ANIM, PROFILE_TABS } from '../../../constants/enum'
 import CoverFilter from '../CoverFilter/CoverFilter'
 
-function ProfileBackground({ hasBack, user, coverSize, tabIndex }) {
+function ProfileBackground({ user, coverSize, tabIndex, changingCover, setChangingCover }) {
   const controls = useAnimation()
 
   /* jiggly effects on switching tabs / users profiles */
@@ -13,9 +13,10 @@ function ProfileBackground({ hasBack, user, coverSize, tabIndex }) {
     const startAnim = async () => {
       await controls.start(COVER_FILTER_ANIM.hide)
       await controls.start(COVER_FILTER_ANIM.show)
+      setChangingCover(false)
     }
-    startAnim()
-  }, [user, tabIndex])
+    changingCover && startAnim()
+  }, [changingCover])
 
   return (
     <motion.div

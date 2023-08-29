@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { BsFillSendFill } from 'react-icons/bs'
 import { sendMessage } from '../../services/firebase'
+import { getFirstWord } from '../../utils'
+import { BsFillSendFill } from '../../utils/icons'
 import AttachmentUploader from '../AttachmentUploader/AttachmentUploader'
 
 function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
@@ -13,7 +14,8 @@ function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
     if (!user.uid || !friend.uid || (message === '' && uploads.length === 0)) return
 
     /* request send message */
-    await sendMessage(conversationId, user.uid, friend.uid, message, uploads)
+    const senderName = getFirstWord(user.displayName)
+    await sendMessage(conversationId, user.uid, friend.uid, message, uploads, senderName)
 
     /* reset form & scroll window down */
     setUploads([])

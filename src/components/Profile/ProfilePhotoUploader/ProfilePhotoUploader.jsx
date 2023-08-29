@@ -1,8 +1,8 @@
 import Compress from 'compress.js'
 import React from 'react'
-import { AiOutlineCamera } from 'react-icons/ai'
 import ImageUploading from 'react-images-uploading'
 import { UPLOAD_COMPRESS } from '../../../constants/enum'
+import { AiOutlineCamera } from '../../../utils/icons'
 
 const compress = new Compress()
 

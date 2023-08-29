@@ -1,37 +1,62 @@
 import React from 'react'
-import { AiFillTwitterCircle } from 'react-icons/ai'
-import { BsFacebook, BsFillTelephoneFill } from 'react-icons/bs'
-import { FaLocationDot } from 'react-icons/fa6'
-import { MdEmail } from 'react-icons/md'
-import { RiInstagramFill } from 'react-icons/ri'
+import { regexp } from '../../../constants/enum'
+import { editUser } from '../../../services/firebase'
+import { AiFillTwitterCircle, BsFacebook, BsFillTelephoneFill, FaLocationDot, MdEmail, RiInstagramFill } from '../../../utils/icons'
+import IneditInput from '../../IneditInput/IneditInput'
 
-function ProfileContact({ user }) {
+function ProfileContact({ user, isMe }) {
   return (
     <>
       <ul className="flex flex-col gap-5 py-5">
         <li className="flex items-center gap-3">
           <MdEmail size={20} className="text-icon" />
-          <span>{user.email}</span>
+          {isMe ? (
+            <IneditInput
+              options={{ isRequired: true, regexp: regexp.email }}
+              value={user.email}
+              updateRequest={(val) => editUser({ email: val }, user.uid)}
+            />
+          ) : (
+            <span>{user.email}</span>
+          )}
         </li>
         <li className="flex items-center gap-3">
           <FaLocationDot size={20} className="text-icon" />
-          <span>{user.location || 'Ho Chi Minh, Vietnam'}</span>
+          {isMe ? (
+            <IneditInput options={{ isRequired: true }} value={user.location} updateRequest={(val) => editUser({ location: val }, user.uid)} />
+          ) : (
+            <span>{user.location}</span>
+          )}
         </li>
         <li className="flex items-center gap-3">
           <BsFillTelephoneFill size={20} className="text-icon" />
-          <span>{user.phone || '(+84) 091-6731-590'}</span>
+          {isMe ? (
+            <IneditInput
+              options={{ isRequired: true, regexp: regexp.phone }}
+              value={user.phone}
+              updateRequest={(val) => editUser({ phone: val }, user.uid)}
+            />
+          ) : (
+            <span>{user.phone}</span>
+          )}
         </li>
       </ul>
       {/* social medias */}
       <ul className="flex justify-around py-5 w-3/5 mt-auto ml-auto mr-auto">
         <li>
-          <BsFacebook className="cursor-pointer ease-in duration-100 hover:text-fb" size={20} color="fb" />
+          <a href={user.socials?.fb} tabIndex={0} className="p-1 block">
+            <BsFacebook className="cursor-pointer ease-in duration-100 hover:text-fb" size={20} color="fb" />
+          </a>
         </li>
         <li>
-          <AiFillTwitterCircle className="cursor-pointer ease-in duration-100 hover:text-twitter" size={20} color="twitter" />
+          <a href={user.socials?.tw} tabIndex={0} className="p-1 block">
+            <AiFillTwitterCircle className="cursor-pointer ease-in duration-100 hover:text-twitter" size={20} color="twitter" />
+          </a>
         </li>
         <li>
-          <RiInstagramFill className="cursor-pointer ease-in duration-100 hover:text-insta" size={20} color="insta" />
+          <a href={user.socials?.ins} tabIndex={0} className="p-1 block">
+            <RiInstagramFill className="cursor-pointer ease-in duration-100 hover:text-insta" size={20} color="insta" />
+          </a>
         </li>
       </ul>
     </>

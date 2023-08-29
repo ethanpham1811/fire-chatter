@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaDeleteLeft } from 'react-icons/fa6'
+import { FaDeleteLeft } from '../../utils/icons'
 
 function SearchBar({ searchTerm, setSearchTerm }) {
   const handleSearch = (e) => {
