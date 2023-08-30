@@ -1,7 +1,7 @@
 import React from 'react'
 import { v4 as rid } from 'uuid'
 
-function Message({ userId, message, friendPhoto, myLastMsg }) {
+function Message({ userId, message, friendPhoto, myLastMsg, setPreviewImg }) {
   const { content, sender, uploads, timestamp } = message
   const isMe = sender === userId
   /* message styles */
@@ -46,7 +46,11 @@ function Message({ userId, message, friendPhoto, myLastMsg }) {
           </div>
         </>
       )}
-      {uploads ? uploads.map((file) => <img key={rid()} src={file.url} className={`${uploadStyle} w-1/2 `} />) : ''}
+      {uploads
+        ? uploads.map((file) => (
+            <img onClick={() => setPreviewImg(file.url)} key={rid()} src={file.url} className={`${uploadStyle} w-1/2 cursor-pointer`} />
+          ))
+        : ''}
     </div>
   )
 }

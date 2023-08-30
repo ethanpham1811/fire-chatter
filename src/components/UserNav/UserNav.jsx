@@ -5,9 +5,9 @@ import { MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from '../../constants/enu
 import AppContext from '../../contexts/AppContext'
 import { editUser } from '../../services/firebase'
 import { HiOutlineArrowSmLeft, PiCaretRightLight } from '../../utils/icons'
+import UserStatusPicker from '../Contacts/UserStatusPicker/UserStatusPicker'
 import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
-import UserStatusPicker from '../UserStatusPicker/UserStatusPicker'
 
 function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
   const { setMobileStep, setSelectedUser, setRightCardMode } = useContext(AppContext)
@@ -80,7 +80,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
             </button>
             {/* Are you sure to logout modal */}
             <Modal isOpen={isOpenModal} setIsOpenModal={setIsOpenModal}>
-              <LogoutModal setIsOpenModal={setIsOpenModal} anim={cardAnimation.modal} />
+              <LogoutModal setIsOpenModal={setIsOpenModal} anim={cardAnimation.modal} isPopup={true} />
             </Modal>
           </>
         )}

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { FRIEND_STATUSES, MOBILE_STEP, RIGHT_CARD_MODE } from '../../constants/enum'
-import AppContext from '../../contexts/AppContext'
+import { FRIEND_STATUSES, MOBILE_STEP, RIGHT_CARD_MODE } from '../../../constants/enum'
+import AppContext from '../../../contexts/AppContext'
 
 function FriendList({ isLoading, friendList, setSearchTerm }) {
   const { setMobileStep, setSelectedUser, setRightCardMode } = useContext(AppContext)

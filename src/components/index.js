@@ -1,14 +1,21 @@
-import AttachmentUploader from './AttachmentUploader/AttachmentUploader'
-import ChatForm from './ChatForm/ChatForm'
+import AttachmentUploader from './ChatBox/AttachmentUploader/AttachmentUploader'
+import ChatBoxWindow from './ChatBox/ChatBoxWindow/ChatBoxWindow'
+import ChatForm from './ChatBox/ChatForm/ChatForm'
+import FriendRequestWindow from './ChatBox/FriendRequestWindow/FriendRequestWindow'
+import Message from './ChatBox/Message/Message'
+import MessageList from './ChatBox/MessageList/MessageList'
+import NoFriendWindow from './ChatBox/NoFriendWindow/NoFriendWindow'
+import FriendList from './Contacts/FriendList/FriendList'
+import SearchBar from './Contacts/SearchBar/SearchBar'
+import UserStatusPicker from './Contacts/UserStatusPicker/UserStatusPicker'
 import DropDownlist from './DropDownlist/DropDownlist'
-import FriendList from './FriendList/FriendList'
 import IneditDropdown from './IneditDropdown/IneditDropdown'
 import IneditInput from './IneditInput/IneditInput'
 import IneditToggle from './IneditToggle/IneditToggle'
-import Message from './Message/Message'
-import MessageList from './MessageList/MessageList'
 import LogoutModal from './Modal/LogoutModal'
 import Modal from './Modal/Modal'
+import PreviewImgModal from './Modal/PreviewImgModal'
+import NotificationBoard from './NotificationBoard/NotificationBoard'
 import CoverFilter from './Profile/CoverFilter/CoverFilter'
 import CoverUploader from './Profile/CoverUploader/CoverUploader'
 import ProfileBackground from './Profile/ProfileBackground/ProfileBackground'
@@ -19,18 +26,18 @@ import ProfilePhotoUploader from './Profile/ProfilePhotoUploader/ProfilePhotoUpl
 import ProfilePolygonDummy from './Profile/ProfilePolygonDummy/ProfilePolygonDummy'
 import ProfileStatistic from './Profile/ProfileStatistic/ProfileStatistic'
 import ProfileTabNav from './Profile/ProfileTabNav/ProfileTabNav'
-import SearchBar from './SearchBar/SearchBar'
 import Spinner from './Spinner/Spinner'
 import UserNav from './UserNav/UserNav'
-import UserStatusPicker from './UserStatusPicker/UserStatusPicker'
 
 export {
   AttachmentUploader,
+  ChatBoxWindow,
   ChatForm,
   CoverFilter,
   CoverUploader,
   DropDownlist,
   FriendList,
+  FriendRequestWindow,
   IneditDropdown,
   IneditInput,
   IneditToggle,
@@ -38,6 +45,9 @@ export {
   Message,
   MessageList,
   Modal,
+  NoFriendWindow,
+  NotificationBoard,
+  PreviewImgModal,
   ProfileBackground,
   ProfileContact,
   ProfileGenderEditor,
