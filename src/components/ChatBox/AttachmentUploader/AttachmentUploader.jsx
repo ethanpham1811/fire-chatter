@@ -2,8 +2,8 @@ import Compress from 'compress.js'
 import React, { useEffect, useState } from 'react'
 import ImageUploading from 'react-images-uploading'
 import { v4 as rid } from 'uuid'
-import { MAX_UPLOADS, UPLOAD_COMPRESS } from '../../constants/enum'
-import { BsCardImage, CiSquareRemove } from '../../utils/icons'
+import { MAX_UPLOADS, UPLOAD_COMPRESS } from '../../../constants/enum'
+import { BsCardImage, CiSquareRemove } from '../../../utils/icons'
 
 const compress = new Compress()
 
@@ -38,7 +38,7 @@ function AttachmentUploader({ setUploads, uploads, msgListRef }) {
         return (
           <div className="flex justify-center items-center">
             <button
-              className="p-0 mr-2 border-none rounded-none  bg-secondary"
+              className="absolute bottom-[5px] left-0 z-10 p-0 mr-2 border-none rounded-none bg-secondary"
               // style={isDragging ? { color: 'red' } : undefined}
               onClick={(e) => {
                 e.preventDefault()
@@ -56,11 +56,7 @@ function AttachmentUploader({ setUploads, uploads, msgListRef }) {
               {isDragging ? 'Drop here please' : 'Upload space'}
             </div> */}
 
-            <div
-              className={`${
-                imageList.length !== 0 ? 'flex' : 'hidden'
-              } absolute bottom-[60px] w-full justify-end p-2 backdrop-blur-md right-0 bg-none gap-2`}
-            >
+            <div className={`${imageList.length !== 0 ? 'flex' : 'hidden'} mt-[-1.2rem] w-full py-2 backdrop-blur-md bg-none gap-2`}>
               {imageList.map((image, i) => (
                 <div key={rid()} className="relative flex items-end border-dotted border-[1px]">
                   <img src={image['data_url']} alt={`upload image ${i}`} width="50" className="object-contain" />

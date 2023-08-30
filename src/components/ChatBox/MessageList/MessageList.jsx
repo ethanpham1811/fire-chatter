@@ -1,8 +1,12 @@
-import React, { forwardRef, useEffect, useRef } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import Modal from '../../Modal/Modal'
+import PreviewImgModal from '../../Modal/PreviewImgModal'
+import Spinner from '../../Spinner/Spinner'
 import Message from '../Message/Message'
-import Spinner from '../Spinner/Spinner'
 
 const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, ref) => {
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [previewImg, setPreviewImg] = useState(false)
   const dummyRef = useRef()
 
   /* scroll down chat box on init */
@@ -11,6 +15,11 @@ const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, re
       messages?.length !== 0 && dummyRef?.current?.scrollIntoView({ behavior: 'smooth' })
     }, 10)
   }, [messages])
+
+  function handlePreviewImg(img) {
+    setPreviewImg(img)
+    setIsOpenModal(true)
+  }
 
   function checkLastMsg(i) {
     if (i === messages.length - 1) return true
@@ -21,7 +30,14 @@ const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, re
     <>
       {messages?.length !== 0 ? (
         messages.map((msg, i) => (
-          <Message myLastMsg={checkLastMsg(i)} userId={userId} friendPhoto={friendPhoto} key={msg.uid ?? `msg${i}`} message={msg} />
+          <Message
+            setPreviewImg={handlePreviewImg}
+            myLastMsg={checkLastMsg(i)}
+            userId={userId}
+            friendPhoto={friendPhoto}
+            key={msg.uid ?? `msg${i}`}
+            message={msg}
+          />
         ))
       ) : (
         <div className="mt-auto my-3 flex justify-center py-2 relative text-[#999] text-sm before:absolute before:top-0 before:m-auto before:w-1/6 before:h-[1px] before:bg-[#999]">
@@ -35,6 +51,11 @@ const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, re
       {isLoading ? <Spinner message="Loading messages.." /> : messagesJsx}
       {/* for scroll into view on form submit */}
       <span ref={dummyRef}></span>
+
+      {/* Preview img modal */}
+      <Modal isOpen={isOpenModal} setIsOpenModal={setIsOpenModal}>
+        <PreviewImgModal img={previewImg} setIsOpenModal={setIsOpenModal} anim={{}} isPopup={true} />
+      </Modal>
     </main>
   )
 })

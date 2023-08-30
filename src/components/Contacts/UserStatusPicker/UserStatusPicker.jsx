@@ -1,6 +1,6 @@
 import React from 'react'
 import { v4 as rid } from 'uuid'
-import { userStatuses } from '../../constants/enum'
+import { userStatuses } from '../../../constants/enum'
 
 function UserStatusPicker({ activeStatus, isOpened, updateRequest }) {
   const handleOnChange = (status) => {

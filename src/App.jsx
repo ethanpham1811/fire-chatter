@@ -1,33 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import React, { useMemo, useState } from 'react'
 
 import { AnimatePresence } from 'framer-motion'
+import { NotificationBoard } from './components'
 import { COMPONENT_KEYS, MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from './constants/enum'
 import { ChatBoxWrapper, ContactsWrapper, LoginWrapper, ProfileWrapper } from './containers'
 import AppContext from './contexts/AppContext'
-import { useIsMobile } from './hooks'
-import { auth, subscribeToUsers } from './services/firebase'
+import { useInitApp, useIsMobile } from './hooks'
+import { auth } from './services/firebase'
 
 function App() {
-  const [authUser, isLoading] = useAuthState(auth)
-  const [me, setMe] = useState(null)
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
+  const [authUser, me, isMounted, isLoading] = useInitApp()
   const [selectedUser, setSelectedUser] = useState(null)
   const [rightCardMode, setRightCardMode] = useState(RIGHT_CARD_MODE.CHATBOX)
-  // set init state for framer motion animation
-  const [isMounted, setIsMounted] = useState(false)
-
-  /* current user subscription */
-  useEffect(() => {
-    if (!authUser) return
-    const unsubscribe = subscribeToUsers(authUser.uid, (user) => setMe(user))
-    return () => unsubscribe()
-  }, [authUser])
-
-  /* delaytime between motion initial animation & main animation (only happend once on initial load) */
-  useEffect(() => {
-    setTimeout(() => setIsMounted(true), 1000)
-  }, [])
 
   /* useMemo for Context object */
   const contexts = useMemo(() => {
@@ -69,6 +54,7 @@ function App() {
           )}
         </AnimatePresence>
       </div>
+      <NotificationBoard />
     </AppContext.Provider>
   )
 }

@@ -1,3 +1,4 @@
+import { getAnalytics } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import {
@@ -16,23 +17,19 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore'
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBtG3j9bUmn49hTnnfrZM0vzsVhCOq6tks',
-  authDomain: 'fire-chatter-b2e87.firebaseapp.com',
-  projectId: 'fire-chatter-b2e87',
-  storageBucket: 'fire-chatter-b2e87.appspot.com',
-  messagingSenderId: '535493657925',
-  appId: '1:535493657925:web:7f74a2d87e6eb8092c2a2c'
-}
+import { firebaseConfig } from './firebaseconfig'
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig)
+export const analytics = getAnalytics(app)
 const db = getFirestore(app)
 
 // authentication
 export const auth = getAuth(app)
 
+/*
+. API REQUESTS
+*/
 /* UserList: users */
 export const fetchUsers = async (userQuery, userId) => {
   const dbRef = collection(db, 'users')
@@ -56,10 +53,10 @@ export const addUser = async ({ displayName, photoURL, uid }) => {
     photoUrl: photoURL,
     uid,
     position: 'Jr.',
-    about: 'not set',
-    email: 'not set',
-    location: 'not set',
-    phone: 'not set',
+    about: 'N/A',
+    email: 'N/A',
+    location: 'N/A',
+    phone: 'N/A',
     connections: 0,
     views: 0,
     recs: 0

@@ -1,0 +1,21 @@
+const {
+  VITE_FIRE_APIKEY,
+  VITE_FIRE_AUTH_DOMAIN,
+  VITE_FIRE_PROJID,
+  VITE_FIRE_STORE_BUCKET,
+  VITE_FIRE_MSG_SENDER_ID,
+  VITE_FIRE_APP_ID,
+  VITE_FIRE_DB_URL,
+  VITE_FIRE_MEASURE_ID
+} = import.meta.env
+
+export const firebaseConfig = {
+  apiKey: VITE_FIRE_APIKEY,
+  authDomain: VITE_FIRE_AUTH_DOMAIN,
+  databaseURL: VITE_FIRE_DB_URL,
+  projectId: VITE_FIRE_PROJID,
+  storageBucket: VITE_FIRE_STORE_BUCKET,
+  messagingSenderId: VITE_FIRE_MSG_SENDER_ID,
+  appId: VITE_FIRE_APP_ID,
+  measurementId: VITE_FIRE_MEASURE_ID
+}
