@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { sendMessage } from '../../services/firebase'
-import { getFirstWord } from '../../utils'
-import { BsFillSendFill } from '../../utils/icons'
+import { sendMessage } from '../../../services/firebase'
+import { getFirstWord } from '../../../utils'
+import { BsFillSendFill } from '../../../utils/icons'
 import AttachmentUploader from '../AttachmentUploader/AttachmentUploader'
 
 function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
@@ -23,9 +23,9 @@ function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
   }
 
   return (
-    <div className="flex relative">
+    <div className="flex flex-col relative">
       <AttachmentUploader setUploads={setUploads} uploads={uploads} className="w-min" msgListRef={msgListRef} />
-      <form onSubmit={handleSend} className="relative flex flex-1">
+      <form onSubmit={handleSend} className="relative flex flex-1 pl-[35px]">
         <input
           onChange={(e) => setMessage(e.target.value)}
           value={message}
