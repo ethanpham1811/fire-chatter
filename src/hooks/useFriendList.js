@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { subscribeToFriendList } from '../services/firebase'
+import { subscribeToFriendshipList } from '../services/firebase'
 import useSearchList from './useSearchList'
 
 const useFriendList = (me) => {
@@ -23,7 +23,7 @@ const useFriendList = (me) => {
   /* friend list subscription */
   useEffect(() => {
     if (!me) return
-    const unsubscribe = subscribeToFriendList(me.uid, (data) => {
+    const unsubscribe = subscribeToFriendshipList(me.uid, (data) => {
       data = data.map((friendship) => (friendship.sender?.uid === me.uid ? friendship.receiver : friendship.sender))
       setFriendList(data)
       setIsLoading(false)

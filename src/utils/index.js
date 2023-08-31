@@ -4,10 +4,10 @@ import { removeFriendship, setFriendship } from '../services/firebase'
 export function handleFriendship(sender, receiver, action) {
   switch (action) {
     case FRIENDSHIP_ACTION.REQUEST:
-      setFriendship(sender, receiver, FRIEND_STATUSES.PENDING)
+      setFriendship(sender, receiver, FRIEND_STATUSES.SENT, FRIEND_STATUSES.PENDING)
       break
     case FRIENDSHIP_ACTION.ACCEPT:
-      setFriendship(sender, receiver, FRIEND_STATUSES.ACCEPTED)
+      setFriendship(sender, receiver, FRIEND_STATUSES.ACCEPTED, FRIEND_STATUSES.ACCEPTED)
       break
     case FRIENDSHIP_ACTION.REMOVE:
       removeFriendship(sender.uid, receiver.uid)

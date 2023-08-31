@@ -28,10 +28,11 @@ const db = getFirestore(app)
 // authentication
 export const auth = getAuth(app)
 
-/*
-. API REQUESTS
-*/
-/* UserList: users */
+/* -----------------------------API REQUEST ------------------------------------ */
+//---------------------------------------------------------------------------------
+//-----------------------------UserList: users ------------------------------------
+//---------------------------------------------------------------------------------
+
 export const fetchUsers = async (userQuery, userId) => {
   const dbRef = collection(db, 'users')
   const qName = query(dbRef, where('displayName', '>=', userQuery), where('displayName', '<=', userQuery + '\uf8ff'))
@@ -71,12 +72,13 @@ export const editUser = async (user) => {
   /* update friendships collection with new user data  */
   const fsRef = collection(db, 'friendships')
   const snap = await getDocs(fsRef)
-  // const fsIds = snap.docs.map((doc) => doc.id)
   const userFriendships = snap.docs.filter((doc) => doc.id.includes(user.uid))
   // update sender/receiver obj for each friendship (by id)
   userFriendships.forEach((fs) => {
     const isSender = fs.id.indexOf(user.uid) === 0
-    updateDoc(doc(db, 'friendships', fs.id), isSender ? { sender: user } : { receiver: user })
+    const friendStatus = fs.data()[isSender ? 'sender' : 'receiver']?.friendStatus
+    const updatedInfo = { ...user, friendStatus, friendshipId: fs.id }
+    updateDoc(doc(db, 'friendships', fs.id), isSender ? { sender: updatedInfo } : { receiver: updatedInfo })
   })
 }
 
@@ -86,19 +88,22 @@ export const subscribeToUser = (userId, cb) => {
   return unsubscribe
 }
 
-/* Friendlist: friends */
+//--------------------------------------------------------------------------------------
+//----------------------------- Friendlist: friends ------------------------------------
+//--------------------------------------------------------------------------------------
 export const fetchFriendshipDetail = async (myId, userId) => {
   const dbRef = doc(db, 'users', myId, 'friends', userId)
   const snap = await getDoc(dbRef)
   return snap.data()
 }
-export const setFriendship = async (sender, receiver, status) => {
+export const setFriendship = async (sender, receiver, senderStatus, receiverStatus) => {
+  const friendshipId = `${sender.uid}_${receiver.uid}`
   const data = {
-    sender: { ...sender, friendStatus: status },
-    receiver: { ...receiver, friendStatus: status }
+    sender: { ...sender, friendStatus: senderStatus, friendshipId },
+    receiver: { ...receiver, friendStatus: receiverStatus, friendshipId }
   }
   const dbRef = doc(db, 'friendships', `${sender.uid}_${receiver.uid}`)
-  return (await status) === FRIEND_STATUSES.PENDING ? setDoc(dbRef, data) : updateDoc(dbRef, data)
+  return senderStatus === FRIEND_STATUSES.SENT ? await setDoc(dbRef, data) : await updateDoc(dbRef, data)
 }
 export const removeFriendship = async (myId, friendId) => {
   const friendshipId = await getFriendshipId(myId, friendId)
@@ -111,7 +116,7 @@ export const getFriendshipId = async (userId, friendId) => {
   const datas = snap.docs.map((doc) => doc.id)
   return datas.find((id) => id.includes(userId) && id.includes(friendId))
 }
-export const subscribeToFriendList = async (userId, cb) => {
+export const subscribeToFriendshipList = async (userId, cb) => {
   const dbRef = collection(db, 'friendships')
   const unsubscribe = onSnapshot(dbRef, (snap) => {
     const userFriendships = snap.docs.filter((doc) => doc.id.includes(userId))
@@ -119,7 +124,15 @@ export const subscribeToFriendList = async (userId, cb) => {
   })
   return unsubscribe
 }
-/* Conversation */
+export const subscribeToFriendship = (friendshipId, cb) => {
+  const dbRef = doc(db, 'friendships', friendshipId)
+  const unsubscribe = onSnapshot(dbRef, (snap) => cb(snap.data()))
+  return unsubscribe
+}
+
+//--------------------------------------------------------------------------------------
+//----------------------------- Conversation -------------------------------------------
+//--------------------------------------------------------------------------------------
 export const getConversationId = async (userId, friendId) => {
   const pairIds = [userId, friendId]
   const dbRef = collection(db, 'privateMessages')
@@ -137,7 +150,9 @@ export const createNewConversation = async (userId, friendId) => {
   return newConversationDocRef.id
 }
 
-/* Messages: privateMessages */
+//--------------------------------------------------------------------------------------
+//----------------------------- Messages: privateMessages  -----------------------------
+//--------------------------------------------------------------------------------------
 export const subscribeToMessages = (conversationId, cb) => {
   const dbRef = collection(db, 'privateMessages', conversationId ?? '_', 'messages')
   const q = query(dbRef, orderBy('timestamp', 'asc'))

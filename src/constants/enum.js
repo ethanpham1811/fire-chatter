@@ -34,6 +34,7 @@ export const AUTHEN_PROVIDERS = {
 }
 export const FRIEND_STATUSES = {
   PENDING: 'PENDING',
+  SENT: 'SENT',
   ACCEPTED: 'ACCEPTED'
 }
 export const UPLOAD_COMPRESS = {

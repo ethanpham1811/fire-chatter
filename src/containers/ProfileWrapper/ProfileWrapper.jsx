@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { ProfileBackground, ProfileHeader, ProfilePolygonDummy, ProfileTabNav } from '../../components'
 import { useTabAndCoverState, useUploadProfile } from '../../hooks'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function ProfileWrapper({ user, isMe = false, friendStatus }) {
-  // const [isLoading, setIsLoading] = useState(true)
-  const [profile, setProfile] = useState(user.friendStatus)
+function ProfileWrapper({ user, isMe = false }) {
   const [changingCover, setChangingCover] = useState(false)
   const [setUploadCover, setUploadPhoto] = useUploadProfile(user)
   const [coverSize, tabIndex, setTabIndex] = useTabAndCoverState(user.uid, user.coverUrl)
-
-  /* fetch friend info */
-  // useEffect(() => {
-  //   setIsLoading(true)
-  //   const fetchUser = async () => {
-  //     const data = await fetchUserDetail(user.uid)
-  //     setProfile(data)
-  //     setIsLoading(false)
-  //   }
-  //   fetchUser()
-  // }, [user, friendStatus])
-
-  useEffect(() => {
-    console.log(profile)
-  }, [profile])
 
   return (
     <section

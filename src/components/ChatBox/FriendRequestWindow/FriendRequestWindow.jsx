@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
-import { FRIEND_STATUSES, FRIENDSHIP_ACTION, RIGHT_CARD_MODE } from '../../../constants/enum'
+import { FRIEND_STATUSES, FRIENDSHIP_ACTION, MOBILE_STEP, RIGHT_CARD_MODE } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
 import { handleFriendship } from '../../../utils'
 
 function FriendRequestWindow({ user, friend }) {
-  const { setSelectedUser, setRightCardMode } = useContext(AppContext)
+  const { setSelectedFsId, setRightCardMode, setMobileStep } = useContext(AppContext)
 
   /* handle open user detail */
   function handleOpenUserDetail() {
-    setSelectedUser(friend)
+    setSelectedFsId(friend.friendshipId)
     setRightCardMode(RIGHT_CARD_MODE.PROFILE)
   }
 
@@ -18,6 +18,7 @@ function FriendRequestWindow({ user, friend }) {
   }
   function handleRejectFriend() {
     handleFriendship(friend, user, FRIENDSHIP_ACTION.REMOVE)
+    setMobileStep(MOBILE_STEP.LEFT_CARD)
   }
 
   return (
@@ -28,8 +29,8 @@ function FriendRequestWindow({ user, friend }) {
         </button>
         <h2 className="font-semibold">{friend?.displayName}</h2>
         <p className="text-sm flex gap-3">
-          {friend?.friendStatus === FRIEND_STATUSES.SENT && 'Please kindly wait for their response.'}
-          {friend?.friendStatus === FRIEND_STATUSES.PENDING && (
+          {friend?.friendStatus === FRIEND_STATUSES.PENDING && 'Please kindly wait for their response.'}
+          {friend?.friendStatus === FRIEND_STATUSES.SENT && (
             <>
               <button className="bg-darkGray text-white w-28" onClick={handleAcceptFriend}>
                 Accept
