@@ -34,7 +34,6 @@ export const AUTHEN_PROVIDERS = {
 }
 export const FRIEND_STATUSES = {
   PENDING: 'PENDING',
-  SENT: 'SENT',
   ACCEPTED: 'ACCEPTED'
 }
 export const UPLOAD_COMPRESS = {
@@ -55,7 +54,7 @@ export const COMPONENT_KEYS = {
   DROPDOWN: 'DROPDOWN',
   STATUS_SELECTOR: 'STATUS_SELECTOR'
 }
-export const FRIENSHIP_ACTION = {
+export const FRIENDSHIP_ACTION = {
   REQUEST: 'REQUEST',
   ACCEPT: 'ACCEPT',
   REMOVE: 'REMOVE'

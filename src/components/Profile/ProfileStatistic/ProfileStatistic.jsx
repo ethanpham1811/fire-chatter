@@ -14,7 +14,7 @@ function ProfileStatistic({ user, isMe }) {
               <IneditInput
                 options={{ isRequired: true, type: 'number', regexp: regexp.positiveNum, rightPad: 0 }}
                 value={user.exp || 0}
-                updateRequest={(val) => editUser({ exp: val }, user.uid)}
+                updateRequest={(val) => editUser({ ...user, exp: val }, user.uid)}
               />
             ) : (
               user.exp || 0
@@ -28,7 +28,7 @@ function ProfileStatistic({ user, isMe }) {
               <IneditInput
                 options={{ isRequired: true, type: 'number', regexp: regexp.positiveNum, rightPad: 0 }}
                 value={user.projects || 0}
-                updateRequest={(val) => editUser({ projects: val }, user.uid)}
+                updateRequest={(val) => editUser({ ...user, projects: val }, user.uid)}
               />
             ) : (
               user.projects || 0
@@ -43,7 +43,7 @@ function ProfileStatistic({ user, isMe }) {
               <IneditToggle
                 options={{ data: positionTitle, anim: toggleAnimation }}
                 value={user.position}
-                updateRequest={(val) => editUser({ position: val }, user.uid)}
+                updateRequest={(val) => editUser({ ...user, position: val }, user.uid)}
               />
             ) : (
               user.position || 'N/A'

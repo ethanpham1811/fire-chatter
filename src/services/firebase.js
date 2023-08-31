@@ -17,6 +17,7 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore'
+import { FRIEND_STATUSES } from '../constants/enum'
 import { firebaseConfig } from './firebaseconfig'
 
 // Initialize Firebase
@@ -44,7 +45,7 @@ export const fetchUserDetail = async (userId) => {
   const dbRef = collection(db, 'users')
   const q = query(dbRef, where('uid', '==', userId))
   const snap = await getDocs(q)
-  return snap.docs[0].data()
+  return snap.docs[0]?.data()
 }
 export const addUser = async ({ displayName, photoURL, uid }) => {
   const data = {
@@ -63,47 +64,61 @@ export const addUser = async ({ displayName, photoURL, uid }) => {
   }
   return await setDoc(doc(db, 'users', uid), data)
 }
-export const editUser = async (props, userId) => {
-  const dbRef = doc(db, 'users', userId)
-  return await updateDoc(dbRef, props)
+export const editUser = async (user) => {
+  const userRef = doc(db, 'users', user.uid)
+  updateDoc(userRef, user)
+
+  /* update friendships collection with new user data  */
+  const fsRef = collection(db, 'friendships')
+  const snap = await getDocs(fsRef)
+  // const fsIds = snap.docs.map((doc) => doc.id)
+  const userFriendships = snap.docs.filter((doc) => doc.id.includes(user.uid))
+  // update sender/receiver obj for each friendship (by id)
+  userFriendships.forEach((fs) => {
+    const isSender = fs.id.indexOf(user.uid) === 0
+    updateDoc(doc(db, 'friendships', fs.id), isSender ? { sender: user } : { receiver: user })
+  })
 }
-export const subscribeToUsers = (userId, cb) => {
+
+export const subscribeToUser = (userId, cb) => {
   const dbRef = doc(db, 'users', userId)
   const unsubscribe = onSnapshot(dbRef, (snap) => cb(snap.data()))
   return unsubscribe
 }
 
 /* Friendlist: friends */
-export const fetchFriendList = async (userId) => {
-  const dbRef = collection(db, 'users', userId, 'friends')
-  const snap = await getDocs(dbRef)
-  return snap.docs.map((doc) => doc.data())
-}
 export const fetchFriendshipDetail = async (myId, userId) => {
   const dbRef = doc(db, 'users', myId, 'friends', userId)
   const snap = await getDoc(dbRef)
   return snap.data()
 }
-export const setFriendship = async ({ uid, photoUrl = '', displayName = '' }, userId, status) => {
+export const setFriendship = async (sender, receiver, status) => {
   const data = {
-    uid,
-    photoUrl,
-    displayName,
-    friendStatus: status
+    sender: { ...sender, friendStatus: status },
+    receiver: { ...receiver, friendStatus: status }
   }
-  return await setDoc(doc(db, 'users', userId, 'friends', uid), data)
+  const dbRef = doc(db, 'friendships', `${sender.uid}_${receiver.uid}`)
+  return (await status) === FRIEND_STATUSES.PENDING ? setDoc(dbRef, data) : updateDoc(dbRef, data)
 }
-export const removeFriend = async (myId, userId) => {
-  const dbRef = doc(db, 'users', myId, 'friends', userId)
+export const removeFriendship = async (myId, friendId) => {
+  const friendshipId = await getFriendshipId(myId, friendId)
+  const dbRef = doc(db, 'friendships', friendshipId)
   return await deleteDoc(dbRef)
 }
-export const subscribeToFriendList = (userId, cb) => {
-  const dbRef = collection(db, 'users', userId, 'friends')
-  // const q = query(dbRef, orderBy('timestamp', 'asc'))
-  const unsubscribe = onSnapshot(dbRef, (snap) => cb(snap.docs.map((doc) => doc.data())))
+export const getFriendshipId = async (userId, friendId) => {
+  const dbRef = collection(db, 'friendships')
+  const snap = await getDocs(dbRef)
+  const datas = snap.docs.map((doc) => doc.id)
+  return datas.find((id) => id.includes(userId) && id.includes(friendId))
+}
+export const subscribeToFriendList = async (userId, cb) => {
+  const dbRef = collection(db, 'friendships')
+  const unsubscribe = onSnapshot(dbRef, (snap) => {
+    const userFriendships = snap.docs.filter((doc) => doc.id.includes(userId))
+    return cb(userFriendships.map((doc) => doc.data()))
+  })
   return unsubscribe
 }
-
 /* Conversation */
 export const getConversationId = async (userId, friendId) => {
   const pairIds = [userId, friendId]

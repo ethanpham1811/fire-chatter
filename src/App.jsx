@@ -31,14 +31,7 @@ function App() {
         <AnimatePresence exitBeforeEnter initial mode="sync" onExitComplete={() => null}>
           {/* chatbox wrapper: RIGHT PANEL */}
           {authUser && me && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
-            <ChatBoxWrapper
-              user={me}
-              friendId={selectedUser?.uid}
-              friendStatus={selectedUser?.friendStatus}
-              step={MOBILE_STEP.RIGHT_CARD}
-              anim={cardAnimation.chatbox}
-              key={COMPONENT_KEYS.CHATBOX}
-            />
+            <ChatBoxWrapper user={me} friend={selectedUser} step={MOBILE_STEP.RIGHT_CARD} anim={cardAnimation.chatbox} key={COMPONENT_KEYS.CHATBOX} />
           )}
 
           {/* profile wrapper: RIGHT PANEL */}

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { FRIEND_STATUSES, FRIENSHIP_ACTION, RIGHT_CARD_MODE } from '../../../constants/enum'
+import { FRIEND_STATUSES, FRIENDSHIP_ACTION, RIGHT_CARD_MODE } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
-import { handleFrienship } from '../../../utils'
+import { handleFriendship } from '../../../utils'
 
 function FriendRequestWindow({ user, friend }) {
   const { setSelectedUser, setRightCardMode } = useContext(AppContext)
@@ -14,10 +14,10 @@ function FriendRequestWindow({ user, friend }) {
 
   /* handle friend requests */
   function handleAcceptFriend() {
-    handleFrienship(user, friend, FRIENSHIP_ACTION.ACCEPT)
+    handleFriendship(friend, user, FRIENDSHIP_ACTION.ACCEPT)
   }
   function handleRejectFriend() {
-    handleFrienship(user, friend, FRIENSHIP_ACTION.REMOVE)
+    handleFriendship(friend, user, FRIENDSHIP_ACTION.REMOVE)
   }
 
   return (

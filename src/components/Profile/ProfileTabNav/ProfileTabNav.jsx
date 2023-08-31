@@ -2,9 +2,9 @@ import { motion } from 'framer-motion'
 import React, { useContext, useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import { ProfileContact, ProfileStatistic } from '../../'
-import { FRIEND_STATUSES, FRIENSHIP_ACTION, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
+import { FRIENDSHIP_ACTION, FRIEND_STATUSES, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
-import { handleFrienship } from '../../../utils'
+import { handleFriendship } from '../../../utils'
 import { AiOutlineCheck, AiOutlineUserAdd, FaUserCheck, FcCancel, RxCross1 } from '../../../utils/icons'
 import './ProfileTabNav.css'
 
@@ -24,17 +24,17 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
   /* friendship handlers */
   const handleAddFriend = (e) => {
     e.preventDefault()
-    handleFrienship(me, user, FRIENSHIP_ACTION.REQUEST)
+    handleFriendship(me, user, FRIENDSHIP_ACTION.REQUEST)
     setFriendshipStatus(FRIEND_STATUSES.SENT)
   }
   const handleAcceptFriend = (e) => {
     e.preventDefault()
-    handleFrienship(me, user, FRIENSHIP_ACTION.ACCEPT)
+    handleFriendship(user, me, FRIENDSHIP_ACTION.ACCEPT)
     setFriendshipStatus(FRIEND_STATUSES.ACCEPTED)
   }
   const handleRemoveFriendship = (e) => {
     e.preventDefault()
-    handleFrienship(me, user, FRIENSHIP_ACTION.REMOVE)
+    handleFriendship(user, me, FRIENDSHIP_ACTION.REMOVE)
     setFriendshipStatus(null)
   }
 

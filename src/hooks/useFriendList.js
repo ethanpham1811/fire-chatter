@@ -24,10 +24,11 @@ const useFriendList = (me) => {
   useEffect(() => {
     if (!me) return
     const unsubscribe = subscribeToFriendList(me.uid, (data) => {
+      data = data.map((friendship) => (friendship.sender?.uid === me.uid ? friendship.receiver : friendship.sender))
       setFriendList(data)
       setIsLoading(false)
     })
-    return () => unsubscribe()
+    return () => typeof unsubscribe === 'function' && unsubscribe()
   }, [me])
 
   return [mergeList, friendList, searchTerm, setSearchTerm, isLoading]

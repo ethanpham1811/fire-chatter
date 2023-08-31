@@ -88,7 +88,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
       <UserStatusPicker
         isOpened={statusIsOpened}
         activeStatus={user?.status?.toLowerCase()}
-        updateRequest={(val) => editUser({ status: val }, user?.uid)}
+        updateRequest={(val) => editUser({ ...user, status: val }, user?.uid)}
       />
     </section>
   )
