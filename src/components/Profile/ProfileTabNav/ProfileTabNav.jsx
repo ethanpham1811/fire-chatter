@@ -2,15 +2,14 @@ import { motion } from 'framer-motion'
 import React, { useContext, useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import { ProfileContact, ProfileStatistic } from '../../'
-import { FRIEND_STATUSES, FRIENSHIP_ACTION, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
+import { FRIENDSHIP_ACTION, FRIEND_STATUSES, MOBILE_STEP, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
-import { handleFrienship } from '../../../utils'
+import { handleFriendship } from '../../../utils'
 import { AiOutlineCheck, AiOutlineUserAdd, FaUserCheck, FcCancel, RxCross1 } from '../../../utils/icons'
 import './ProfileTabNav.css'
 
 function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) {
-  const { me } = useContext(AppContext)
-  const [friendshipStatus, setFriendshipStatus] = useState(user.friendStatus)
+  const { me, setMobileStep } = useContext(AppContext)
   const [isUnfriendBtn, setIsUnfriendBtn] = useState(false)
 
   const handleSwitchTab = (i) => {
@@ -20,22 +19,11 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
   const toggleUnfriendBtn = () => {
     setIsUnfriendBtn(!isUnfriendBtn)
   }
-
-  /* friendship handlers */
-  const handleAddFriend = (e) => {
+  const handleSetFriendship = (e, action) => {
     e.preventDefault()
-    handleFrienship(me, user, FRIENSHIP_ACTION.REQUEST)
-    setFriendshipStatus(FRIEND_STATUSES.SENT)
-  }
-  const handleAcceptFriend = (e) => {
-    e.preventDefault()
-    handleFrienship(me, user, FRIENSHIP_ACTION.ACCEPT)
-    setFriendshipStatus(FRIEND_STATUSES.ACCEPTED)
-  }
-  const handleRemoveFriendship = (e) => {
-    e.preventDefault()
-    handleFrienship(me, user, FRIENSHIP_ACTION.REMOVE)
-    setFriendshipStatus(null)
+    handleFriendship(me, user, action)
+    // on mobile: navigate user to left card on request declining/remove request
+    action === FRIENDSHIP_ACTION.REMOVE && setMobileStep(MOBILE_STEP.LEFT_CARD)
   }
 
   return (
@@ -79,39 +67,55 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
               {tabIndex === PROFILE_TABS.CONTACT && 'Interest?'}
             </a>
           )}
-          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && !friendshipStatus && (
-            <a className="add-me-label p-2 flex-1 flex justify-center gap-3" href="" onClick={handleAddFriend}>
+          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && !user?.friendStatus && (
+            <a
+              className="add-me-label p-2 flex-1 flex justify-center gap-3"
+              href=""
+              onClick={(e) => handleSetFriendship(e, FRIENDSHIP_ACTION.REQUEST)}
+            >
               Add Me
               <AiOutlineUserAdd size={20} />
             </a>
           )}
-          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && friendshipStatus === FRIEND_STATUSES.SENT && (
-            <a className="cancel-label p-2 flex-1 flex justify-center gap-3" href="" onClick={handleRemoveFriendship}>
+          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && user?.friendStatus === FRIEND_STATUSES.PENDING && (
+            <a
+              className="cancel-label p-2 flex-1 flex justify-center gap-3"
+              href=""
+              onClick={(e) => handleSetFriendship(e, FRIENDSHIP_ACTION.REMOVE)}
+            >
               Cancel
               <FcCancel size={20} color="insta" />
             </a>
           )}
-          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && friendshipStatus === FRIEND_STATUSES.PENDING && (
+          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && user?.friendStatus === FRIEND_STATUSES.SENT && (
             <>
-              <a className="accept-label p-2 flex-1 flex justify-center gap-3" href="" onClick={handleAcceptFriend}>
+              <a
+                className="accept-label p-2 flex-1 flex justify-center gap-3"
+                href=""
+                onClick={(e) => handleSetFriendship(e, FRIENDSHIP_ACTION.ACCEPT)}
+              >
                 <AiOutlineCheck size={20} />
               </a>
-              <a className="reject-label p-2 flex-1 flex justify-center gap-3" href="" onClick={handleRemoveFriendship}>
+              <a
+                className="reject-label p-2 flex-1 flex justify-center gap-3"
+                href=""
+                onClick={(e) => handleSetFriendship(e, FRIENDSHIP_ACTION.REMOVE)}
+              >
                 <RxCross1 size={20} color="insta" />
               </a>
             </>
           )}
-          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && friendshipStatus === FRIEND_STATUSES.ACCEPTED && !isUnfriendBtn && (
+          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && user?.friendStatus === FRIEND_STATUSES.ACCEPTED && !isUnfriendBtn && (
             <a className="friend-label p-2 flex-1 flex justify-center gap-3" href="" onMouseEnter={toggleUnfriendBtn}>
               Friends
               <FaUserCheck size={20} />
             </a>
           )}
-          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && friendshipStatus === FRIEND_STATUSES.ACCEPTED && isUnfriendBtn && (
+          {!isMe && tabIndex === PROFILE_TABS.STATISTIC && user?.friendStatus === FRIEND_STATUSES.ACCEPTED && isUnfriendBtn && (
             <a
               className="unfriend-label p-2 flex-1 flex justify-center gap-3"
               href=""
-              onClick={handleRemoveFriendship}
+              onClick={(e) => handleSetFriendship(e, FRIENDSHIP_ACTION.REMOVE)}
               onMouseLeave={toggleUnfriendBtn}
             >
               Unfriend

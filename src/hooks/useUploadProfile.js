@@ -6,11 +6,11 @@ const useUploadProfile = (user) => {
   const [uploadPhoto, setUploadPhoto] = useState(null)
 
   useEffect(() => {
-    uploadCover && editUser({ coverUrl: uploadCover }, user.uid)
+    uploadCover && editUser({ ...user, coverUrl: uploadCover }, user.uid)
   }, [uploadCover])
 
   useEffect(() => {
-    uploadPhoto && editUser({ photoUrl: uploadPhoto }, user.uid)
+    uploadPhoto && editUser({ ...user, photoUrl: uploadPhoto }, user.uid)
   }, [uploadPhoto])
 
   return [setUploadCover, setUploadPhoto]

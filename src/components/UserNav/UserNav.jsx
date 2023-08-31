@@ -10,13 +10,20 @@ import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
 
 function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
-  const { setMobileStep, setSelectedUser, setRightCardMode } = useContext(AppContext)
+  const { setMobileStep, setSelectedUser, setSelectedFsId, setRightCardMode } = useContext(AppContext)
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [statusIsOpened, setStatusIsOpened] = useState(false)
 
   function handleOpenUserDetail() {
     if (isLoading) return
-    setSelectedUser(user)
+    // if user is friend (friend object has friendshipId), set selectedFriendshipId
+    if (user.friendshipId) setSelectedFsId(user.friendshipId)
+    // otherwise remove selectedFsId and set selectedUser (me object has no friendshipId)
+    else {
+      setSelectedFsId(null)
+      setSelectedUser(user)
+    }
+
     setRightCardMode(RIGHT_CARD_MODE.PROFILE)
     setMobileStep(MOBILE_STEP.RIGHT_CARD)
   }
@@ -88,7 +95,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
       <UserStatusPicker
         isOpened={statusIsOpened}
         activeStatus={user?.status?.toLowerCase()}
-        updateRequest={(val) => editUser({ status: val }, user?.uid)}
+        updateRequest={(val) => editUser({ ...user, status: val }, user?.uid)}
       />
     </section>
   )

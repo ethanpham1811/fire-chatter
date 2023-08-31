@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, subscribeToUsers } from '../services/firebase'
+import { auth, subscribeToUser } from '../services/firebase'
 
 const useInitApp = () => {
   const [authUser, isLoading] = useAuthState(auth)
@@ -11,7 +11,7 @@ const useInitApp = () => {
   /* current user subscription */
   useEffect(() => {
     if (!authUser) return
-    const unsubscribe = subscribeToUsers(authUser.uid, async (user) => {
+    const unsubscribe = subscribeToUser(authUser.uid, async (user) => {
       /* retrieve & set token if user has no token */
       // if (!user.deviceToken) {
       //   const token = await getMessagingToken()
