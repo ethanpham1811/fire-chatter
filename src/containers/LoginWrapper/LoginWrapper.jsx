@@ -3,7 +3,8 @@ import React from 'react'
 import { AiFillGithub, FcGoogle } from '../../utils/icons'
 
 import { AUTHEN_PROVIDERS, FRIEND_STATUSES, adminId } from '../../constants/enum'
-import { addUser, auth, fetchUserDetail, setFriendship } from '../../services/firebase'
+import { addUser, auth, fetchUserDetail } from '../../services/firebase'
+import { handleFriendship } from '../../utils'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function LoginWrapper() {
@@ -17,8 +18,7 @@ function LoginWrapper() {
     /* enforce new user to add Ethan (admin) as friend */
     const admin = await fetchUserDetail(adminId)
     const userObj = { uid: user.uid, photoUrl: user.photoURL, displayName: user.displayName }
-    setFriendship(userObj, admin.uid, FRIEND_STATUSES.ACCEPTED)
-    setFriendship(admin, userObj.uid, FRIEND_STATUSES.ACCEPTED)
+    handleFriendship(admin, userObj, FRIEND_STATUSES.ACCEPTED)
   }
 
   return (

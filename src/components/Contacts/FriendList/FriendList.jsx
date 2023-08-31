@@ -5,11 +5,19 @@ import { FRIEND_STATUSES, MOBILE_STEP, RIGHT_CARD_MODE } from '../../../constant
 import AppContext from '../../../contexts/AppContext'
 
 function FriendList({ isLoading, friendList, setSearchTerm }) {
-  const { setMobileStep, setSelectedUser, setRightCardMode } = useContext(AppContext)
+  const { setMobileStep, setSelectedFsId, setSelectedUser, setRightCardMode } = useContext(AppContext)
 
-  const handleSelectFriend = (e, user, mode) => {
+  const handleSelectFriend = (e, friend, mode) => {
     e.preventDefault()
-    setSelectedUser(user)
+    // 2 cases:
+    // if user is friend: set friendship ID for subscription (realtime update)
+    if (friend.friendshipId) setSelectedFsId(friend.friendshipId)
+    // otherwise remove selectedFsId and set selectedUser (stranger has no friendshipId)
+    else {
+      setSelectedFsId(null)
+      setSelectedUser(friend)
+    }
+
     setRightCardMode(mode)
     setMobileStep(MOBILE_STEP.RIGHT_CARD)
     setSearchTerm('')
@@ -42,8 +50,9 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
                   {"Hey have you heard about the gun shot inccident in Kansas, it's terrible, I'm shocked!"}
                 </span>
               )}
-              {(friend.friendStatus === FRIEND_STATUSES.PENDING || friend.friendStatus === FRIEND_STATUSES.SENT) && (
-                <span className="text-sm text-danger">Waiting for friend request response</span>
+              {friend.friendStatus === FRIEND_STATUSES.PENDING && <span className="text-sm text-danger">Waiting for friend request response</span>}
+              {friend.friendStatus === FRIEND_STATUSES.SENT && (
+                <span className="text-sm text-danger">{friend.displayName} sent you a friend request</span>
               )}
               {!friend.friendStatus && <span className="text-sm">{friend.location || 'Ho chi minh'}</span>}
             </a>

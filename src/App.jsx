@@ -1,23 +1,23 @@
 import React, { useMemo, useState } from 'react'
 
 import { AnimatePresence } from 'framer-motion'
-import { NotificationBoard } from './components'
+import { NoFriendWindow, NotificationBoard } from './components'
 import { COMPONENT_KEYS, MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from './constants/enum'
 import { ChatBoxWrapper, ContactsWrapper, LoginWrapper, ProfileWrapper } from './containers'
 import AppContext from './contexts/AppContext'
-import { useInitApp, useIsMobile } from './hooks'
+import { useInitApp, useIsMobile, useSelectedUser } from './hooks'
 import { auth } from './services/firebase'
 
 function App() {
   const [isMobile, mobileStep, setMobileStep] = useIsMobile()
   const [authUser, me, isMounted, isLoading] = useInitApp()
-  const [selectedUser, setSelectedUser] = useState(null)
+  const [selectedUser, setSelectedUser, setSelectedFsId] = useSelectedUser(me?.uid)
   const [rightCardMode, setRightCardMode] = useState(RIGHT_CARD_MODE.CHATBOX)
 
   /* useMemo for Context object */
   const contexts = useMemo(() => {
-    return { isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedUser, setRightCardMode }
-  }, [isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedUser, setRightCardMode])
+    return { isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedFsId, setSelectedUser, setRightCardMode }
+  }, [isMobile, mobileStep, setMobileStep, isMounted, me, setSelectedFsId, setSelectedUser, setRightCardMode])
 
   return (
     <AppContext.Provider value={contexts}>
@@ -30,15 +30,8 @@ function App() {
 
         <AnimatePresence exitBeforeEnter initial mode="sync" onExitComplete={() => null}>
           {/* chatbox wrapper: RIGHT PANEL */}
-          {authUser && me && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
-            <ChatBoxWrapper
-              user={me}
-              friendId={selectedUser?.uid}
-              friendStatus={selectedUser?.friendStatus}
-              step={MOBILE_STEP.RIGHT_CARD}
-              anim={cardAnimation.chatbox}
-              key={COMPONENT_KEYS.CHATBOX}
-            />
+          {authUser && me && selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+            <ChatBoxWrapper user={me} friend={selectedUser} step={MOBILE_STEP.RIGHT_CARD} anim={cardAnimation.chatbox} key={COMPONENT_KEYS.CHATBOX} />
           )}
 
           {/* profile wrapper: RIGHT PANEL */}
@@ -46,12 +39,13 @@ function App() {
             <ProfileWrapper
               user={selectedUser.uid === me.uid ? me : selectedUser}
               isMe={selectedUser.uid === me.uid}
-              friendStatus={selectedUser?.friendStatus}
               step={MOBILE_STEP.RIGHT_CARD}
               anim={cardAnimation.profile}
               key={COMPONENT_KEYS.PROFILE}
             />
           )}
+          {/* selecting no friend window */}
+          {!selectedUser && <NoFriendWindow step={MOBILE_STEP.RIGHT_CARD} anim={cardAnimation.chatbox} key={COMPONENT_KEYS.CHATBOX} />}
         </AnimatePresence>
       </div>
       <NotificationBoard />

@@ -9,7 +9,11 @@ function ProfileHeader({ user, tabIndex, isMe }) {
     <header className="relative bg-secondary py-3 px-7 pt-7">
       <h2 className="flex items-center mt-3">
         {isMe ? (
-          <IneditInput options={{ isRequired: true }} value={user.displayName} updateRequest={(val) => editUser({ displayName: val }, user.uid)} />
+          <IneditInput
+            options={{ isRequired: true }}
+            value={user.displayName}
+            updateRequest={(val) => editUser({ ...user, displayName: val }, user.uid)}
+          />
         ) : (
           user.displayName
         )}
@@ -17,7 +21,7 @@ function ProfileHeader({ user, tabIndex, isMe }) {
       </h2>
       {tabIndex === PROFILE_TABS.CONTACT && (
         <div className="mt-3 text-xs">
-          {isMe ? <IneditInput value={user.about} updateRequest={(val) => editUser({ about: val }, user.uid)} /> : user.about}
+          {isMe ? <IneditInput value={user.about} updateRequest={(val) => editUser({ ...user, about: val }, user.uid)} /> : user.about}
         </div>
       )}
     </header>
