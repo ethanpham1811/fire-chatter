@@ -87,7 +87,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
             </button>
             {/* Are you sure to logout modal */}
             <Modal isOpen={isOpenModal} setIsOpenModal={setIsOpenModal}>
-              <LogoutModal setIsOpenModal={setIsOpenModal} anim={cardAnimation.modal} isPopup={true} />
+              <LogoutModal user={user} setIsOpenModal={setIsOpenModal} anim={cardAnimation.modal} isPopup={true} />
             </Modal>
           </>
         )}
@@ -95,7 +95,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
       <UserStatusPicker
         isOpened={statusIsOpened}
         activeStatus={user?.status?.toLowerCase()}
-        updateRequest={(val) => editUser({ ...user, status: val }, user?.uid)}
+        updateRequest={(val) => editUser({ ...user, status: val })}
       />
     </section>
   )

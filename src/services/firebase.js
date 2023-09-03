@@ -17,7 +17,7 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore'
-import { FRIEND_STATUSES } from '../constants/enum'
+import { FRIEND_STATUSES, newUser } from '../constants/enum'
 import { firebaseConfig } from './firebaseconfig'
 
 // Initialize Firebase
@@ -50,18 +50,10 @@ export const fetchUserDetail = async (userId) => {
 }
 export const addUser = async ({ displayName, photoURL, uid }) => {
   const data = {
-    status: 'active',
+    ...newUser,
     displayName,
     photoUrl: photoURL,
-    uid,
-    position: 'Jr.',
-    about: 'N/A',
-    email: 'N/A',
-    location: 'N/A',
-    phone: 'N/A',
-    connections: 0,
-    views: 0,
-    recs: 0
+    uid
   }
   return await setDoc(doc(db, 'users', uid), data)
 }
@@ -96,14 +88,14 @@ export const fetchFriendshipDetail = async (myId, userId) => {
   const snap = await getDoc(dbRef)
   return snap.data()
 }
-export const setFriendship = async (sender, receiver, senderStatus, receiverStatus) => {
+export const setFriendship = async (sender, receiver, senderStatus, receiverStatus, isInit = false) => {
   const friendshipId = `${sender.uid}_${receiver.uid}`
   const data = {
     sender: { ...sender, friendStatus: senderStatus, friendshipId },
     receiver: { ...receiver, friendStatus: receiverStatus, friendshipId }
   }
   const dbRef = doc(db, 'friendships', `${sender.uid}_${receiver.uid}`)
-  return senderStatus === FRIEND_STATUSES.SENT ? await setDoc(dbRef, data) : await updateDoc(dbRef, data)
+  return senderStatus === FRIEND_STATUSES.SENT || isInit ? await setDoc(dbRef, data) : await updateDoc(dbRef, data)
 }
 export const removeFriendship = async (myId, friendId) => {
   const friendshipId = await getFriendshipId(myId, friendId)
