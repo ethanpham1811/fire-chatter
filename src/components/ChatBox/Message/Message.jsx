@@ -48,7 +48,7 @@ function Message({ userId, message, friendPhoto, myLastMsg, setPreviewImg }) {
       )}
       {uploads
         ? uploads.map((file) => (
-            <img onClick={() => setPreviewImg(file.url)} key={rid()} src={file.url} className={`${uploadStyle} w-1/2 cursor-pointer`} />
+            <img onClick={() => setPreviewImg(file.url)} key={rid()} src={file.url} className={`${uploadStyle} max-w-[50%] cursor-pointer`} />
           ))
         : ''}
     </div>

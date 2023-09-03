@@ -14,7 +14,7 @@ function ProfileContact({ user, isMe }) {
             <IneditInput
               options={{ isRequired: true, regexp: regexp.email }}
               value={user.email}
-              updateRequest={(val) => editUser({ ...user, email: val }, user.uid)}
+              updateRequest={(val) => editUser({ ...user, email: val })}
             />
           ) : (
             <span>{user.email}</span>
@@ -23,11 +23,7 @@ function ProfileContact({ user, isMe }) {
         <li className="flex items-center gap-3">
           <FaLocationDot size={20} className="text-icon" />
           {isMe ? (
-            <IneditInput
-              options={{ isRequired: true }}
-              value={user.location}
-              updateRequest={(val) => editUser({ ...user, location: val }, user.uid)}
-            />
+            <IneditInput options={{ isRequired: true }} value={user.location} updateRequest={(val) => editUser({ ...user, location: val })} />
           ) : (
             <span>{user.location}</span>
           )}
@@ -38,7 +34,7 @@ function ProfileContact({ user, isMe }) {
             <IneditInput
               options={{ isRequired: true, regexp: regexp.phone }}
               value={user.phone}
-              updateRequest={(val) => editUser({ ...user, phone: val }, user.uid)}
+              updateRequest={(val) => editUser({ ...user, phone: val })}
             />
           ) : (
             <span>{user.phone}</span>

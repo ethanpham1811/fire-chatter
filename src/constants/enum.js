@@ -102,6 +102,19 @@ export const userStatuses = [
   }
 ]
 
+export const newUser = {
+  status: 'Active',
+  position: 'Jr.',
+  about: 'N/A',
+  email: 'N/A',
+  location: 'N/A',
+  phone: 'N/A',
+  connections: 0,
+  views: 0,
+  recs: 0,
+  gender: true
+}
+
 /* framer motion */
 export const CARD_ANIM = {
   SLIDE_LEFT: {

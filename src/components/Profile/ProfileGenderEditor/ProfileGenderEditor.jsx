@@ -5,7 +5,7 @@ import { handleEnter } from '../../../utils'
 import { TbGenderFemale, TbGenderMale } from '../../../utils/icons'
 
 function ProfileGenderEditor({ user, isMe }) {
-  const handleEditAge = () => isMe && editUser({ ...user, gender: !user.gender }, user.uid)
+  const handleEditAge = () => isMe && editUser({ ...user, gender: !user.gender })
 
   return (
     <span

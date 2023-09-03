@@ -25,28 +25,36 @@ function App() {
         {/* login wrapper */}
         {!authUser && !isLoading && <LoginWrapper isLoginWrapper={true} auth={auth} anim={cardAnimation.login} key={COMPONENT_KEYS.LOGIN} />}
 
-        {/* contacts wrapper: LEFT PANEL */}
-        {authUser && <ContactsWrapper step={MOBILE_STEP.LEFT_CARD} anim={cardAnimation.contacts} key={COMPONENT_KEYS.CONTACTS} />}
-
-        <AnimatePresence exitBeforeEnter initial mode="sync" onExitComplete={() => null}>
-          {/* chatbox wrapper: RIGHT PANEL */}
-          {authUser && me && selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
-            <ChatBoxWrapper user={me} friend={selectedUser} step={MOBILE_STEP.RIGHT_CARD} anim={cardAnimation.chatbox} key={COMPONENT_KEYS.CHATBOX} />
-          )}
-
-          {/* profile wrapper: RIGHT PANEL */}
-          {authUser && selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
-            <ProfileWrapper
-              user={selectedUser.uid === me.uid ? me : selectedUser}
-              isMe={selectedUser.uid === me.uid}
-              step={MOBILE_STEP.RIGHT_CARD}
-              anim={cardAnimation.profile}
-              key={COMPONENT_KEYS.PROFILE}
-            />
-          )}
-          {/* selecting no friend window */}
-          {!selectedUser && <NoFriendWindow step={MOBILE_STEP.RIGHT_CARD} anim={cardAnimation.chatbox} key={COMPONENT_KEYS.CHATBOX} />}
-        </AnimatePresence>
+        {/* after login */}
+        {authUser && (
+          <>
+            <ContactsWrapper step={MOBILE_STEP.LEFT_CARD} anim={cardAnimation.contacts} key={COMPONENT_KEYS.CONTACTS} />
+            <AnimatePresence exitBeforeEnter initial mode="sync" onExitComplete={() => null}>
+              {/* chatbox wrapper: RIGHT PANEL */}
+              {selectedUser && rightCardMode === RIGHT_CARD_MODE.CHATBOX && (
+                <ChatBoxWrapper
+                  user={me}
+                  friend={selectedUser}
+                  step={MOBILE_STEP.RIGHT_CARD}
+                  anim={cardAnimation.chatbox}
+                  key={COMPONENT_KEYS.CHATBOX}
+                />
+              )}
+              {/* profile wrapper: RIGHT PANEL */}
+              {selectedUser && rightCardMode === RIGHT_CARD_MODE.PROFILE && (
+                <ProfileWrapper
+                  user={selectedUser.uid === me.uid ? me : selectedUser}
+                  isMe={selectedUser.uid === me.uid}
+                  step={MOBILE_STEP.RIGHT_CARD}
+                  anim={cardAnimation.profile}
+                  key={COMPONENT_KEYS.PROFILE}
+                />
+              )}
+              {/* selecting no friend window */}
+              {!selectedUser && <NoFriendWindow step={MOBILE_STEP.RIGHT_CARD} anim={cardAnimation.chatbox} key={COMPONENT_KEYS.CHATBOX} />}
+            </AnimatePresence>
+          </>
+        )}
       </div>
       <NotificationBoard />
     </AppContext.Provider>

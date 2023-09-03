@@ -1,7 +1,6 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import Modal from '../../Modal/Modal'
 import PreviewImgModal from '../../Modal/PreviewImgModal'
-import Spinner from '../../Spinner/Spinner'
 import Message from '../Message/Message'
 
 const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, ref) => {
@@ -48,7 +47,9 @@ const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, re
   )
   return (
     <main ref={ref} className="flex flex-1 flex-col gap-2 overflow-y-auto bg-chatBox mx-[-1.25rem] p-5 shadow-innerChatBox">
-      {isLoading ? <Spinner message="Loading messages.." /> : messagesJsx}
+      {/* {isLoading ? <Spinner message="Loading messages.." /> : messagesJsx} */}
+      {messagesJsx}
+
       {/* for scroll into view on form submit */}
       <span ref={dummyRef}></span>
 
