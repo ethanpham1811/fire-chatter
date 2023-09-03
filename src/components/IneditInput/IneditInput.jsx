@@ -8,7 +8,7 @@ function IneditInput({ value, updateRequest, options = {} }) {
   const [editMode, setEditMode] = useState(false)
   const spanRef = useRef()
   const inputRef = useRef()
-  const { isRequired = false, type = 'text', regexp = null, rightPad = 7 } = options
+  const { isRequired = false, type = 'text', regexp = null, rightPad = 7, placeHolder = null } = options
 
   useEffect(() => setWidth(spanRef.current.offsetWidth + rightPad), [val])
 
@@ -39,7 +39,7 @@ function IneditInput({ value, updateRequest, options = {} }) {
   return (
     <div className="relative" onClick={switchToEditMode} onKeyDown={(e) => handleEnter(e, switchToEditMode)} tabIndex={0}>
       <span ref={spanRef} className={`${editMode ? 'invisible' : 'visible'} px-1`}>
-        {val !== '' ? val : 'D'}
+        {val !== null ? val : placeHolder}
       </span>
       <input
         tabIndex={-1}

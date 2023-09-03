@@ -23,8 +23,14 @@ function LoginWrapper() {
 
       /* enforce new user to add Ethan (admin) as friend */
       const admin = await fetchUserDetail(adminId)
-      console.log(admin)
-      const userObj = { ...newUser, uid: user.uid, photoUrl: user.photoURL, displayName: user.displayName }
+      const userObj = {
+        ...newUser,
+        uid: user.uid,
+        photoUrl: user.photoURL,
+        displayName: user.displayName,
+        email: user.email,
+        phone: user.phoneNumber
+      }
       handleFriendship(admin, userObj, FRIENDSHIP_ACTION.ACCEPT, true)
     })
   }

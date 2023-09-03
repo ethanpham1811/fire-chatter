@@ -29,14 +29,14 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
         friendList.map((friend, i) => (
           <div
             className={`${
-              'after:bg-' + friend.status
+              'after:bg-' + friend.status?.toLowerCase()
             } grid grid-cols-[max-content_1fr_max-content] px-2 py-3 rounded-lg cursor-pointer items-center gap-5 hover:bg-hoverMain border-b-2 border-solid border-main last:border-none after:w-3 after:h-3 after:rounded-full after:ml-auto after:mr-3 ${
               friend.friendStatus !== FRIEND_STATUSES.ACCEPTED && 'after:hidden'
             }`}
             key={friend.uid}
           >
             <a href="" tabIndex="0" onClick={(e) => handleSelectFriend(e, friend, RIGHT_CARD_MODE.PROFILE)}>
-              <img className="rounded-full w-10" src={friend.photoUrl} alt="user avatar" />
+              <img className="rounded-full w-10 h-10" src={friend.photoUrl} alt="user avatar" />
             </a>
             <a
               href=""
@@ -45,11 +45,7 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
               onClick={(e) => handleSelectFriend(e, friend, !friend.friendStatus ? RIGHT_CARD_MODE.PROFILE : RIGHT_CARD_MODE.CHATBOX)}
             >
               <h3>{friend?.displayName}</h3>
-              {friend.friendStatus === FRIEND_STATUSES.ACCEPTED && (
-                <span className="text-sm text-darkGray truncate">
-                  {"Hey have you heard about the gun shot inccident in Kansas, it's terrible, I'm shocked!"}
-                </span>
-              )}
+              {friend.friendStatus === FRIEND_STATUSES.ACCEPTED && <span className="text-sm text-darkGray truncate">{friend.lastMessage}</span>}
               {friend.friendStatus === FRIEND_STATUSES.PENDING && <span className="text-sm text-danger">Waiting for friend request response</span>}
               {friend.friendStatus === FRIEND_STATUSES.SENT && (
                 <span className="text-sm text-danger">{friend.displayName} sent you a friend request</span>

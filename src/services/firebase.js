@@ -48,12 +48,14 @@ export const fetchUserDetail = async (userId) => {
   const snap = await getDocs(q)
   return snap.docs[0]?.data()
 }
-export const addUser = async ({ displayName, photoURL, uid }) => {
+export const addUser = async ({ displayName, photoURL, uid, email, phoneNumber }) => {
   const data = {
     ...newUser,
     displayName,
     photoUrl: photoURL,
-    uid
+    uid,
+    email,
+    phone: phoneNumber
   }
   return await setDoc(doc(db, 'users', uid), data)
 }
@@ -153,13 +155,22 @@ export const subscribeToMessages = (conversationId, cb) => {
 }
 
 export const sendMessage = async (conversationId, sender, receiver, content, uploads, senderName) => {
+  /* update friendships collection with new user data  */
+  const friendshipId = await getFriendshipId(sender.uid, receiver.uid)
+  const lastMessage = content !== '' ? content : '<photo>'
+  const updatedFields = { friendStatus: FRIEND_STATUSES.ACCEPTED, friendshipId, lastMessage }
+  const senderInfo = { ...sender, ...updatedFields }
+  const receiverInfo = { ...receiver, ...updatedFields }
+  updateDoc(doc(db, 'friendships', friendshipId), { sender: senderInfo, receiver: receiverInfo })
+
+  /* update privateMessages */
   const data = {
-    sender,
-    receiver,
+    sender: sender.uid,
+    receiver: receiver.uid,
     content,
     timestamp: serverTimestamp(),
     uploads,
     senderName
   }
-  return await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
+  await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
 }

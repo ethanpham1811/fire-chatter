@@ -16,19 +16,22 @@ function IneditToggle({ value, updateRequest, options }) {
   return (
     <>
       {data.map((option) => (
-        <motion.div
-          layout
-          variants={anim.animation}
-          key={`toggle_${rid()}`}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          tabIndex={0}
-          onClick={toggleNextOption}
-          className="cursor-pointer"
-        >
-          <div>{val === option && option}</div>
-        </motion.div>
+        <span key={`toggle_${rid()}`}>
+          {val === option && (
+            <motion.div
+              layout
+              variants={anim.animation}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              tabIndex={0}
+              onClick={toggleNextOption}
+              className="cursor-pointer"
+            >
+              <div>{option}</div>
+            </motion.div>
+          )}
+        </span>
       ))}
     </>
   )
