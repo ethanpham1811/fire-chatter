@@ -5,13 +5,13 @@ import { handleEnter } from '../../../utils'
 import { TbGenderFemale, TbGenderMale } from '../../../utils/icons'
 
 function ProfileGenderEditor({ user, isMe }) {
-  const handleEditAge = () => isMe && editUser({ ...user, gender: !user.gender })
+  const handleEditGender = () => isMe && editUser({ ...user, gender: !user.gender })
 
   return (
     <span
       tabIndex={0}
-      onClick={handleEditAge}
-      onKeyDown={(e) => handleEnter(e, handleEditAge)}
+      onClick={handleEditGender}
+      onKeyDown={(e) => handleEnter(e, handleEditGender)}
       data-tooltip-place="right"
       data-tooltip-id="gender-edit"
       data-tooltip-content="click to swap"

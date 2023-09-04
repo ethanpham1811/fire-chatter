@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import polygonBgUrl from '../../../assets/cover_polygon.png'
-import { MOBILE_STEP, PROFILE_TABS } from '../../../constants/enum'
+import { CARD_TITLE, PROFILE_TABS } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
 import { HiOutlineArrowSmLeft } from '../../../utils/icons'
 import CoverUploader from '../CoverUploader/CoverUploader'
 import ProfilePhotoUploader from '../ProfilePhotoUploader/ProfilePhotoUploader'
 
 function ProfilePolygonDummy({ user, tabIndex, setUploadCover, setUploadPhoto, isMe }) {
-  const { setMobileStep } = useContext(AppContext)
+  const { setActiveCard } = useContext(AppContext)
 
   const polygonStyle = {
     backgroundImage: `url(${polygonBgUrl})`,
@@ -18,7 +18,7 @@ function ProfilePolygonDummy({ user, tabIndex, setUploadCover, setUploadPhoto, i
     <div style={polygonStyle} className="z-10 transition-all duration-300 relative bg-no-repeat bg-left-bottom">
       <HiOutlineArrowSmLeft
         tabIndex="0"
-        onClick={() => setMobileStep(MOBILE_STEP.LEFT_CARD)}
+        onClick={() => setActiveCard(CARD_TITLE.CONTACTS)}
         className="absolute cursor-pointer block lg:hidden top-3 left-3 z-10"
         size={30}
       />

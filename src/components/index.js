@@ -1,5 +1,4 @@
 import AttachmentUploader from './ChatBox/AttachmentUploader/AttachmentUploader'
-import ChatBoxWindow from './ChatBox/ChatBoxWindow/ChatBoxWindow'
 import ChatForm from './ChatBox/ChatForm/ChatForm'
 import FriendRequestWindow from './ChatBox/FriendRequestWindow/FriendRequestWindow'
 import Message from './ChatBox/Message/Message'
@@ -25,13 +24,28 @@ import ProfileHeader from './Profile/ProfileHeader/ProfileHeader'
 import ProfilePhotoUploader from './Profile/ProfilePhotoUploader/ProfilePhotoUploader'
 import ProfilePolygonDummy from './Profile/ProfilePolygonDummy/ProfilePolygonDummy'
 import ProfileStatistic from './Profile/ProfileStatistic/ProfileStatistic'
+import BtnAcceptDecline from './Profile/ProfileTabNav/BtnAcceptDecline/BtnAcceptDecline'
+import BtnAdd from './Profile/ProfileTabNav/BtnAdd/BtnAdd'
+import BtnCancel from './Profile/ProfileTabNav/BtnCancel/BtnCancel'
+import BtnContact from './Profile/ProfileTabNav/BtnContact/BtnContact'
+import BtnFriend from './Profile/ProfileTabNav/BtnFriend/BtnFriend'
+import BtnInterest from './Profile/ProfileTabNav/BtnInterest/BtnInterest'
+import BtnMyInfo from './Profile/ProfileTabNav/BtnMyInfo/BtnMyInfo'
+import BtnUnfriend from './Profile/ProfileTabNav/BtnUnfriend/BtnUnfriend'
 import ProfileTabNav from './Profile/ProfileTabNav/ProfileTabNav'
 import Spinner from './Spinner/Spinner'
 import UserNav from './UserNav/UserNav'
 
 export {
   AttachmentUploader,
-  ChatBoxWindow,
+  BtnAcceptDecline,
+  BtnAdd,
+  BtnCancel,
+  BtnContact,
+  BtnFriend,
+  BtnInterest,
+  BtnMyInfo,
+  BtnUnfriend,
   ChatForm,
   CoverFilter,
   CoverUploader,

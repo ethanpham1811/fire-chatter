@@ -17,7 +17,7 @@ function ProfileStatistic({ user, isMe }) {
                 updateRequest={(val) => editUser({ ...user, exp: val })}
               />
             ) : (
-              user.exp || 0
+              user?.exp || 0
             )}
           </span>
         </li>
@@ -31,7 +31,7 @@ function ProfileStatistic({ user, isMe }) {
                 updateRequest={(val) => editUser({ ...user, projects: val })}
               />
             ) : (
-              user.projects || 0
+              user?.projects || 0
             )}
             +
           </span>
@@ -46,20 +46,20 @@ function ProfileStatistic({ user, isMe }) {
                 updateRequest={(val) => editUser({ ...user, position: val })}
               />
             ) : (
-              user.position || 'N/A'
+              user?.position || 'N/A'
             )}
           </span>
         </li>
       </ul>
       <ul className="flex flex-1 w-full">
         <li className="flex flex-1 flex-col justify-center items-center">
-          Connections<span className="text-3xl">{user.statistic?.connections || '0'}</span>
+          Connections<span className="text-3xl">{user?.connections || '0'}</span>
         </li>
         <li className="flex flex-1 flex-col justify-center items-center">
-          Views<span className="text-3xl">{user.statistic?.views || '0'}</span>
+          Views<span className="text-3xl">{user?.views || '0'}</span>
         </li>
         <li className="flex flex-1 flex-col justify-center items-center">
-          Recs<span className="text-3xl">{user.statistic?.recs || '0'}</span>
+          Recs<span className="text-3xl">{user?.recs || '0'}</span>
         </li>
       </ul>
     </>

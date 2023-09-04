@@ -15,7 +15,7 @@ function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
 
     /* request send message */
     const senderName = getFirstWord(user.displayName)
-    await sendMessage(conversationId, user.uid, friend.uid, message, uploads, senderName)
+    await sendMessage(conversationId, user, friend, message, uploads, senderName)
 
     /* reset form & scroll window down */
     setUploads([])

@@ -12,32 +12,36 @@ function ProfileContact({ user, isMe }) {
           <MdEmail size={20} className="text-icon" />
           {isMe ? (
             <IneditInput
-              options={{ isRequired: true, regexp: regexp.email }}
+              options={{ isRequired: true, regexp: regexp.email, placeHolder: '[Your email]' }}
               value={user.email}
               updateRequest={(val) => editUser({ ...user, email: val })}
             />
           ) : (
-            <span>{user.email}</span>
+            <span>{user.email || '<unknown>'}</span>
           )}
         </li>
         <li className="flex items-center gap-3">
           <FaLocationDot size={20} className="text-icon" />
           {isMe ? (
-            <IneditInput options={{ isRequired: true }} value={user.location} updateRequest={(val) => editUser({ ...user, location: val })} />
+            <IneditInput
+              options={{ isRequired: true, placeHolder: '[Your location]' }}
+              value={user.location}
+              updateRequest={(val) => editUser({ ...user, location: val })}
+            />
           ) : (
-            <span>{user.location}</span>
+            <span>{user.location || '<unknown>'}</span>
           )}
         </li>
         <li className="flex items-center gap-3">
           <BsFillTelephoneFill size={20} className="text-icon" />
           {isMe ? (
             <IneditInput
-              options={{ isRequired: true, regexp: regexp.phone }}
+              options={{ isRequired: true, regexp: regexp.phone, placeHolder: '[Your phone number]' }}
               value={user.phone}
               updateRequest={(val) => editUser({ ...user, phone: val })}
             />
           ) : (
-            <span>{user.phone}</span>
+            <span>{user.phone || '<unknown>'}</span>
           )}
         </li>
       </ul>

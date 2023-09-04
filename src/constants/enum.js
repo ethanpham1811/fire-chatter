@@ -20,9 +20,12 @@ export const MODAL_STYLES = {
     overflow: 'visible'
   }
 }
-export const RIGHT_CARD_MODE = {
+export const CARD_TITLE = {
+  CONTACTS: 'CONTACTS',
   PROFILE: 'PROFILE',
-  CHATBOX: 'CHATBOX'
+  CHATBOX: 'CHATBOX',
+  NOFRIEND: 'NOFRIEND',
+  FRIEND_REQUEST: 'FRIEND_REQUEST'
 }
 export const PROFILE_TABS = {
   STATISTIC: 1,
@@ -53,7 +56,8 @@ export const COMPONENT_KEYS = {
   MODAL: 'MODAL',
   TOGGLE: 'TOGGLE',
   DROPDOWN: 'DROPDOWN',
-  STATUS_SELECTOR: 'STATUS_SELECTOR'
+  STATUS_SELECTOR: 'STATUS_SELECTOR',
+  FRIEND_BTN: 'FRIEND_BTN'
 }
 export const FRIENDSHIP_ACTION = {
   REQUEST: 'REQUEST',
@@ -105,10 +109,12 @@ export const userStatuses = [
 export const newUser = {
   status: 'Active',
   position: 'Jr.',
-  about: 'N/A',
-  email: 'N/A',
-  location: 'N/A',
-  phone: 'N/A',
+  about: null,
+  email: null,
+  location: null,
+  phone: null,
+  exp: 0,
+  projects: 0,
   connections: 0,
   views: 0,
   recs: 0,
@@ -167,8 +173,13 @@ export const cardAnimation = {
 export const COMPONENT_ANIM = {
   SLIDE_UP: {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { ease: 'backOut', duration: 0.2 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
     exit: { opacity: 0, y: 20 }
+  },
+  SLIDE_DOWN: {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+    exit: { opacity: 0, y: -20 }
   },
   SCALE_IN: {
     hidden: { opacity: 0, scale: 0.5 },
@@ -181,7 +192,12 @@ export const COMPONENT_ANIM = {
   }
 }
 export const toggleAnimation = { animation: COMPONENT_ANIM.SLIDE_UP, key: COMPONENT_KEYS.TOGGLE }
+export const friendBtnAnimation = { animation: COMPONENT_ANIM.SLIDE_UP, key: COMPONENT_KEYS.FRIEND_BTN }
+export const unfriendBtnAnimation = { animation: COMPONENT_ANIM.SLIDE_DOWN, key: COMPONENT_KEYS.FRIEND_BTN }
 
 export const statusSelectorAnimation = {
   animation: COMPONENT_ANIM.SLIDE_RIGHT
 }
+
+/* texts */
+export const MSG_FROM_ADMIN = `Hi! I'm Khoi, welcome to my chat app. I'm ready to get to know about you!`

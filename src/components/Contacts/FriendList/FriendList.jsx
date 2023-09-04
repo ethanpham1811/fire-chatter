@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { FRIEND_STATUSES, MOBILE_STEP, RIGHT_CARD_MODE } from '../../../constants/enum'
+import { CARD_TITLE, FRIEND_STATUSES } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
 
 function FriendList({ isLoading, friendList, setSearchTerm }) {
-  const { setMobileStep, setSelectedFsId, setSelectedUser, setRightCardMode } = useContext(AppContext)
+  const { setSelectedFsId, setSelectedUser, setActiveCard } = useContext(AppContext)
 
   const handleSelectFriend = (e, friend, mode) => {
     e.preventDefault()
@@ -18,8 +18,7 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
       setSelectedUser(friend)
     }
 
-    setRightCardMode(mode)
-    setMobileStep(MOBILE_STEP.RIGHT_CARD)
+    setActiveCard(mode)
     setSearchTerm('')
   }
 
@@ -29,27 +28,31 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
         friendList.map((friend, i) => (
           <div
             className={`${
-              'after:bg-' + friend.status
+              'after:bg-' + friend.status?.toLowerCase()
             } grid grid-cols-[max-content_1fr_max-content] px-2 py-3 rounded-lg cursor-pointer items-center gap-5 hover:bg-hoverMain border-b-2 border-solid border-main last:border-none after:w-3 after:h-3 after:rounded-full after:ml-auto after:mr-3 ${
               friend.friendStatus !== FRIEND_STATUSES.ACCEPTED && 'after:hidden'
             }`}
             key={friend.uid}
           >
-            <a href="" tabIndex="0" onClick={(e) => handleSelectFriend(e, friend, RIGHT_CARD_MODE.PROFILE)}>
-              <img className="rounded-full w-10" src={friend.photoUrl} alt="user avatar" />
+            {/* ----------user photo------------- */}
+            <a tabIndex="0" onClick={(e) => handleSelectFriend(e, friend, CARD_TITLE.PROFILE)}>
+              <img className="rounded-full w-10 h-10" src={friend.photoUrl} alt="user avatar" />
             </a>
+
+            {/* ------------user name & message--------- */}
             <a
-              href=""
               tabIndex="0"
               className="flex flex-col justify-center overflow-hidden my-[-0.75rem] py-3"
-              onClick={(e) => handleSelectFriend(e, friend, !friend.friendStatus ? RIGHT_CARD_MODE.PROFILE : RIGHT_CARD_MODE.CHATBOX)}
+              onClick={(e) => {
+                let mode
+                if (!friend.friendStatus) mode = CARD_TITLE.PROFILE
+                else mode = friend.friendStatus === FRIEND_STATUSES.ACCEPTED ? CARD_TITLE.CHATBOX : CARD_TITLE.FRIEND_REQUEST
+                handleSelectFriend(e, friend, mode)
+              }}
             >
               <h3>{friend?.displayName}</h3>
-              {friend.friendStatus === FRIEND_STATUSES.ACCEPTED && (
-                <span className="text-sm text-darkGray truncate">
-                  {"Hey have you heard about the gun shot inccident in Kansas, it's terrible, I'm shocked!"}
-                </span>
-              )}
+              {/* user message */}
+              {friend.friendStatus === FRIEND_STATUSES.ACCEPTED && <span className="text-sm text-darkGray truncate">{friend.lastMessage}</span>}
               {friend.friendStatus === FRIEND_STATUSES.PENDING && <span className="text-sm text-danger">Waiting for friend request response</span>}
               {friend.friendStatus === FRIEND_STATUSES.SENT && (
                 <span className="text-sm text-danger">{friend.displayName} sent you a friend request</span>

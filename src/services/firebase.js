@@ -6,7 +6,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
   getFirestore,
   onSnapshot,
@@ -17,7 +16,8 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore'
-import { FRIEND_STATUSES, newUser } from '../constants/enum'
+import { FRIEND_STATUSES, MSG_FROM_ADMIN, newUser } from '../constants/enum'
+import { getFirstWord } from '../utils'
 import { firebaseConfig } from './firebaseconfig'
 
 // Initialize Firebase
@@ -48,12 +48,14 @@ export const fetchUserDetail = async (userId) => {
   const snap = await getDocs(q)
   return snap.docs[0]?.data()
 }
-export const addUser = async ({ displayName, photoURL, uid }) => {
+export const addUser = async ({ displayName, photoURL, uid, email, phoneNumber }) => {
   const data = {
     ...newUser,
     displayName,
     photoUrl: photoURL,
-    uid
+    uid,
+    email,
+    phone: phoneNumber
   }
   return await setDoc(doc(db, 'users', uid), data)
 }
@@ -69,7 +71,8 @@ export const editUser = async (user) => {
   userFriendships.forEach((fs) => {
     const isSender = fs.id.indexOf(user.uid) === 0
     const friendStatus = fs.data()[isSender ? 'sender' : 'receiver']?.friendStatus
-    const updatedInfo = { ...user, friendStatus, friendshipId: fs.id }
+    const lastMessage = fs.data()[isSender ? 'sender' : 'receiver']?.lastMessage
+    const updatedInfo = { ...user, friendStatus, lastMessage, friendshipId: fs.id }
     updateDoc(doc(db, 'friendships', fs.id), isSender ? { sender: updatedInfo } : { receiver: updatedInfo })
   })
 }
@@ -83,19 +86,29 @@ export const subscribeToUser = (userId, cb) => {
 //--------------------------------------------------------------------------------------
 //----------------------------- Friendlist: friends ------------------------------------
 //--------------------------------------------------------------------------------------
-export const fetchFriendshipDetail = async (myId, userId) => {
-  const dbRef = doc(db, 'users', myId, 'friends', userId)
-  const snap = await getDoc(dbRef)
-  return snap.data()
-}
+
 export const setFriendship = async (sender, receiver, senderStatus, receiverStatus, isInit = false) => {
   const friendshipId = `${sender.uid}_${receiver.uid}`
   const data = {
     sender: { ...sender, friendStatus: senderStatus, friendshipId },
     receiver: { ...receiver, friendStatus: receiverStatus, friendshipId }
   }
+
+  // set lastMessage by "admin welcome" to their friendship if this is their first init account
+  if (isInit) {
+    data.sender['lastMessage'] = MSG_FROM_ADMIN
+    data.receiver['lastMessage'] = MSG_FROM_ADMIN
+  }
+
   const dbRef = doc(db, 'friendships', `${sender.uid}_${receiver.uid}`)
-  return senderStatus === FRIEND_STATUSES.SENT || isInit ? await setDoc(dbRef, data) : await updateDoc(dbRef, data)
+  senderStatus === FRIEND_STATUSES.SENT || isInit ? await setDoc(dbRef, data) : await updateDoc(dbRef, data)
+
+  if (!isInit) return
+
+  // continue to add welcome message to the conversation if this is their first init account
+  const conversationId = await getConversationId(sender.uid, receiver.uid)
+  const senderName = getFirstWord(sender.displayName)
+  await sendMessage(conversationId, sender, receiver, MSG_FROM_ADMIN, [], senderName)
 }
 export const removeFriendship = async (myId, friendId) => {
   const friendshipId = await getFriendshipId(myId, friendId)
@@ -107,6 +120,12 @@ export const getFriendshipId = async (userId, friendId) => {
   const snap = await getDocs(dbRef)
   const datas = snap.docs.map((doc) => doc.id)
   return datas.find((id) => id.includes(userId) && id.includes(friendId))
+}
+export const getFriendship = async (userId, friendId) => {
+  const dbRef = collection(db, 'friendships')
+  const snap = await getDocs(dbRef)
+  const datas = snap.docs
+  return datas.find((fs) => fs.id.includes(userId) && fs.id.includes(friendId))
 }
 export const subscribeToFriendshipList = async (userId, cb) => {
   const dbRef = collection(db, 'friendships')
@@ -153,13 +172,24 @@ export const subscribeToMessages = (conversationId, cb) => {
 }
 
 export const sendMessage = async (conversationId, sender, receiver, content, uploads, senderName) => {
+  /* update friendships collection with new user data  */
+  const friendship = await getFriendship(sender.uid, receiver.uid)
+  const fsSender = friendship.data().sender
+  const fsReceiver = friendship.data().receiver
+  const lastMessage = content !== '' ? content : '<photo>'
+  const updatedFields = { friendStatus: FRIEND_STATUSES.ACCEPTED, friendshipId: friendship.id, lastMessage }
+  const senderInfo = { ...fsSender, ...updatedFields }
+  const receiverInfo = { ...fsReceiver, ...updatedFields }
+  updateDoc(doc(db, 'friendships', friendship.id), { sender: senderInfo, receiver: receiverInfo })
+
+  /* update privateMessages */
   const data = {
-    sender,
-    receiver,
+    sender: sender.uid,
+    receiver: receiver.uid,
     content,
     timestamp: serverTimestamp(),
     uploads,
     senderName
   }
-  return await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
+  await addDoc(collection(db, 'privateMessages', conversationId, 'messages'), data)
 }

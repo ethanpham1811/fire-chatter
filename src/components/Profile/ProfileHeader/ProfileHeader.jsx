@@ -11,13 +11,17 @@ function ProfileHeader({ user, tabIndex, isMe }) {
         {isMe ? (
           <IneditInput options={{ isRequired: true }} value={user.displayName} updateRequest={(val) => editUser({ ...user, displayName: val })} />
         ) : (
-          user.displayName
+          user.displayName || '<unknown>'
         )}
         <ProfileGenderEditor user={user} isMe={isMe} />
       </h2>
       {tabIndex === PROFILE_TABS.CONTACT && (
-        <div className="mt-3 text-xs">
-          {isMe ? <IneditInput value={user.about} updateRequest={(val) => editUser({ ...user, about: val })} /> : user.about}
+        <div className="mt-3 text-xs flex">
+          {isMe ? (
+            <IneditInput options={{ placeHolder: '[Your about]' }} value={user.about} updateRequest={(val) => editUser({ ...user, about: val })} />
+          ) : (
+            user.about || '<unknown>'
+          )}
         </div>
       )}
     </header>

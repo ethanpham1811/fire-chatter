@@ -23,32 +23,40 @@ function LoginWrapper() {
 
       /* enforce new user to add Ethan (admin) as friend */
       const admin = await fetchUserDetail(adminId)
-      console.log(admin)
-      const userObj = { ...newUser, uid: user.uid, photoUrl: user.photoURL, displayName: user.displayName }
+      const userObj = {
+        ...newUser,
+        uid: user.uid,
+        photoUrl: user.photoURL,
+        displayName: user.displayName,
+        email: user.email,
+        phone: user.phoneNumber
+      }
       handleFriendship(admin, userObj, FRIENDSHIP_ACTION.ACCEPT, true)
     })
   }
 
   return (
-    <section className="flex flex-col gap-10 p-10">
-      <header className="flex justify-center text-4xl">Fire Chatter</header>
-      <main className="flex flex-col md:flex-row items-center justify-center gap-3">
-        <button
-          className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover"
-          onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
-        >
-          <FcGoogle size={30} />
-          Sign in with Google
-        </button>
-        <button
-          className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover"
-          onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
-        >
-          <AiFillGithub size={30} />
-          Sign in with GitHub
-        </button>
-      </main>
-      <footer className="text-black italic opacity-50 text-center">Do not violate the community guidelines or you will be banned for life!</footer>
+    <section className="flex flex-col gap-5 p-5 w-[80vw] xs:w-[70vw] xl:w-[35vw] xs:max-h-[70vh]">
+      <div className="flex flex-col gap-10 p-10">
+        <header className="flex justify-center text-4xl">Fire Chatter</header>
+        <main className="flex flex-col md:flex-row items-center justify-center gap-3">
+          <button
+            className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover"
+            onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
+          >
+            <FcGoogle size={30} />
+            Sign in with Google
+          </button>
+          <button
+            className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover"
+            onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
+          >
+            <AiFillGithub size={30} />
+            Sign in with GitHub
+          </button>
+        </main>
+        <footer className="text-black italic opacity-50 text-center">Do not violate the community guidelines or you will be banned for life!</footer>
+      </div>
     </section>
   )
 }

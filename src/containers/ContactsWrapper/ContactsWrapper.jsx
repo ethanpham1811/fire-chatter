@@ -9,7 +9,11 @@ function ContactsWrapper() {
   const [mergeList, friendList, searchTerm, setSearchTerm, isLoading] = useFriendList(me)
 
   return (
-    <section className="flex flex-col gap-5 p-5 justify-start w-screen h-screen md:w-[70vw] lg:w-[30vw] xl:w-[35vw] 2xl:w-[25vw] md:h-auto md:max-h-[70vh]">
+    <section
+      className="flex flex-col gap-5 p-5 justify-start w-screen h-screen 
+                      xs:w-[70vw] lg:w-[30vw] xl:w-[35vw] 2xl:w-[25vw] 
+                      xs:h-auto md:max-h-[70vh]"
+    >
       <UserNav user={me} isMe />
       <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
       <FriendList isLoading={isLoading} friendList={mergeList || friendList} setSearchTerm={setSearchTerm} />
