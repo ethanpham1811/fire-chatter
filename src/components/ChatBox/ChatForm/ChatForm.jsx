@@ -13,13 +13,13 @@ function ChatForm({ isLoading, user, friend, conversationId, msgListRef }) {
     e.preventDefault()
     if (!user.uid || !friend.uid || (message === '' && uploads.length === 0)) return
 
-    /* request send message */
-    const senderName = getFirstWord(user.displayName)
-    await sendMessage(conversationId, user, friend, message, uploads, senderName)
-
     /* reset form & scroll window down */
     setUploads([])
     setMessage('')
+
+    /* request send message */
+    const senderName = getFirstWord(user.displayName)
+    await sendMessage(conversationId, user, friend, message, uploads, senderName)
   }
 
   return (
