@@ -4,6 +4,7 @@ import { auth, subscribeToUser } from '../services/firebase'
 
 const useInitApp = () => {
   const [authUser, isLoading] = useAuthState(auth)
+  const [userIsLoading, setUserIsLoading] = useState(true)
   const [me, setMe] = useState(null)
   // set init state for framer motion animation
   const [isMounted, setIsMounted] = useState(false)
@@ -17,6 +18,7 @@ const useInitApp = () => {
       //   const token = await getMessagingToken()
       //   editUser({ deviceToken: token }, authUser.uid)
       // }
+      setUserIsLoading(false)
       setMe(user)
     })
     return () => unsubscribe()
@@ -27,7 +29,7 @@ const useInitApp = () => {
     setTimeout(() => setIsMounted(true), 1000)
   }, [])
 
-  return [authUser, me, isMounted, isLoading]
+  return [authUser, me, isMounted, isLoading, userIsLoading]
 }
 
 export default useInitApp

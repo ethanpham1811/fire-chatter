@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { CARD_TITLE, FRIEND_STATUSES } from '../../../constants/enum'
+import { CARD_TITLE, FRIEND_STATUSES, translatedText } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
+import { handleEnter } from '../../../utils'
 
 function FriendList({ isLoading, friendList, setSearchTerm }) {
   const { setSelectedFsId, setSelectedUser, setActiveCard } = useContext(AppContext)
@@ -35,14 +36,16 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
             key={friend.uid}
           >
             {/* ----------user photo------------- */}
-            <a tabIndex="0" onClick={(e) => handleSelectFriend(e, friend, CARD_TITLE.PROFILE)}>
-              <img className="rounded-full w-10 h-10" src={friend.photoUrl} alt="user avatar" />
+            <a role="button" tabIndex="0" onClick={(e) => handleSelectFriend(e, friend, CARD_TITLE.PROFILE)} onKeyDown={(e) => handleEnter(e)}>
+              <img className="rounded-full w-10 h-10 object-cover" src={friend.photoUrl} alt="user avatar" />
             </a>
 
             {/* ------------user name & message--------- */}
             <a
+              role="button"
               tabIndex="0"
               className="flex flex-col justify-center overflow-hidden my-[-0.75rem] py-3"
+              onKeyDown={(e) => handleEnter(e)}
               onClick={(e) => {
                 let mode
                 if (!friend.friendStatus) mode = CARD_TITLE.PROFILE
@@ -62,7 +65,7 @@ function FriendList({ isLoading, friendList, setSearchTerm }) {
           </div>
         ))
       ) : (
-        <div className="px-2 py-3">You have no added contact</div>
+        <div className="px-2 py-3">{translatedText.noContact}</div>
       )}
     </>
   )

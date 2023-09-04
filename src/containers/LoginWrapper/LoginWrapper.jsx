@@ -2,7 +2,7 @@ import { GithubAuthProvider, GoogleAuthProvider, getAdditionalUserInfo, signInWi
 import React from 'react'
 import { AiFillGithub, FcGoogle } from '../../utils/icons'
 
-import { AUTHEN_PROVIDERS, FRIENDSHIP_ACTION, adminId, newUser } from '../../constants/enum'
+import { AUTHEN_PROVIDERS, FRIENDSHIP_ACTION, adminId, newUser, translatedText } from '../../constants/enum'
 import { addUser, auth, fetchUserDetail } from '../../services/firebase'
 import { handleFriendship } from '../../utils'
 import WithCard from '../../wrappers/WithCard/WithCard'
@@ -36,8 +36,8 @@ function LoginWrapper() {
   }
 
   return (
-    <section className="flex flex-col gap-5 p-5 w-[80vw] xs:w-[70vw] xl:w-[35vw] xs:max-h-[70vh]">
-      <div className="flex flex-col gap-10 p-10">
+    <section className="flex flex-col gap-5 p-14 w-[80vw] xs:w-[70vw] xl:w-[35vw] xs:max-h-[70vh]">
+      <div className="flex flex-col gap-10">
         <header className="flex justify-center text-4xl">Fire Chatter</header>
         <main className="flex flex-col md:flex-row items-center justify-center gap-3">
           <button
@@ -55,7 +55,7 @@ function LoginWrapper() {
             Sign in with GitHub
           </button>
         </main>
-        <footer className="text-black italic opacity-50 text-center">Do not violate the community guidelines or you will be banned for life!</footer>
+        <footer className="text-black italic opacity-50 text-center">{translatedText.loginNote}</footer>
       </div>
     </section>
   )

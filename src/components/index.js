@@ -1,3 +1,4 @@
+import BackArrow from './BackArrow/BackArrow'
 import AttachmentUploader from './ChatBox/AttachmentUploader/AttachmentUploader'
 import ChatForm from './ChatBox/ChatForm/ChatForm'
 import FriendRequestWindow from './ChatBox/FriendRequestWindow/FriendRequestWindow'
@@ -38,6 +39,7 @@ import UserNav from './UserNav/UserNav'
 
 export {
   AttachmentUploader,
+  BackArrow,
   BtnAcceptDecline,
   BtnAdd,
   BtnCancel,

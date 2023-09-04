@@ -33,20 +33,12 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
     <Tabs className="flex flex-1 flex-col transition-all bg-main shadow-innerChatBox relative" selectedIndex={tabIndex} onSelect={handleSwitchTab}>
       <TabList className="flex items-center z-10">
         {/* Contact tab */}
-        <Tab
-          tabIndex="-1"
-          className="flex flex-1 justify-center cursor-pointer outline-none"
-          selectedClassName="profile-nav-tab__contact-btn--active"
-        >
+        <Tab className="flex flex-1 justify-center cursor-pointer outline-none" selectedClassName="profile-nav-tab__contact-btn--active">
           <BtnContact tabIndex={tabIndex} />
         </Tab>
 
         {/* Statistic tab */}
-        <Tab
-          tabIndex="-1"
-          className="flex flex-1 justify-center cursor-pointer outline-none"
-          selectedClassName="profile-nav-tab__statistic-btn--active"
-        >
+        <Tab className="flex flex-1 justify-center cursor-pointer outline-none" selectedClassName="profile-nav-tab__statistic-btn--active">
           {/* if the user is me */}
           {isMe && <BtnMyInfo tabIndex={tabIndex} />}
 

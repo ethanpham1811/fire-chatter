@@ -4,7 +4,9 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { CARD_TITLE, cardAnimation } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
 import { editUser } from '../../services/firebase'
-import { HiOutlineArrowSmLeft, PiCaretRightLight } from '../../utils/icons'
+import { handleEnter } from '../../utils'
+import { PiCaretRightLight } from '../../utils/icons'
+import BackArrow from '../BackArrow/BackArrow'
 import UserStatusPicker from '../Contacts/UserStatusPicker/UserStatusPicker'
 import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
@@ -27,7 +29,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
     setActiveCard(CARD_TITLE.PROFILE)
   }
 
-  function handleChangeStatus(e) {
+  function handleOpenStatusPicker(e) {
     e.stopPropagation()
     if (!isMe) return
     setStatusIsOpened(!statusIsOpened)
@@ -36,16 +38,9 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
   return (
     <section className="flex flex-col gap-4">
       <div className="flex gap-4 items-center">
-        {hasBack && (
-          <HiOutlineArrowSmLeft
-            tabIndex="0"
-            onClick={() => setActiveCard(CARD_TITLE.CONTACTS)}
-            className="cursor-pointer block lg:hidden"
-            size={30}
-          />
-        )}
+        {hasBack && <BackArrow />}
         <div className="flex flex-1 items-center bg-transparent p-0 gap-4">
-          <div className="w-max cursor-pointer" tabIndex={0} onClick={handleOpenUserDetail}>
+          <div role="button" className="w-max cursor-pointer" tabIndex={0} onClick={handleOpenUserDetail} onKeyDown={(e) => handleEnter(e)}>
             {isLoading ? (
               <Skeleton circle className="w-[calc(3.5rem_-_3px)] border-x-active rounded-full aspect-square" />
             ) : (
@@ -68,10 +63,23 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
               </>
             ) : (
               <>
-                <h3 onClick={handleOpenUserDetail} disabled={isLoading} className="cursor-pointer">
+                <h3
+                  role="button"
+                  onClick={handleOpenUserDetail}
+                  disabled={isLoading}
+                  className="cursor-pointer"
+                  tabIndex={0}
+                  onKeyDown={(e) => handleEnter(e)}
+                >
                   {user?.displayName}
                 </h3>
-                <span className={`${isMe ? 'cursor-pointer' : 'cursor-[default]'} text-sm flex items-center gap-2`} onClick={handleChangeStatus}>
+                <span
+                  role="button"
+                  className={`${isMe ? 'cursor-pointer' : 'cursor-[default]'} text-sm flex items-center gap-2`}
+                  tabIndex={0}
+                  onClick={handleOpenStatusPicker}
+                  onKeyDown={(e) => handleEnter(e)}
+                >
                   {user?.status}
                   {isMe && <PiCaretRightLight size={12} className={`${statusIsOpened && 'rotate-90'} transition-all duration-150 ease-in-expo`} />}
                 </span>
@@ -81,7 +89,12 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
         </div>
         {isMe && (
           <>
-            <button className="w-max h-10 flex items-center bg-darkGray text-sm text-white" onClick={() => setIsOpenModal(true)}>
+            <button
+              style={{ opacity: isLoading ? 0.5 : 1 }}
+              disabled={isLoading}
+              className="w-max h-10 flex items-center bg-darkGray text-sm text-white"
+              onClick={() => setIsOpenModal(true)}
+            >
               Logout
             </button>
             {/* Are you sure to logout modal */}

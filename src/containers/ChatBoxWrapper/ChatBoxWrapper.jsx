@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import ChatForm from '../../components/ChatBox/ChatForm/ChatForm'
 import MessageList from '../../components/ChatBox/MessageList/MessageList'
 import UserNav from '../../components/UserNav/UserNav'
@@ -6,11 +6,9 @@ import { useConversationId, useMessages } from '../../hooks'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
 function ChatBoxWrapper({ user, friend }) {
-  /* states */
-  const [msgIsLoading, setMsgIsLoading] = useState(true)
   /* custom hooks */
   const [conversationId] = useConversationId(user.uid, friend.uid)
-  const [messages] = useMessages(conversationId, setMsgIsLoading)
+  const [messages, isLoading] = useMessages(conversationId)
   /* refs */
   const msgListRef = useRef(null)
 
@@ -24,13 +22,13 @@ function ChatBoxWrapper({ user, friend }) {
         <UserNav hasBack={true} user={friend} isMe={false} />
       </header>
       <MessageList
-        isLoading={msgIsLoading}
+        isLoading={isLoading}
         ref={(ref) => (msgListRef.current = ref)}
         messages={messages}
         userId={user.uid}
         friendPhoto={friend.photoUrl}
       />
-      <ChatForm isLoading={msgIsLoading} user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />
+      <ChatForm isLoading={isLoading} user={user} friend={friend} conversationId={conversationId} msgListRef={msgListRef} />
     </section>
   )
 }
