@@ -10,9 +10,9 @@ import { auth } from './services/firebase'
 
 function App() {
   const [isMobile] = useIsMobile()
-  const [authUser, me, isMounted, isLoading] = useInitApp()
-  const [selectedUser, setSelectedUser, setSelectedFsId] = useSelectedUser(me?.uid)
+  const [authUser, me, isMounted, isLoading, userIsLoading] = useInitApp()
   const [activeCard, setActiveCard] = useState(CARD_TITLE.CONTACTS)
+  const [selectedUser, setSelectedUser, setSelectedFsId] = useSelectedUser(me?.uid, setActiveCard)
 
   /* useMemo for Context object */
   const contexts = useMemo(() => {
@@ -29,7 +29,12 @@ function App() {
         {authUser && (
           <>
             {(activeCard === CARD_TITLE.CONTACTS || !isMobile || !selectedUser) && (
-              <ContactsWrapper cardTitle={CARD_TITLE.CONTACTS} anim={cardAnimation.contacts} key={COMPONENT_KEYS.CONTACTS} />
+              <ContactsWrapper
+                userIsLoading={userIsLoading}
+                cardTitle={CARD_TITLE.CONTACTS}
+                anim={cardAnimation.contacts}
+                key={COMPONENT_KEYS.CONTACTS}
+              />
             )}
             <AnimatePresence exitBeforeEnter initial mode="sync" onExitComplete={() => null}>
               {/* chatbox wrapper: RIGHT PANEL */}

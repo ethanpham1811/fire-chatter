@@ -1,6 +1,7 @@
 import React from 'react'
 import { v4 as rid } from 'uuid'
 import { userStatuses } from '../../../constants/enum'
+import { handleEnter } from '../../../utils'
 
 function UserStatusPicker({ activeStatus, isOpened, updateRequest }) {
   const handleOnChange = (status) => {
@@ -11,7 +12,10 @@ function UserStatusPicker({ activeStatus, isOpened, updateRequest }) {
       {isOpened &&
         userStatuses.map((status, i) => (
           <div
+            role="button"
+            tabIndex={0}
             onClick={() => handleOnChange(status.text)}
+            onKeyDown={(e) => handleEnter(e)}
             key={`userStatus_${rid()}`}
             className={`${activeStatus === status.value ? status.bgColor : 'bg-[#ccc] opacity-30'} ${
               status.hoverBgColor

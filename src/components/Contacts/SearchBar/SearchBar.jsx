@@ -9,7 +9,13 @@ function SearchBar({ searchTerm, setSearchTerm }) {
 
   return (
     <form className="relative" onSubmit={handleSearch}>
-      <input type="text" value={searchTerm} onChange={handleSearch} className="text-sm w-full p-2 border-2 rounded-md" placeholder="Search..." />
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleSearch}
+        className="text-sm w-full p-2 border-2 rounded-md"
+        placeholder="Type 'Betty' (sample user)"
+      />
       <button
         onClick={(e) => {
           e.preventDefault()

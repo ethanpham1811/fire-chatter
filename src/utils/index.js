@@ -19,5 +19,9 @@ export function timeout(duration) {
   return new Promise((res) => setTimeout(res, duration))
 }
 
-export const handleEnter = (e, cb) => (e.key === 'Enter' || e.keyCode === 13) && cb()
+export const handleEnter = (e, cb) => {
+  if (e.key === 'Enter' || e.keyCode === 13) {
+    cb ? cb() : e.target.click()
+  }
+}
 export const getFirstWord = (str) => str.trimLeft().split(' ')[0]

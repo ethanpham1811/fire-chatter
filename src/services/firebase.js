@@ -16,7 +16,7 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore'
-import { FRIEND_STATUSES, MSG_FROM_ADMIN, newUser } from '../constants/enum'
+import { FRIEND_STATUSES, newUser, translatedText } from '../constants/enum'
 import { getFirstWord } from '../utils'
 import { firebaseConfig } from './firebaseconfig'
 
@@ -71,7 +71,7 @@ export const editUser = async (user) => {
   userFriendships.forEach((fs) => {
     const isSender = fs.id.indexOf(user.uid) === 0
     const friendStatus = fs.data()[isSender ? 'sender' : 'receiver']?.friendStatus
-    const lastMessage = fs.data()[isSender ? 'sender' : 'receiver']?.lastMessage
+    const lastMessage = fs.data()[isSender ? 'sender' : 'receiver']?.lastMessage || ''
     const updatedInfo = { ...user, friendStatus, lastMessage, friendshipId: fs.id }
     updateDoc(doc(db, 'friendships', fs.id), isSender ? { sender: updatedInfo } : { receiver: updatedInfo })
   })
@@ -96,8 +96,8 @@ export const setFriendship = async (sender, receiver, senderStatus, receiverStat
 
   // set lastMessage by "admin welcome" to their friendship if this is their first init account
   if (isInit) {
-    data.sender['lastMessage'] = MSG_FROM_ADMIN
-    data.receiver['lastMessage'] = MSG_FROM_ADMIN
+    data.sender['lastMessage'] = translatedText.fromAdmin
+    data.receiver['lastMessage'] = translatedText.fromAdmin
   }
 
   const dbRef = doc(db, 'friendships', `${sender.uid}_${receiver.uid}`)
@@ -108,7 +108,7 @@ export const setFriendship = async (sender, receiver, senderStatus, receiverStat
   // continue to add welcome message to the conversation if this is their first init account
   const conversationId = await getConversationId(sender.uid, receiver.uid)
   const senderName = getFirstWord(sender.displayName)
-  await sendMessage(conversationId, sender, receiver, MSG_FROM_ADMIN, [], senderName)
+  await sendMessage(conversationId, sender, receiver, translatedText.fromAdmin, [], senderName)
 }
 export const removeFriendship = async (myId, friendId) => {
   const friendshipId = await getFriendshipId(myId, friendId)

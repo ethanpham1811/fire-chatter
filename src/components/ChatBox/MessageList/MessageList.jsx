@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { translatedText } from '../../../constants/enum'
 import Modal from '../../Modal/Modal'
 import PreviewImgModal from '../../Modal/PreviewImgModal'
 import Message from '../Message/Message'
@@ -27,20 +28,28 @@ const MessageList = forwardRef(({ isLoading, messages, userId, friendPhoto }, re
 
   const messagesJsx = (
     <>
-      {messages?.length !== 0 ? (
-        messages.map((msg, i) => (
-          <Message
-            setPreviewImg={handlePreviewImg}
-            myLastMsg={checkLastMsg(i)}
-            userId={userId}
-            friendPhoto={friendPhoto}
-            key={msg.uid ?? `msg${i}`}
-            message={msg}
-          />
-        ))
+      {!isLoading ? (
+        <>
+          {messages?.length !== 0 ? (
+            messages.map((msg, i) => (
+              <Message
+                setPreviewImg={handlePreviewImg}
+                myLastMsg={checkLastMsg(i)}
+                userId={userId}
+                friendPhoto={friendPhoto}
+                key={msg.uid ?? `msg${i}`}
+                message={msg}
+              />
+            ))
+          ) : (
+            <div className="mt-auto my-3 flex justify-center py-2 relative text-sm before:absolute before:top-0 before:m-auto before:w-1/6 before:h-[1px] before:bg-[#999]">
+              {translatedText.startConversation}
+            </div>
+          )}
+        </>
       ) : (
-        <div className="mt-auto my-3 flex justify-center py-2 relative text-[#999] text-sm before:absolute before:top-0 before:m-auto before:w-1/6 before:h-[1px] before:bg-[#999]">
-          Let's start the conversation!
+        <div className="mt-auto my-3 flex justify-center py-2 relative text-sm before:absolute before:top-0 before:m-auto before:w-1/6 before:h-[1px] before:bg-[#999]">
+          {translatedText.loadingMsg}
         </div>
       )}
     </>

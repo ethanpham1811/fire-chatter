@@ -2,11 +2,15 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { v4 as rid } from 'uuid'
 import { FRIENDSHIP_ACTION, unfriendBtnAnimation } from '../../../../constants/enum'
+import { handleEnter } from '../../../../utils'
 import { FcCancel } from '../../../../utils/icons'
 
 function BtnUnfriend({ toggleUnfriendBtn, handleSetFriendship }) {
   return (
     <a
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => handleEnter(e)}
       className="unfriend-label p-2 flex-1 flex justify-center gap-3"
       onMouseLeave={toggleUnfriendBtn}
       onClick={(e) => handleSetFriendship(e, FRIENDSHIP_ACTION.REMOVE)}

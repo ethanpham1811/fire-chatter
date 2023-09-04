@@ -4,7 +4,7 @@ import AppContext from '../../contexts/AppContext'
 import { useFriendList } from '../../hooks'
 import WithCard from '../../wrappers/WithCard/WithCard'
 
-function ContactsWrapper() {
+function ContactsWrapper({ userIsLoading }) {
   const { me } = useContext(AppContext)
   const [mergeList, friendList, searchTerm, setSearchTerm, isLoading] = useFriendList(me)
 
@@ -14,7 +14,7 @@ function ContactsWrapper() {
                       xs:w-[70vw] lg:w-[30vw] xl:w-[35vw] 2xl:w-[25vw] 
                       xs:h-auto md:max-h-[70vh]"
     >
-      <UserNav user={me} isMe />
+      <UserNav isLoading={userIsLoading} user={me} isMe />
       <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
       <FriendList isLoading={isLoading} friendList={mergeList || friendList} setSearchTerm={setSearchTerm} />
     </section>

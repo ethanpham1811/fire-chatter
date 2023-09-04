@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactModal from 'react-modal'
-import { MODAL_STYLES } from '../../constants/enum'
+import { MODAL_STYLES, translatedText } from '../../constants/enum'
 
 import './Modal.css'
 
@@ -13,7 +13,7 @@ function Modal({ children, isOpen, setIsOpenModal }) {
       isOpen={isOpen}
       onRequestClose={() => setIsOpenModal(false)}
       ariaHideApp={false}
-      contentLabel="Are you sure to logout?"
+      contentLabel={translatedText.sureToLogout}
     >
       {children}
     </ReactModal>

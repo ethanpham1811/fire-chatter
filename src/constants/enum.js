@@ -200,4 +200,12 @@ export const statusSelectorAnimation = {
 }
 
 /* texts */
-export const MSG_FROM_ADMIN = `Hi! I'm Khoi, welcome to my chat app. I'm ready to get to know about you!`
+export const translatedText = {
+  fromAdmin: `Hi! I'm Khoi, welcome to my chat app. I'm ready to get to know about you!`,
+  startConversation: `Let's start the conversation!`,
+  loadingMsg: 'Loading messages, please wait..',
+  waitForResponse: 'Please kindly wait for their response.',
+  noContact: 'You have no added contact',
+  sureToLogout: 'Are you sure to logout?',
+  loginNote: 'Welcome to my humble chat app with Firebase & React!'
+}

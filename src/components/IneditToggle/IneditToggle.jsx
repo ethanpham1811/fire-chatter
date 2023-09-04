@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { v4 as rid } from 'uuid'
+import { handleEnter } from '../../utils'
 
 function IneditToggle({ value, updateRequest, options }) {
   const [val, setVal] = useState(value)
@@ -25,6 +26,7 @@ function IneditToggle({ value, updateRequest, options }) {
               animate="visible"
               exit="exit"
               tabIndex={0}
+              onKeyDown={(e) => handleEnter(e)}
               onClick={toggleNextOption}
               className="cursor-pointer"
             >
