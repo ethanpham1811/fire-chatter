@@ -11,7 +11,9 @@ function ProfileWrapper({ user, isMe = false }) {
 
   return (
     <section
-      className={`flex flex-col p-2 overflow-hidden w-screen h-screen md:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] md:max-h-[70vh] lg:min-h-[550px] relative`}
+      className="flex flex-col p-2 overflow-hidden w-screen h-screen 
+                        xs:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] 
+                        xs:max-h-[70vh] lg:min-h-[550px relative"
     >
       {/* {isLoading ? (
         <Spinner message="Please wait.." />

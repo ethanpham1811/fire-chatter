@@ -20,9 +20,12 @@ export const MODAL_STYLES = {
     overflow: 'visible'
   }
 }
-export const RIGHT_CARD_MODE = {
+export const CARD_TITLE = {
+  CONTACTS: 'CONTACTS',
   PROFILE: 'PROFILE',
-  CHATBOX: 'CHATBOX'
+  CHATBOX: 'CHATBOX',
+  NOFRIEND: 'NOFRIEND',
+  FRIEND_REQUEST: 'FRIEND_REQUEST'
 }
 export const PROFILE_TABS = {
   STATISTIC: 1,
@@ -195,3 +198,6 @@ export const unfriendBtnAnimation = { animation: COMPONENT_ANIM.SLIDE_DOWN, key:
 export const statusSelectorAnimation = {
   animation: COMPONENT_ANIM.SLIDE_RIGHT
 }
+
+/* texts */
+export const MSG_FROM_ADMIN = `Hi! I'm Khoi, welcome to my chat app. I'm ready to get to know about you!`

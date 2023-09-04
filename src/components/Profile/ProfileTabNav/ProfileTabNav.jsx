@@ -3,13 +3,13 @@ import React, { useContext, useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import { ProfileContact, ProfileStatistic } from '../../'
 import { BtnAcceptDecline, BtnAdd, BtnCancel, BtnContact, BtnFriend, BtnInterest, BtnMyInfo, BtnUnfriend } from '../../../components'
-import { FRIENDSHIP_ACTION, FRIEND_STATUSES, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
+import { CARD_TITLE, FRIENDSHIP_ACTION, FRIEND_STATUSES, PROFILE_TABS, PROFILE_TAB_ANIM } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
 import { handleFriendship } from '../../../utils'
 import './ProfileTabNav.css'
 
 function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) {
-  const { me, setMobileStep, setSelectedUser } = useContext(AppContext)
+  const { me, setActiveCard } = useContext(AppContext)
   const [isUnfriendBtn, setIsUnfriendBtn] = useState(false)
   const [fsStatus, setFsStatus] = useState(null)
 
@@ -26,11 +26,7 @@ function ProfileTabNav({ user, isMe, setTabIndex, tabIndex, setChangingCover }) 
     e.preventDefault()
     setFsStatus(action)
     action === FRIENDSHIP_ACTION.ACCEPT ? handleFriendship(user, me, action) : handleFriendship(me, user, action)
-    // on mobile: navigate user to left card on request declining/remove request
-    // if (action === FRIENDSHIP_ACTION.REMOVE) {
-    //   setSelectedUser(null)
-    //   setMobileStep(MOBILE_STEP.LEFT_CARD)
-    // }
+    if (action === FRIENDSHIP_ACTION.REMOVE) setActiveCard(CARD_TITLE.CONTACTS)
   }
 
   return (

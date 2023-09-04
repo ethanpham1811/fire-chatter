@@ -26,6 +26,9 @@ export default {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      screens: {
+        xs: '600px'
+      },
       colors: {
         main: 'var(--main-color)',
         secondary: 'var(--secondary-color)',

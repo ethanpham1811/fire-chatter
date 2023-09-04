@@ -7,7 +7,7 @@ function UserStatusPicker({ activeStatus, isOpened, updateRequest }) {
     updateRequest(status)
   }
   return (
-    <div className={`flex justify-around gap-4 md:px-20 transition-all items-center ${isOpened ? 'h-8' : 'h-0 mt-[-1rem]'}`}>
+    <div className={`flex justify-around gap-3 px-40 transition-all items-center ${isOpened ? 'h-8' : 'h-0 mt-[-1rem]'}`}>
       {isOpened &&
         userStatuses.map((status, i) => (
           <div

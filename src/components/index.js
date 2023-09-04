@@ -1,5 +1,4 @@
 import AttachmentUploader from './ChatBox/AttachmentUploader/AttachmentUploader'
-import ChatBoxWindow from './ChatBox/ChatBoxWindow/ChatBoxWindow'
 import ChatForm from './ChatBox/ChatForm/ChatForm'
 import FriendRequestWindow from './ChatBox/FriendRequestWindow/FriendRequestWindow'
 import Message from './ChatBox/Message/Message'
@@ -47,7 +46,6 @@ export {
   BtnInterest,
   BtnMyInfo,
   BtnUnfriend,
-  ChatBoxWindow,
   ChatForm,
   CoverFilter,
   CoverUploader,

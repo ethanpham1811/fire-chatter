@@ -1,35 +1,40 @@
 import React, { useContext } from 'react'
-import { FRIEND_STATUSES, FRIENDSHIP_ACTION, MOBILE_STEP, RIGHT_CARD_MODE } from '../../../constants/enum'
+import { CARD_TITLE, FRIENDSHIP_ACTION, FRIEND_STATUSES } from '../../../constants/enum'
 import AppContext from '../../../contexts/AppContext'
 import { handleFriendship } from '../../../utils'
 import { HiOutlineArrowSmLeft } from '../../../utils/icons'
+import WithCard from '../../../wrappers/WithCard/WithCard'
 
 function FriendRequestWindow({ user, friend }) {
-  const { setSelectedFsId, setRightCardMode, setMobileStep } = useContext(AppContext)
+  const { setSelectedFsId, setActiveCard } = useContext(AppContext)
 
   /* handle open user detail */
   function handleOpenUserDetail() {
     setSelectedFsId(friend.friendshipId)
-    setRightCardMode(RIGHT_CARD_MODE.PROFILE)
+    setActiveCard(CARD_TITLE.PROFILE)
   }
 
   /* handle friend requests */
   function handleAcceptFriend() {
     handleFriendship(friend, user, FRIENDSHIP_ACTION.ACCEPT)
     setSelectedFsId(friend.friendshipId)
-    setRightCardMode(RIGHT_CARD_MODE.CHATBOX)
+    setActiveCard(CARD_TITLE.CHATBOX)
   }
   function handleRejectFriend() {
     handleFriendship(friend, user, FRIENDSHIP_ACTION.REMOVE)
-    setMobileStep(MOBILE_STEP.LEFT_CARD)
+    setActiveCard(CARD_TITLE.CONTACTS)
   }
 
   return (
-    <>
+    <section
+      className="flex flex-col gap-5 p-5 w-screen h-screen 
+                        xs:w-[70vw] lg:w-[45vw] xl:w-[35vw] 2xl:w-[25vw] 
+                        xs:max-h-[70vh] lg:min-h-[550px] relative"
+    >
       <div className="flex flex-col gap-3 m-auto justify-center items-center">
         <HiOutlineArrowSmLeft
           tabIndex="0"
-          onClick={() => setMobileStep(MOBILE_STEP.LEFT_CARD)}
+          onClick={() => setActiveCard(CARD_TITLE.CONTACTS)}
           className="absolute cursor-pointer block lg:hidden top-3 left-3 z-10"
           size={30}
         />
@@ -51,8 +56,8 @@ function FriendRequestWindow({ user, friend }) {
           )}
         </p>
       </div>
-    </>
+    </section>
   )
 }
 
-export default FriendRequestWindow
+export default WithCard(FriendRequestWindow)

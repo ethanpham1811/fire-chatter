@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { MOBILE_STEP, RIGHT_CARD_MODE, cardAnimation } from '../../constants/enum'
+import { CARD_TITLE, cardAnimation } from '../../constants/enum'
 import AppContext from '../../contexts/AppContext'
 import { editUser } from '../../services/firebase'
 import { HiOutlineArrowSmLeft, PiCaretRightLight } from '../../utils/icons'
@@ -10,7 +10,7 @@ import LogoutModal from '../Modal/LogoutModal'
 import Modal from '../Modal/Modal'
 
 function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
-  const { setMobileStep, setSelectedUser, setSelectedFsId, setRightCardMode } = useContext(AppContext)
+  const { setSelectedUser, setSelectedFsId, setActiveCard } = useContext(AppContext)
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [statusIsOpened, setStatusIsOpened] = useState(false)
 
@@ -24,8 +24,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
       setSelectedUser(user)
     }
 
-    setRightCardMode(RIGHT_CARD_MODE.PROFILE)
-    setMobileStep(MOBILE_STEP.RIGHT_CARD)
+    setActiveCard(CARD_TITLE.PROFILE)
   }
 
   function handleChangeStatus(e) {
@@ -40,7 +39,7 @@ function UserNav({ isLoading, hasBack = false, user, isMe = false }) {
         {hasBack && (
           <HiOutlineArrowSmLeft
             tabIndex="0"
-            onClick={() => setMobileStep(MOBILE_STEP.LEFT_CARD)}
+            onClick={() => setActiveCard(CARD_TITLE.CONTACTS)}
             className="cursor-pointer block lg:hidden"
             size={30}
           />

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { handleEnter } from '../../utils'
 
 function IneditInput({ value, updateRequest, options = {} }) {
   const [val, setVal] = useState(value)
@@ -8,7 +7,7 @@ function IneditInput({ value, updateRequest, options = {} }) {
   const [editMode, setEditMode] = useState(false)
   const spanRef = useRef()
   const inputRef = useRef()
-  const { isRequired = false, type = 'text', regexp = null, rightPad = 7, placeHolder = null } = options
+  const { isRequired = false, type = 'text', regexp = null, rightPad = 7, placeHolder = '' } = options
 
   useEffect(() => setWidth(spanRef.current.offsetWidth + rightPad), [val])
 
@@ -26,14 +25,18 @@ function IneditInput({ value, updateRequest, options = {} }) {
 
   const handleOnBlur = (e) => {
     e.stopPropagation()
-    if (isValid) updateRequest(type === 'number' ? e.target.valueAsNumber : e.target.value)
+    const value = type === 'number' ? inputRef.current.valueAsNumber : inputRef.current.value
+    if (isValid) updateRequest(value)
     else {
       setVal(value)
       setIsValid(true)
     }
-
-    e.target.blur()
     setEditMode(false)
+  }
+
+  const handleOnKeyDown = (e) => {
+    e.stopPropagation()
+    if (e.key === 'Enter' || e.keyCode === 13) inputRef.current.blur()
   }
 
   return (
@@ -46,10 +49,10 @@ function IneditInput({ value, updateRequest, options = {} }) {
         ref={inputRef}
         type={type}
         style={{ width }}
-        value={val}
+        value={val !== null ? val : placeHolder}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
-        onKeyDown={(e) => handleEnter(e, () => handleOnBlur(e))}
+        onKeyDown={handleOnKeyDown}
         className={`${editMode ? 'opcity-100' : 'opacity-0'} cursor-pointer min-w-[10px] pl-1 ${
           isRequired && !isValid && 'outline-danger'
         } absolute top-0 left-0`}
