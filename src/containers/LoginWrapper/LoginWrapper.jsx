@@ -1,8 +1,8 @@
-import { GithubAuthProvider, GoogleAuthProvider, getAdditionalUserInfo, signInWithPopup } from 'firebase/auth'
+import { GithubAuthProvider, GoogleAuthProvider, getAdditionalUserInfo, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import React from 'react'
-import { AiFillGithub, FcGoogle } from '../../utils/icons'
+import { AiFillGithub, FaArrowRight, FcGoogle } from '../../utils/icons'
 
-import { AUTHEN_PROVIDERS, FRIENDSHIP_ACTION, adminId, newUser, translatedText } from '../../constants/enum'
+import { AUTHEN_PROVIDERS, FRIENDSHIP_ACTION, adminId, newUser } from '../../constants/enum'
 import { addUser, auth, fetchUserDetail } from '../../services/firebase'
 import { handleFriendship } from '../../utils'
 import WithCard from '../../wrappers/WithCard/WithCard'
@@ -35,27 +35,43 @@ function LoginWrapper() {
     })
   }
 
+  const loginWithCredentials = () => {
+    signInWithEmailAndPassword(auth, 'test_account@gmail.com', '123123')
+  }
+
   return (
-    <section className="flex flex-col gap-5 p-14 w-[80vw] xs:w-[70vw] xl:w-[35vw] xs:max-h-[70vh]">
-      <div className="flex flex-col gap-10">
-        <header className="flex justify-center text-4xl">Fire Chatter</header>
-        <main className="flex flex-col md:flex-row items-center justify-center gap-3">
+    <section className="flex flex-col gap-5 p-14 w-screen h-screen xs:w-[450px] xs:h-auto justify-center">
+      <div className="flex flex-col gap-7 xs:gap-4">
+        <header className="text-4xl text-center xs:text-left">
+          Welcome to <span className="text-red-600">Fire Chatter!</span>
+        </header>
+
+        <main className="flex flex-col xs:flex-row items-center gap-3">
+          {/* provider login buttons */}
+          <div className="flex gap-3">
+            <button
+              className="flex items-center p-2 bg-slate-100 rounded-full hover:border-none border-none hover:bg-gray-200"
+              onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
+            >
+              <FcGoogle size={30} />
+            </button>
+            <button
+              className="flex items-center p-2 bg-slate-100 rounded-full hover:border-none border-none hover:bg-gray-200"
+              onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
+            >
+              <AiFillGithub size={30} />
+            </button>
+          </div>
+
+          {/* Guest login link */}
           <button
-            className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover"
-            onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
+            onClick={loginWithCredentials}
+            className="flex bg-transparent xs:bg-slate-100 hover:bg-gray-200 items-center gap-2 w-max py-3 rounded-full font-semibold"
           >
-            <FcGoogle size={30} />
-            Sign in with Google
-          </button>
-          <button
-            className="flex items-center gap-3 hover:border-none border-none hover:bg-btnHover"
-            onClick={() => loginWithProvider(AUTHEN_PROVIDERS.GOOGLE)}
-          >
-            <AiFillGithub size={30} />
-            Sign in with GitHub
+            Fast login with guest account <FaArrowRight className="text-blue-500" />
           </button>
         </main>
-        <footer className="text-black italic opacity-50 text-center">{translatedText.loginNote}</footer>
+        {/* <footer className="text-black italic opacity-50 text-center">{translatedText.loginNote}</footer> */}
       </div>
     </section>
   )

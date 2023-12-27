@@ -1,6 +1,4 @@
-# React + Vite + Sanity
-
-# Fire Chatter Web App
+# Chat App with React (Vite) + Firebase + Tailwind
 
 ![Fire Chatter](public/readme.png)
 

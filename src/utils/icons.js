@@ -1,7 +1,7 @@
 import { AiFillEdit, AiFillGithub, AiFillTwitterCircle, AiOutlineCamera, AiOutlineCheck, AiOutlineUserAdd } from 'react-icons/ai'
 import { BsCardImage, BsFacebook, BsFillSendFill, BsFillTelephoneFill } from 'react-icons/bs'
 import { CiSquareRemove } from 'react-icons/ci'
-import { FaDeleteLeft, FaLocationDot, FaUserCheck } from 'react-icons/fa6'
+import { FaArrowRight, FaDeleteLeft, FaLocationDot, FaUserCheck } from 'react-icons/fa6'
 import { FcCancel, FcGoogle } from 'react-icons/fc'
 import { HiOutlineArrowSmLeft } from 'react-icons/hi'
 import { MdEmail } from 'react-icons/md'
@@ -23,6 +23,7 @@ export {
   BsFillSendFill,
   BsFillTelephoneFill,
   CiSquareRemove,
+  FaArrowRight,
   FaDeleteLeft,
   FaLocationDot,
   FaUserCheck,
